@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shukan-ragdoll.com/sitemap.xml
