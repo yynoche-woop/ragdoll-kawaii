@@ -1,29 +1,38 @@
 // 週刊ラグドールのイラスト。太い黒線・フラット塗り・白ふちのステッカー調。
 // ラグドールらしさ:青い目(品種の基準で青のみ)・顔/耳/しっぽ/足が濃いポイントカラー・ふわふわの顔まわり。
+// 毛色はCFA・TICA・FIFe・GCCF・WCFの基準で共通の6色+トーティ/リンクス。バンはCFAのみ。ミンクは比較用(ラグドールとしては非公認)。
 
-export type Coat = 'seal' | 'blue' | 'chocolate' | 'lilac';
-export type Pattern = 'colorpoint' | 'mitted' | 'bicolor';
+export type Coat = 'seal' | 'blue' | 'chocolate' | 'lilac' | 'red' | 'cream' | 'mink';
+export type Pattern = 'colorpoint' | 'mitted' | 'bicolor' | 'van';
+export type Overlay = 'solid' | 'lynx' | 'tortie' | 'torbie';
 export type Expr = 'normal' | 'smug' | 'wow' | 'sleepy';
 
 const K = '#141414';
 const WHITE = '#ffffff';
 const EYE = '#3d8cf0';
-export const COAT = {
+export const COAT: Record<Coat, { body: string; point: string; soft: string; label: string; eye?: string }> = {
   seal: { body: '#f3e7d6', point: '#5b4232', soft: '#a88467', label: 'シール' },
   blue: { body: '#eaeef5', point: '#5f7090', soft: '#9dabc4', label: 'ブルー' },
   chocolate: { body: '#f6ebdd', point: '#86604a', soft: '#c29c80', label: 'チョコレート' },
   lilac: { body: '#f5f0f3', point: '#a3909d', soft: '#cdbfc8', label: 'ライラック' },
-} as const;
-export const PATTERN_LABEL: Record<Pattern, string> = { colorpoint: 'カラーポイント', mitted: 'ミテッド', bicolor: 'バイカラー' };
+  red: { body: '#fdf3ea', point: '#e0773a', soft: '#f1ad7e', label: 'レッド' },
+  cream: { body: '#fffaf2', point: '#e6c08e', soft: '#f2dbb8', label: 'クリーム' },
+  mink: { body: '#d9bfa3', point: '#6b4a36', soft: '#a8876b', label: 'ミンク', eye: '#3fbfae' },
+};
+export const PATTERN_LABEL: Record<Pattern, string> = { colorpoint: 'カラーポイント', mitted: 'ミテッド', bicolor: 'バイカラー', van: 'バン' };
+export const OVERLAY_LABEL: Record<Overlay, string> = { solid: '', lynx: 'リンクス', tortie: 'トーティ', torbie: 'トービー' };
+/** トーティのまだらの色:シール・チョコにはレッド、ブルー・ライラックにはクリーム */
+const TORTIE: Partial<Record<Coat, string>> = { seal: '#e0773a', chocolate: '#e0773a', blue: '#ecc795', lilac: '#ecc795' };
+export const canTortie = (c: Coat) => c in TORTIE;
 
 const HEAD = 'M30 104 C28 60 60 40 100 40 C140 40 172 60 170 104 C178 110 176 120 183 128 C172 130 174 141 164 146 C150 164 126 172 100 172 C74 172 50 164 36 146 C26 141 28 130 17 128 C24 120 22 110 30 104 Z';
 const EAR_L = 'M40 88 L45 24 Q47 11 60 20 L94 50 Z';
 const EAR_R = 'M160 88 L155 24 Q153 11 140 20 L106 50 Z';
 
-function eyes(expr: Expr, lidColor: string): string {
+function eyes(expr: Expr, lidColor: string, iris: string): string {
   const eye = (x: number) => {
     if (expr === 'sleepy') return `<path d="M${x - 16} 110 Q${x} 124 ${x + 16} 110" fill="none" stroke="${K}" stroke-width="5" stroke-linecap="round"/>`;
-    const base = `<circle cx="${x}" cy="110" r="16" fill="${EYE}" stroke="${K}" stroke-width="4"/><circle cx="${x}" cy="111" r="10.5" fill="${K}"/>`;
+    const base = `<circle cx="${x}" cy="110" r="16" fill="${iris}" stroke="${K}" stroke-width="4"/><circle cx="${x}" cy="111" r="10.5" fill="${K}"/>`;
     const hi = expr === 'wow'
       ? `<path d="M${x + 5} 99 l2.2 5 l5 2.2 l-5 2.2 l-2.2 5 l-2.2 -5 l-5 -2.2 l5 -2.2 Z" fill="#fff"/><circle cx="${x - 5}" cy="117" r="2.4" fill="#fff"/>`
       : `<circle cx="${x + 5}" cy="104" r="4.6" fill="#fff"/><circle cx="${x - 5}" cy="117" r="2" fill="#fff"/>`;
@@ -34,30 +43,81 @@ function eyes(expr: Expr, lidColor: string): string {
 }
 
 /** 顔(viewBox 0 0 200 190)。sticker: 白ふちを付ける */
-export function faceGroup(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', sticker = false): string {
+export function faceGroup(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', sticker = false, overlay: Overlay = 'solid'): string {
   const c = COAT[coat];
   const s = `stroke="${K}" stroke-width="5" stroke-linejoin="round"`;
+  const lynx = overlay === 'lynx' || overlay === 'torbie';
+  const tortie = (overlay === 'tortie' || overlay === 'torbie') && TORTIE[coat];
+  const van = pattern === 'van';
+  const mask = van
+    ? `<path d="M58 84 C66 56 134 56 142 84 C128 92 72 92 58 84 Z" fill="${c.soft}" opacity=".85"/>`
+    : `<path d="M100 64 C70 64 50 86 50 112 C50 138 74 158 100 158 C126 158 150 138 150 112 C150 86 130 64 100 64 Z" fill="${c.soft}"/>
+    <path d="M100 76 C78 76 64 92 64 112 C64 132 80 146 100 146 C120 146 136 132 136 112 C136 92 122 76 100 76 Z" fill="${c.point}" opacity=".6"/>`;
   const v = pattern === 'bicolor' ? `<path d="M100 78 C95 98 84 126 76 154 Q100 166 124 154 C116 126 105 98 100 78 Z" fill="${WHITE}"/>` : '';
+  const chin = pattern === 'mitted' ? `<path d="M84 152 Q100 162 116 152 Q108 166 100 166 Q92 166 84 152 Z" fill="${WHITE}"/>` : '';
+  const patches = tortie ? `<g fill="${TORTIE[coat]}" opacity=".9"><path d="M62 96 C66 84 80 80 86 88 C80 94 70 100 62 96 Z"/><path d="M118 134 C126 126 140 124 144 132 C136 140 124 142 118 134 Z"/><path d="M50 30 L58 24 L66 44 Z"/><path d="M146 40 L152 26 L156 48 Z"/></g>` : '';
+  const stripes = lynx && !van ? `<g fill="none" stroke="${c.point}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M84 74 L90 62 L100 72 L110 62 L116 74"/><path d="M52 108 L64 110 M52 120 L64 118 M148 108 L136 110 M148 120 L136 118"/></g>
+    <g fill="none" stroke="${c.body}" stroke-width="5" opacity=".9"><circle cx="74" cy="110" r="21"/><circle cx="126" cy="110" r="21"/></g>
+    <g fill="${c.body}" opacity=".85"><ellipse cx="54" cy="46" rx="4" ry="8"/><ellipse cx="146" cy="46" rx="4" ry="8"/></g>` : '';
   const edge = sticker ? `<g fill="${WHITE}" stroke="${WHITE}" stroke-width="22" stroke-linejoin="round"><path d="${EAR_L}"/><path d="${EAR_R}"/><path d="${HEAD}"/></g>` : '';
   return `<g class="pface">
     ${edge}
     <path class="ear-l" d="${EAR_L}" fill="${c.point}" ${s}/>
     <path class="ear-r" d="${EAR_R}" fill="${c.point}" ${s}/>
     <path d="M52 72 L55 38 L78 54 Z M148 72 L145 38 L122 54 Z" fill="#ff9fb8"/>
-    <path d="${HEAD}" fill="${c.body}" ${s}/>
-    <path d="M100 64 C70 64 50 86 50 112 C50 138 74 158 100 158 C126 158 150 138 150 112 C150 86 130 64 100 64 Z" fill="${c.soft}"/>
-    <path d="M100 76 C78 76 64 92 64 112 C64 132 80 146 100 146 C120 146 136 132 136 112 C136 92 122 76 100 76 Z" fill="${c.point}" opacity=".6"/>
-    ${v}
-    <g class="eyes">${eyes(expr, c.soft)}</g>
-    <path d="M93 128 L107 128 L100 136 Z" fill="#ff7d9c" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
+    ${tortie ? `<g fill="${TORTIE[coat]}"><path d="M44 36 L52 20 L62 44 Z"/><path d="M150 26 L156 22 L158 50 Z"/></g>` : ''}
+    <path d="${HEAD}" fill="${van ? WHITE : c.body}" ${s}/>
+    ${mask}
+    ${v}${chin}${patches}${stripes}
+    <g class="eyes">${eyes(expr, c.soft, c.eye ?? EYE)}</g>
+    <path d="M93 128 L107 128 L100 136 Z" fill="${pattern === 'colorpoint' ? c.soft : '#ff7d9c'}" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
     <path d="M100 136 Q100 144 91 145 M100 136 Q100 144 109 145" fill="none" stroke="${K}" stroke-width="3.4" stroke-linecap="round"/>
     <path d="M44 128 L14 122 M46 138 L16 142 M156 128 L186 122 M154 138 L184 142" stroke="${K}" stroke-width="3" stroke-linecap="round"/>
   </g>`;
 }
 
-export function faceSvg(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', label?: string, sticker = false): string {
+export function faceSvg(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', label?: string, sticker = false, overlay: Overlay = 'solid'): string {
   const a = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
-  return `<svg viewBox="0 0 200 190" ${a} xmlns="http://www.w3.org/2000/svg" style="overflow:visible">${faceGroup(coat, pattern, expr, sticker)}</svg>`;
+  return `<svg viewBox="0 0 200 190" ${a} xmlns="http://www.w3.org/2000/svg" style="overflow:visible">${faceGroup(coat, pattern, expr, sticker, overlay)}</svg>`;
+}
+
+/** 全身のおすわり(viewBox 0 0 220 300)。がら(白の入り方)が分かるように、胸・足・しっぽまで描く */
+export function bodySvg(coat: Coat, pattern: Pattern, overlay: Overlay = 'solid', label?: string, expr: Expr = 'normal'): string {
+  const c = COAT[coat];
+  const s = `stroke="${K}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"`;
+  const lynx = overlay === 'lynx' || overlay === 'torbie';
+  const tortie = (overlay === 'tortie' || overlay === 'torbie') && TORTIE[coat];
+  const van = pattern === 'van';
+  const white = pattern !== 'colorpoint';
+  const bodyFill = van ? WHITE : c.body;
+  const legFill = pattern === 'colorpoint' ? c.soft : pattern === 'mitted' ? c.soft : WHITE;
+  const pawFill = pattern === 'colorpoint' ? c.soft : WHITE;
+  const chest = pattern === 'bicolor'
+    ? `<path d="M74 158 C64 200 66 250 72 284 L148 284 C154 250 156 200 146 158 Z" fill="${WHITE}"/>`
+    : pattern === 'mitted'
+      ? `<path d="M100 160 C94 200 96 250 100 284 L120 284 C124 250 126 200 120 160 Z" fill="${WHITE}"/>`
+      : '';
+  const tail = 'M160 272 C200 272 214 232 202 196';
+  const a = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
+  return `<svg viewBox="0 0 220 300" ${a} xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+    <g class="tail">
+      <path d="${tail}" fill="none" stroke="${K}" stroke-width="34" stroke-linecap="round"/>
+      <path d="${tail}" fill="none" stroke="${c.point}" stroke-width="24" stroke-linecap="round"/>
+      ${lynx ? `<path d="${tail}" fill="none" stroke="${c.body}" stroke-width="24" stroke-dasharray="5 11" opacity=".55"/>` : ''}
+      ${tortie ? `<path d="${tail}" fill="none" stroke="${TORTIE[coat]}" stroke-width="24" stroke-dasharray="14 26" stroke-dashoffset="8"/>` : ''}
+    </g>
+    <path d="M56 150 C38 196 40 256 60 286 L160 286 C180 256 182 196 164 150 Z" fill="${bodyFill}" ${s}/>
+    ${chest}
+    <rect x="76" y="212" width="28" height="74" rx="14" fill="${legFill}" ${s}/>
+    <rect x="116" y="212" width="28" height="74" rx="14" fill="${legFill}" ${s}/>
+    ${lynx && !white ? `<path d="M80 232 h20 M80 248 h20 M120 232 h20 M120 248 h20" stroke="${c.point}" stroke-width="4" stroke-linecap="round"/>` : ''}
+    ${pattern === 'mitted' ? `<path d="M78 262 h24 v20 a12 12 0 0 1 -24 0 Z M118 262 h24 v20 a12 12 0 0 1 -24 0 Z" fill="${WHITE}" ${s} stroke-width="4"/>` : ''}
+    <ellipse cx="90" cy="286" rx="19" ry="11" fill="${pawFill}" ${s}/>
+    <ellipse cx="130" cy="286" rx="19" ry="11" fill="${pawFill}" ${s}/>
+    <path d="M84 281 v9 M96 281 v9 M124 281 v9 M136 281 v9" stroke="${K}" stroke-width="3" stroke-linecap="round"/>
+    <g transform="translate(14 0) scale(.96)">${faceGroup(coat, pattern, expr, false, overlay)}</g>
+  </svg>`;
 }
 
 /** ヒーロー:でーんと寝そべって伸びる母ラグ(シールバイカラー)と、その背中に乗る子ラグ(ブルーミテッド) */
