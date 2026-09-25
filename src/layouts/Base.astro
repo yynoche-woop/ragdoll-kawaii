@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { ragFaceSvg } from '../data/rag-art';
+import { faceSvg } from '../data/pop-art';
 
 interface Props {
   title: string;
@@ -10,12 +10,15 @@ const { title, description } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(`${base}og.png`, Astro.site);
+const d = new Date(Date.now() + 9 * 3600 * 1000); // 日本時間のビルド日
+const issueDate = `${d.getUTCFullYear()}年${d.getUTCMonth() + 1}月${d.getUTCDate()}日`;
 const nav = [
-  { href: '#answer', label: '結論' },
-  { href: '#reasons', label: 'かわいい理由' },
-  { href: '#chart', label: 'グラフ' },
-  { href: '#colors', label: '毛色図鑑' },
-  { href: '#note', label: '知っておきたいこと' },
+  { href: '#verdict', label: '結論' },
+  { href: '#evidence', label: '証拠' },
+  { href: '#meter', label: '計測' },
+  { href: '#rumors', label: 'ウワサ検証' },
+  { href: '#wanted', label: '指名手配' },
+  { href: '#serious', label: '真面目な話' },
 ];
 ---
 <!doctype html>
@@ -32,65 +35,51 @@ const nav = [
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content="ラグドールは可愛いのか？" />
+    <meta property="og:site_name" content="週刊ラグドール" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#fffaf1" />
+    <meta name="theme-color" content="#aeb6c4" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="wrap header-inner">
-        <a href={base} class="logo" aria-label="ラグドールは可愛いのか？ トップへ">
-          <span class="face" set:html={ragFaceSvg()} />
-          <span>ラグドールは可愛いのか？<small>IS THE RAGDOLL CUTE?</small></span>
+    <div class="hair" aria-hidden="true">
+      <svg viewBox="0 0 1200 176" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0 H1200 V150 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 L618 44 Q600 22 582 44 L500 150 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 q-12 22 -25 0 Z" fill="#aeb6c4" stroke="#141414" stroke-width="4" vector-effect="non-scaling-stroke"/>
+        <path d="M150 20 q10 40 -4 80 M300 10 q12 50 -2 100 M420 30 q8 40 -6 70 M780 30 q-8 40 6 70 M900 10 q-12 50 2 100 M1050 20 q-10 40 4 80" fill="none" stroke="#7f8898" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      </svg>
+    </div>
+    <header class="masthead">
+      <div class="wrap masthead-inner">
+        <a href={base} class="brand" aria-label="週刊ラグドール トップへ">
+          <span class="logo-face" set:html={faceSvg('seal', 'bicolor', 'normal')} />
+          <span><b>週刊ラグドール</b><small>ラグドールは可愛いのか？ 特別号</small></span>
         </a>
-        <nav class="site-nav" aria-label="ページ内メニュー">
-          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-        </nav>
+        <p class="issue">{issueDate}発行 第1号<span class="price">定価:のびしろ</span></p>
       </div>
+      <nav class="wrap nav" aria-label="ページ内の記事">
+        {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+      </nav>
     </header>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span><b>速報</b>ラグドール、また伸びる</span>
+        <span><b>続報</b>抱っこした取材班、腕が限界</span>
+        <span><b>独自</b>青い目、やっぱり青かった</span>
+        <span><b>速報</b>夜中の大運動会、今夜も開催の見通し</span>
+        <span><b>号外</b>「可愛いのか？」の答え、まだ出ず</span>
+      </div>
+    </div>
     <main class="wrap">
       <slot />
     </main>
-    <footer class="site-footer">
-      <div class="wrap footer-inner">
-        <span class="face" set:html={ragFaceSvg('blue', 'mitted')} />
-        <div>
-          <p><strong>ラグドールは可愛いのか？</strong> — 青い瞳のぬいぐるみ、ラグドールのかわいさを本気で検証するサイトです。</p>
-          <p>性格や体の特徴は一般的な傾向で、個体差があります。健康について気になることがあるときは、動物病院にご相談ください。</p>
-          <p class="footer-links"><a href="https://amesho-mori.com/">姉妹サイト:アメショの森(アメリカンショートヘア専門サイト)</a></p>
-          <p>© {new Date().getFullYear()} ラグドールは可愛いのか？</p>
-        </div>
+    <footer class="foot">
+      <div class="wrap">
+        <p><b>週刊ラグドール</b> 〜ラグドールは可愛いのか？〜</p>
+        <p>ラグドールは可愛いのか。取材班が全力で(そして少しだけ真面目に)検証するサイトです。</p>
+        <p>性格や体の特徴には個体差があります。健康について気になることがあるときは、動物病院にご相談ください。</p>
+        <p>© {new Date().getFullYear()} 週刊ラグドール</p>
       </div>
     </footer>
-    <script>
-      // クリックできる場所にマウスを乗せて動かすと、猫の足あとが残る(マウス操作のみ・動きを減らす設定では無効)
-      import { PAW_SVG } from '../data/rag-art';
-      const CLICKABLE = 'a, button, label, summary, [role="button"], input[type="submit"], input[type="button"]';
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(hover: hover)').matches) {
-        let last: { x: number; y: number } | null = null;
-        let side = 1;
-        document.addEventListener('pointermove', (e) => {
-          if (e.pointerType !== 'mouse' || !(e.target as Element).closest?.(CLICKABLE)) { last = null; return; }
-          const x = e.pageX, y = e.pageY;
-          if (!last) { last = { x, y }; return; }
-          const dx = x - last.x, dy = y - last.y;
-          if (Math.hypot(dx, dy) < 34) return;
-          const ang = Math.atan2(dy, dx);
-          side = -side; // 左右の足を交互に
-          const el = document.createElement('span');
-          el.className = 'paw-trail';
-          el.innerHTML = PAW_SVG;
-          el.style.left = `${x + Math.cos(ang + Math.PI / 2) * 7 * side}px`;
-          el.style.top = `${y + Math.sin(ang + Math.PI / 2) * 7 * side}px`;
-          el.style.rotate = `${ang + Math.PI / 2}rad`;
-          document.body.appendChild(el);
-          el.addEventListener('animationend', () => el.remove());
-          last = { x, y };
-        }, { passive: true });
-      }
-    </script>
   </body>
 </html>
