@@ -14,12 +14,11 @@ const ogImage = new URL(`${base}og.png`, Astro.site);
 const d = new Date(Date.now() + 9 * 3600 * 1000); // 日本時間のビルド日
 const issueDate = `${d.getUTCFullYear()}年${d.getUTCMonth() + 1}月${d.getUTCDate()}日`;
 const nav = [
-  { href: '#verdict', label: '結論' },
-  { href: '#evidence', label: '証拠' },
-  { href: '#meter', label: '計測' },
-  { href: '#rumors', label: 'ウワサ検証' },
-  { href: '#wanted', label: '毛色図鑑' },
-  { href: '#serious', label: '真面目な話' },
+  { href: '/columns/', label: 'コラム' },
+  { href: '/#verdict', label: '結論' },
+  { href: '/#rumors', label: 'ウワサ検証' },
+  { href: '/#wanted', label: '毛色図鑑' },
+  { href: '/#serious', label: '真面目な話' },
 ];
 ---
 <!doctype html>
@@ -33,7 +32,7 @@ const nav = [
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={Astro.url.pathname === "/" ? "website" : "article"} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:site_name" content="週刊ラグドール" />

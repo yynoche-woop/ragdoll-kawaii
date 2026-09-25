@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shukan-ragdoll.com/sitemap.xml
+Sitemap: https://shukan-ragdoll.com/sitemap-index.xml

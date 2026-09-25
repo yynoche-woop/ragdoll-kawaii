@@ -259,3 +259,56 @@ main { padding-block: 26px 60px; }
 @media (max-width: 600px) { .wanted-wide, .gacha { grid-template-columns: 1fr; } .wanted-wide .w-pic, .gacha-pic { width: 150px; margin: 0 auto; } }
 .wanted-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 860px) { .wanted-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- コラム ---------- */
+.crumb { font-size: .8rem; font-weight: 700; margin: 0 0 10px; }
+.crumb a { color: var(--k); }
+.band h1 { font-size: clamp(1.45rem, 3.6vw, 2.2rem); }
+.more, .back { margin: 18px 0 0; display: flex; gap: 12px; flex-wrap: wrap; }
+.judge-kochou { background: var(--hair); }
+.judge-warito { background: var(--k); color: var(--white); }
+.col-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.col-card { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: start; height: 100%; padding: 14px 16px; background: var(--white); border: 3px solid var(--k); box-shadow: var(--shadow); color: var(--k); text-decoration: none; transition: translate .1s, box-shadow .1s; }
+.col-card:hover { translate: -2px -2px; box-shadow: 8px 8px 0 var(--k); color: var(--k); }
+.col-face svg { width: 100%; }
+.col-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 4px; }
+.col-meta .judge { font-size: .78rem; margin: 0; rotate: 0deg; border-width: 2px; }
+.col-cat { font-size: .72rem; font-weight: 900; background: var(--blue-soft); padding: 0 8px; }
+.col-draft { font-size: .72rem; font-weight: 900; background: #ffe3e3; color: #b00020; padding: 0 8px; border: 2px solid #b00020; }
+.col-title { display: block; font-family: var(--font-head); font-size: 1.05rem; line-height: 1.4; word-break: keep-all; overflow-wrap: anywhere; }
+.col-desc { display: block; font-size: .82rem; line-height: 1.65; color: var(--gray); margin-top: 4px; }
+@media (max-width: 760px) { .col-list { grid-template-columns: 1fr; } .col-card { grid-template-columns: 72px 1fr; } }
+
+.col-article { background: var(--white); border: 4px solid var(--k); box-shadow: var(--shadow); padding: 0 0 26px; margin-bottom: 40px; }
+.col-head { display: grid; grid-template-columns: 1fr 160px; gap: 16px; align-items: center; padding: 24px 28px; border-bottom: 4px solid var(--k); background: var(--blue-soft); background-image: radial-gradient(rgba(61, 140, 240, .2) 2px, transparent 2.2px); background-size: 12px 12px; }
+.col-head h1 { font-size: clamp(1.5rem, 4.4vw, 2.4rem); margin: 10px 0 8px; word-break: keep-all; overflow-wrap: anywhere; }
+.col-head .col-draft { margin-left: 8px; }
+.col-date { font-size: .8rem; font-weight: 700; margin: 0; }
+.col-head-art svg { width: 100%; }
+.col-verdict { margin: 22px 28px 6px; padding: 14px 18px; background: var(--k); color: var(--white); display: grid; gap: 4px; }
+.col-verdict .label { font-family: var(--font-dot); color: var(--blue); font-size: .85rem; }
+.col-verdict .judge { justify-self: start; }
+.col-verdict p { margin: 0; font-weight: 700; }
+.prose { padding: 0 28px; font-size: 1.02rem; line-height: 2; }
+.prose h2 { font-size: clamp(1.25rem, 3vw, 1.6rem); margin: 38px 0 12px; padding: 4px 12px; background: var(--k); color: var(--white); display: inline-block; }
+.prose h3 { font-size: 1.15rem; margin: 26px 0 8px; padding-left: 12px; border-left: 6px solid var(--blue); }
+.prose p { margin: 0 0 1.1em; }
+.prose ul, .prose ol { padding-left: 1.4em; margin: 0 0 1.2em; }
+.prose li { margin: .3em 0; }
+.prose strong { background: linear-gradient(transparent 60%, var(--yellow) 60%); }
+.prose table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: .92rem; display: block; overflow-x: auto; }
+.prose th, .prose td { border: 2px solid var(--k); padding: 7px 10px; text-align: left; vertical-align: top; }
+.prose thead th { background: var(--k); color: var(--white); }
+.prose blockquote { margin: 0 0 1.2em; padding: 10px 16px; border-left: 6px solid var(--hair); background: #f5f7fa; }
+.prose a { font-weight: 700; }
+.col-sources { margin: 30px 28px 0; padding: 16px 18px; border: 3px solid var(--k); background: #f5f7fa; }
+.col-sources h2 { font-size: 1.1rem; margin: 0 0 6px; }
+.col-sources ul { margin: 0; padding-left: 1.2em; font-size: .86rem; line-height: 1.8; }
+.col-sources .small { font-size: .78rem; color: var(--gray); margin: 10px 0 0; }
+@media (max-width: 640px) {
+  .col-head { grid-template-columns: 1fr 90px; padding: 18px 16px; }
+  .col-verdict { margin: 18px 16px 4px; }
+  .prose { padding: 0 16px; font-size: .98rem; }
+  .col-sources { margin: 26px 16px 0; }
+}
+.col-verdict .judge { background: var(--blue); color: var(--white); border-color: var(--white); }

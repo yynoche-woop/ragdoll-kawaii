@@ -1,0 +1,23 @@
+---
+import { faceSvg } from '../data/pop-art';
+import { CATEGORY_LABEL, type Column } from '../lib';
+
+interface Props {
+  items: Column[];
+}
+const { items } = Astro.props;
+---
+<ul class="col-list">
+  {items.map((c) => (
+    <li>
+      <a class="col-card" href={`/columns/${c.id}/`}>
+        <span class="col-face" set:html={faceSvg(c.data.face.coat, c.data.face.pattern, c.data.face.expr)} />
+        <span class="col-body">
+          <span class="col-meta"><span class="col-cat">{CATEGORY_LABEL[c.data.category]}</span><span class={`judge judge-${c.data.verdict.type}`}>{c.data.verdict.label}</span>{c.data.draft && <span class="col-draft">下書き</span>}</span>
+          <span class="col-title">{c.data.title}</span>
+          <span class="col-desc">{c.data.description}</span>
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>

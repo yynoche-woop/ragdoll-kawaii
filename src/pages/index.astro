@@ -1,6 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
+import ColumnList from '../components/ColumnList.astro';
+import { getColumns } from '../lib';
 import { familySvg, faceSvg, bodySvg, COAT, PATTERN_LABEL, OVERLAY_LABEL, type Coat, type Pattern, type Overlay } from '../data/pop-art';
+
+const latest = (await getColumns()).slice(0, 6);
 
 // 事実として書くのは、品種の基準・体のつくり・報告のある病気など確かなことだけ。
 // 性格は「よく言われる」と「実際は」を分けて書く(横田さんの指摘:「おだやか・のんびり」は大嘘)。
@@ -86,10 +90,14 @@ const stages = [
     <div>
       <span class="label">■ 取材班の結論</span>
       <h2 id="verdict-h">可愛いかは知らん。<em>長い。</em></h2>
-      <p>調べれば調べるほど、「可愛い」より先に「なんで?」が来る猫だった。おとなしいと聞いていたのに走る。ぬいぐるみと聞いていたのに重い。目が青い。でも気づいたら目で追っている。それを可愛いと呼ぶかどうかは、あなた次第です。</p>
+      <p>調べれば調べるほど、「可愛い」より先に「なんで?」が来る猫だった。おとなしいと聞いていたのに走る。ぬいぐるみと聞いていたのに重い。目が青い。でも気づいたら目で追っている。それを可愛いと呼ぶかどうかは、あなた次第です。ちなみに取材班は、取材中に気づいたらメインクーンとサイベリアンの動画まで見ていた。長毛にハマるとだいたいこうなる。</p>
     </div>
     <div class="face" set:html={faceSvg('seal', 'bicolor', 'smug', '真顔でこっちを見るラグドール', true)} />
   </section>
+
+  <div class="band" id="columns"><span class="no">NEW</span><h2>最新の検証コラム</h2></div>
+  <ColumnList items={latest} />
+  <p class="more"><a class="btn" href="/columns/">コラムをもっと読む</a></p>
 
   <div class="band" id="evidence"><span class="no">01</span><h2>ツッコミどころ、6点</h2></div>
   <p class="lede">まずは確かなことだけ。品種としての特徴です。全部ほんとう。</p>
@@ -260,7 +268,7 @@ const stages = [
         <div>可愛い<div class="bar"><i data-bar="a"></i><span data-n="a">0</span></div></div>
         <div>長い<div class="bar"><i data-bar="b"></i><span data-n="b">0</span></div></div>
         <div>重い<div class="bar"><i data-bar="c"></i><span data-n="c">0</span></div></div>
-        <small>※この端末で押した回数です。</small>
+        <small>※この端末で押した回数です。どれを押しても、結局みんな猫が好き。</small>
       </div>
     </div>
   </section>

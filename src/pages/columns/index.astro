@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import ColumnList from '../../components/ColumnList.astro';
+import { getColumns } from '../../lib';
+
+const all = await getColumns();
+const kensho = all.filter((c) => c.data.category === 'kensho');
+const jitsuyo = all.filter((c) => c.data.category === 'jitsuyo');
+---
+<Base title="コラム一覧|週刊ラグドール" description="ラグドールのウワサを取材班が検証するコラムと、飼い主向けの実用記事の一覧。子猫詐欺、液体化、ニャジラ番付から、体重・室温・毛玉対策まで。">
+  <nav class="crumb"><a href="/">トップ</a> › コラム</nav>
+  <div class="band"><span class="no">記事</span><h1>コラム一覧</h1></div>
+  <p class="lede">ラグドールにまつわるウワサを、取材班がひとつずつ検証します。判定はだいたい「個体差」。</p>
+  <h2 class="sub-band">検証コラム</h2>
+  <ColumnList items={kensho} />
+  <h2 class="sub-band">実用</h2>
+  <ColumnList items={jitsuyo} />
+</Base>

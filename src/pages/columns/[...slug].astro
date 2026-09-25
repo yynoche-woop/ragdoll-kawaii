@@ -1,0 +1,56 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ColumnList from '../../components/ColumnList.astro';
+import { getColumns, CATEGORY_LABEL, fmtDate, type Column } from '../../lib';
+import { faceSvg } from '../../data/pop-art';
+
+export async function getStaticPaths() {
+  const all = await getColumns();
+  return all.map((entry) => ({ params: { slug: entry.id }, props: { entry, all } }));
+}
+
+interface Props {
+  entry: Column;
+  all: Column[];
+}
+const { entry, all } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const related = [
+  ...all.filter((a) => a.id !== entry.id && a.data.tags.some((t) => d.tags.includes(t))),
+  ...all.filter((a) => a.id !== entry.id),
+].filter((a, i, arr) => arr.findIndex((b) => b.id === a.id) === i).slice(0, 4);
+---
+<Base title={`${d.title}|週刊ラグドール`} description={d.description}>
+  <nav class="crumb"><a href="/">トップ</a> › <a href="/columns/">コラム</a> › {CATEGORY_LABEL[d.category]}</nav>
+  <article class="col-article">
+    <header class="col-head">
+      <div class="col-head-copy">
+        <span class="kicker">{d.category === 'kensho' ? '検証' : '実用'}</span>
+        {d.draft && <span class="col-draft">下書き(未公開)</span>}
+        <h1>{d.title}</h1>
+        <p class="col-date">{fmtDate(d.pubDate)}{d.updatedDate && `(更新 ${fmtDate(d.updatedDate)})`}・週刊ラグドール取材班</p>
+      </div>
+      <div class="col-head-art" set:html={faceSvg(d.face.coat, d.face.pattern, d.face.expr, undefined, true)} />
+    </header>
+    <aside class="col-verdict">
+      <span class="label">結論から言うと</span>
+      <span class={`judge judge-${d.verdict.type}`}>{d.verdict.label}</span>
+      <p>{d.verdict.summary}</p>
+    </aside>
+    <div class="prose">
+      <Content />
+    </div>
+    {d.sources.length > 0 && (
+      <section class="col-sources">
+        <h2>取材班が見た資料</h2>
+        <ul>{d.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener">{s.title}</a></li>)}</ul>
+        <p class="small">※性格や体の特徴には個体差があります。健康について気になるときは、動物病院に相談してください。</p>
+      </section>
+    )}
+  </article>
+  <h2 class="sub-band">ほかの検証も読む</h2>
+  <ColumnList items={related} />
+  <p class="back"><a class="btn" href="/columns/">コラム一覧へ</a> <a class="btn btn-pink" href="/">トップへ</a></p>
+</Base>
