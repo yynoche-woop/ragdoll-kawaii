@@ -130,6 +130,7 @@ main { padding-block: 26px 60px; }
 .judge { display: inline-block; font-family: var(--font-head); font-size: 1rem; padding: 0 10px; border: 3px solid var(--k); margin-bottom: 6px; rotate: -3deg; }
 .judge-kotai { background: var(--hair); }
 .judge-uso { background: var(--pink); color: var(--white); }
+.judge-usoyori { background: var(--blue-soft); }
 .judge-hontou { background: var(--k); color: var(--white); }
 @media (max-width: 640px) { .rumor { grid-template-columns: 1fr; } .rumor-q { border-right: 0; border-bottom: 3px solid var(--k); } }
 
