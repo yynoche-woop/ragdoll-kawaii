@@ -1,11 +1,19 @@
-# ラグドールは可愛いのか？
+# 週刊ラグドール 〜ラグドールは可愛いのか？〜
 
-ラグドールのかわいさを検証する1ページのサイト。アメショの森(../amesho-mori)と同じデザイン・同じ作り(Astro 7)。
-運営は横田さん。
+ラグドールを「検証」する1ページのサイト(Astro 7)。運営は横田さん。
+アメショの森(../amesho-mori)とABテストで比べるためのサイトなので、デザインもトーンもアメショの森と変えている。姉妹サイトとしてリンクしない。
 
-- 公開先:GitHub Pages https://yynoche-woop.github.io/ragdoll-kawaii/ (main に push すると GitHub Actions で自動デプロイ)
+- 公開先:GitHub Pages https://yynoche-woop.github.io/ragdoll-kawaii/ (main に push すると GitHub Actions で自動デプロイ)。独自ドメインは購入予定
 - `npm run build` / `npx astro dev`
-- `src/data/rag-art.ts` — マスコットのSVG(もこ=シールバイカラー、そら=ブルーミテッド)。毛色 seal/blue/chocolate/lilac × がら colorpoint/mitted/bicolor
-- `src/components/KittenLane.astro` — 特徴ボックスの裏を走る子猫(毛糸玉を追う・かがむ・飛びかかる)
-- `public/og.png` / `public/favicon.svg` — アメショの森の .scratch/rag-assets.mts で生成
-- 健康情報は断定しない・数字は「目安」。トーンは「可愛い」を全力で肯定、他の猫種は下げない
+
+## デザイン
+- 週刊誌・号外テイスト。真っ白な地、黒インク、差し色はラグドールの目の青(#3d8cf0)だけ
+- ページ上部にハチワレ(グレーの前髪+白い逆V字)の髪型
+- イラストは `src/data/pop-art.ts`:太い黒線のステッカー調。flopSvg(持ち上げられて伸びるラグドール)、faceSvg(毛色 seal/blue/chocolate/lilac × がら colorpoint/mitted/bicolor × 表情)
+- `public/og.png` / `public/favicon.svg` はアメショの森の `.scratch/rag-assets.mts` で生成
+
+## 文章
+- 「可愛い押し」ではなく、アホっぽいノリ(「可愛いかは知らん。長い。」)。日本語が多少おかしくてもOK
+- ただし情報は正確に。性格は「よく言われるウワサ」と「実際は(個体差)」を分けて書く。「おとなしい・のんびり・鳴かない」を事実として書かない
+- 確かなこと:目は青のみ(品種の基準)、ポイントカラーで子猫は白く生まれる、大型(オス6〜9kgは目安)、成長に3〜4年といわれる、肥大型心筋症に関わる遺伝子変異の報告と遺伝子検査
+- 健康情報は断定しない・数字は「目安」
