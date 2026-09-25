@@ -60,32 +60,37 @@ export function faceSvg(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = '
   return `<svg viewBox="0 0 200 190" ${a} xmlns="http://www.w3.org/2000/svg" style="overflow:visible">${faceGroup(coat, pattern, expr, sticker)}</svg>`;
 }
 
-/** ヒーロー:脇の下を持たれて「だら〜ん」と伸びるラグドール(シールバイカラー) */
-export function flopSvg(): string {
-  const c = COAT.seal;
+/** ヒーロー:でーんと寝そべって伸びる母ラグ(シールバイカラー)と、その背中に乗る子ラグ(ブルーミテッド) */
+export function familySvg(): string {
+  const m = COAT.seal;
+  const k = COAT.blue;
   const s = `stroke="${K}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"`;
   const limb = (d: string, fill: string, w = 26) =>
     `<path d="${d}" fill="none" stroke="${K}" stroke-width="${w + 10}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round"/>`;
-  return `<svg viewBox="0 0 320 470" role="img" aria-label="両手で持ち上げられて、だらんと体を伸ばすラグドール" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
-    <g class="flop">
-      <g class="flop-tail">${limb('M160 372 C150 404 168 428 156 458', c.point, 30)}</g>
-      <g class="flop-leg flop-leg-l">${limb('M134 356 L128 428', WHITE, 28)}</g>
-      <g class="flop-leg flop-leg-r">${limb('M186 356 L192 428', WHITE, 28)}</g>
-      <path d="M104 150 C92 226 96 306 120 356 Q160 382 200 356 C224 306 228 226 216 150 Z" fill="${c.body}" ${s}/>
-      <path d="M126 168 C118 230 122 300 136 346 Q160 360 184 346 C198 300 202 230 194 168 Z" fill="${WHITE}"/>
-      <path d="M112 196 q-8 6 -4 14 M208 196 q8 6 4 14 M110 262 q-8 6 -4 14 M210 262 q8 6 4 14" fill="none" ${s} stroke-width="3.5"/>
-      <g class="flop-arm flop-arm-l">${limb('M112 166 C96 196 90 222 92 246', WHITE, 24)}</g>
-      <g class="flop-arm flop-arm-r">${limb('M208 166 C224 196 230 222 228 246', WHITE, 24)}</g>
-      <g class="flop-head" transform="translate(60 -6)">${faceGroup('seal', 'bicolor', 'sleepy')}</g>
+  return `<svg viewBox="0 0 560 360" role="img" aria-label="長く伸びて寝そべる大きなラグドールのお母さんと、その背中に乗る子猫" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+    <ellipse cx="290" cy="318" rx="250" ry="14" fill="${K}" opacity=".08"/>
+    <g class="mom">
+      <g class="mom-tail">${limb('M470 272 C510 268 540 240 532 196 C528 176 512 172 506 186', m.point, 34)}
+        <path d="M530 222 l10 2 M534 200 l10 -4" stroke="${K}" stroke-width="3" stroke-linecap="round"/></g>
+      ${limb('M452 292 L500 300', WHITE, 30)}
+      <g class="mom-body">
+        <path d="M130 250 C124 196 170 170 280 168 C400 166 470 186 480 246 C486 286 462 308 420 308 L170 308 C140 308 132 284 130 250 Z" fill="${m.body}" ${s}/>
+        <path d="M170 300 C230 280 340 280 430 300 L420 306 L176 306 Z" fill="${WHITE}"/>
+        <path d="M236 184 C300 176 370 178 430 196" fill="none" stroke="${m.soft}" stroke-width="16" stroke-linecap="round" opacity=".6"/>
+        <path d="M150 226 q-8 6 -4 14 M466 226 q8 6 4 14 M300 176 q4 -8 12 -6" fill="none" ${s} stroke-width="3.5"/>
+      </g>
+      ${limb('M150 290 L60 298', WHITE, 30)}
+      ${limb('M176 300 L84 312', WHITE, 30)}
+      <path d="M50 290 v14 M62 292 v14 M74 304 v14 M86 306 v14" stroke="${K}" stroke-width="3" stroke-linecap="round"/>
+      <g class="mom-head" transform="translate(40 122) scale(.9)">${faceGroup('seal', 'bicolor', 'normal')}</g>
     </g>
-    <g class="hands">
-      <path d="M-40 150 L70 150 L70 196 L-40 196 Z" fill="#2f6fe4" ${s}/>
-      <path d="M-40 164 L70 164 M-40 180 L70 180" stroke="#fff" stroke-width="5"/>
-      <path d="M360 150 L250 150 L250 196 L360 196 Z" fill="#2f6fe4" ${s}/>
-      <path d="M360 164 L250 164 M360 180 L250 180" stroke="#fff" stroke-width="5"/>
-      <path d="M66 146 C88 136 116 142 122 160 C126 176 112 188 96 190 L66 200 Z" fill="#f6cfae" ${s}/>
-      <path d="M254 146 C232 136 204 142 198 160 C194 176 208 188 224 190 L254 200 Z" fill="#f6cfae" ${s}/>
-      <path d="M100 150 q8 2 12 10 M220 150 q-8 2 -12 10" fill="none" stroke="${K}" stroke-width="3" stroke-linecap="round"/>
+    <g class="kit">
+      <g class="kit-tail">${limb('M370 174 C402 170 414 144 404 120', k.point, 18)}</g>
+      <path d="M288 180 C282 130 306 110 336 110 C366 110 390 130 384 180 Z" fill="${k.body}" ${s} stroke-width="4.5"/>
+      <path d="M320 180 C318 150 326 132 336 130 C346 132 354 150 352 180 Z" fill="${WHITE}"/>
+      <ellipse cx="314" cy="178" rx="14" ry="8" fill="${WHITE}" ${s} stroke-width="4"/>
+      <ellipse cx="358" cy="178" rx="14" ry="8" fill="${WHITE}" ${s} stroke-width="4"/>
+      <g class="kit-head" transform="translate(272 16) scale(.64)">${faceGroup('blue', 'mitted', 'wow')}</g>
     </g>
   </svg>`;
 }

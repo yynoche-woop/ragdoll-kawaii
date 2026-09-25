@@ -1,13 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
-import { flopSvg, faceSvg, COAT, PATTERN_LABEL, type Coat, type Pattern } from '../data/pop-art';
+import { familySvg, faceSvg, COAT, PATTERN_LABEL, type Coat, type Pattern } from '../data/pop-art';
 
 // 事実として書くのは、品種の基準・体のつくり・報告のある病気など確かなことだけ。
 // 性格は「よく言われる」と「実際は」を分けて書く(横田さんの指摘:「おだやか・のんびり」は大嘘)。
 const evidence = [
   { t: '目が、青しかない', tag: '公式設定', d: 'ラグドールの目の色は、品種の基準でブルーだけ。全員カラコン入れてるみたいな顔で、真顔でこっちを見てくる。' },
   { t: '生まれたときは真っ白', tag: 'あとから塗る', d: '体の冷えやすいところに色が出るタイプの毛色なので、子猫は白っぽく生まれて、顔・耳・しっぽ・足にあとから色がつく。ぬりえ方式。' },
-  { t: 'でかい', tag: '重い', d: '大型の猫種で、オスは6〜9kgほどになる子もいる(目安)。5kgのお米より重いこともある。持ち上げると「えっ、まだ続くの?」ってくらい長い。' },
+  { t: 'でかい', tag: '重い', d: '大型の猫種で、オスは6〜9kgほどになる子もいる(目安)。5kgのお米より重いこともある。寝そべると「えっ、まだ続くの?」ってくらい長い。' },
   { t: '完成まで3〜4年', tag: '長期連載', d: '体が大人になるまで3〜4年ほどかかるといわれる。「まだ成長期なんで」と言い張れる期間がやたら長い。' },
   { t: '首まわりがライオン気取り', tag: 'もふ', d: 'セミロングの毛で、首まわりの飾り毛(ラフ)がたてがみみたいにふっさふさ。しっぽもふさふさ。本人はたぶん何も考えてない。' },
   { t: '名前が「ぬいぐるみ」', tag: '名前負け注意', d: 'ラグドール=英語で「ぬいぐるみ」。抱き上げると力が抜ける子がいるのが名前の由来といわれる。※ただし名前負けしてる子も普通にいる(下のウワサ検証へ)。' },
@@ -40,23 +40,23 @@ const paws = (p: Pattern) => {
   return `<svg viewBox="0 0 120 30" aria-hidden="true"><g fill="${col}" stroke="#141414" stroke-width="4"><ellipse cx="38" cy="15" rx="20" ry="11"/><ellipse cx="82" cy="15" rx="20" ry="11"/></g><path d="M32 10 v10 M44 10 v10 M76 10 v10 M88 10 v10" stroke="#141414" stroke-width="3" stroke-linecap="round"/></svg>`;
 };
 ---
-<Base title="ラグドールは可愛いのか？|週刊ラグドール 特別号" description="【号外】ラグドールは可愛いのか？取材班が持ち上げたら、思ったより長かった。青い目、でかい体、夜中の大運動会。よく言われるウワサの真偽と、毛色・がらの指名手配、迎える前の真面目な話も。">
+<Base title="ラグドールは可愛いのか？|週刊ラグドール 特別号" description="【号外】ラグドールは可愛いのか？取材班が測ったら、思ったより長かった。青い目、でかい体、夜中の大運動会。よく言われるウワサの真偽と、毛色・がらの指名手配、迎える前の真面目な話も。">
   <section class="front" aria-labelledby="front-h">
     <span class="gogai" aria-hidden="true">号外</span>
     <div class="front-copy">
       <span class="kicker">緊急検証</span>
       <h1 id="front-h">ラグドールは<br />可愛いのか<span class="q">？</span></h1>
-      <p class="sub-head">取材班、持ち上げたら<span class="hl">思ったより長かった</span></p>
-      <p>青い目。でかい体。持ち上げると、どこまでも伸びる。「ぬいぐるみ」という名前のくせに、夜中に全力で走る。こいつは本当に可愛いのか。それとも、ただ面白いだけなのか。取材班はひとりのラグドールを持ち上げた。……まだ伸びている。</p>
+      <p class="sub-head">取材班、測ってみたら<span class="hl">思ったより長かった</span></p>
+      <p>青い目。でかい体。寝そべると、どこまでも伸びる。「ぬいぐるみ」という名前のくせに、夜中に全力で走る。こいつは本当に可愛いのか。それとも、ただ面白いだけなのか。取材班は、寝そべる親子に密着した。……母、まだ伸びている。</p>
       <div class="cta">
         <a class="btn btn-pink" href="#verdict">結論を先に見る</a>
         <a class="btn" href="#rumors">ウワサを疑う</a>
       </div>
     </div>
     <div class="front-art">
-      <span class="onomatopoeia ono-1" aria-hidden="true">だら〜ん</span>
+      <span class="onomatopoeia ono-1" aria-hidden="true">でーん</span>
       <span class="onomatopoeia ono-2" aria-hidden="true">のび〜</span>
-      <div class="flop-wrap" set:html={flopSvg()} />
+      <div class="family-wrap" set:html={familySvg()} />
     </div>
   </section>
 
@@ -83,7 +83,7 @@ const paws = (p: Pattern) => {
   </div>
 
   <div class="band" id="meter"><span class="no">02</span><h2>のび、計ってみた</h2></div>
-  <p class="lede">持ち上げたときの「のび」を、専用メーターで計測しました。</p>
+  <p class="lede">母ラグが寝そべったときの「のび」を、専用メーターで計測しました。</p>
   <div class="meter-box">
     <svg class="gauge" viewBox="0 0 400 240" role="img" aria-label="のびメーター。針が振り切れて計測不能">
       <path d="M40 200 A160 160 0 0 1 360 200" fill="none" stroke="#141414" stroke-width="34" />
