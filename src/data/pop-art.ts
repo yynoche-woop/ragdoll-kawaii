@@ -43,7 +43,7 @@ function eyes(expr: Expr, lidColor: string, iris: string): string {
 }
 
 /** 顔(viewBox 0 0 200 190)。sticker: 白ふちを付ける */
-export function faceGroup(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', sticker = false, overlay: Overlay = 'solid'): string {
+export function faceGroup(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', sticker = false, overlay: Overlay = 'solid', fade = 1): string {
   const c = COAT[coat];
   const s = `stroke="${K}" stroke-width="5" stroke-linejoin="round"`;
   const lynx = overlay === 'lynx' || overlay === 'torbie';
@@ -63,12 +63,13 @@ export function faceGroup(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr =
   const edge = sticker ? `<g fill="${WHITE}" stroke="${WHITE}" stroke-width="22" stroke-linejoin="round"><path d="${EAR_L}"/><path d="${EAR_R}"/><path d="${HEAD}"/></g>` : '';
   return `<g class="pface">
     ${edge}
-    <path class="ear-l" d="${EAR_L}" fill="${c.point}" ${s}/>
-    <path class="ear-r" d="${EAR_R}" fill="${c.point}" ${s}/>
+    <path class="ear-l" d="${EAR_L}" fill="${fade < 1 ? c.body : c.point}" ${s}/>
+    <path class="ear-r" d="${EAR_R}" fill="${fade < 1 ? c.body : c.point}" ${s}/>
+    ${fade < 1 ? `<g fill="${c.point}" opacity="${fade}"><path d="${EAR_L}"/><path d="${EAR_R}"/></g>` : ''}
     <path d="M52 72 L55 38 L78 54 Z M148 72 L145 38 L122 54 Z" fill="#ff9fb8"/>
     ${tortie ? `<g fill="${TORTIE[coat]}"><path d="M44 36 L52 20 L62 44 Z"/><path d="M150 26 L156 22 L158 50 Z"/></g>` : ''}
     <path d="${HEAD}" fill="${van ? WHITE : c.body}" ${s}/>
-    ${mask}
+    <g opacity="${fade}">${mask}</g>
     ${v}${chin}${patches}${stripes}
     <g class="eyes">${eyes(expr, c.soft, c.eye ?? EYE)}</g>
     <path d="M93 128 L107 128 L100 136 Z" fill="${pattern === 'colorpoint' ? c.soft : '#ff7d9c'}" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
@@ -77,9 +78,9 @@ export function faceGroup(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr =
   </g>`;
 }
 
-export function faceSvg(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', label?: string, sticker = false, overlay: Overlay = 'solid'): string {
+export function faceSvg(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', label?: string, sticker = false, overlay: Overlay = 'solid', fade = 1): string {
   const a = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
-  return `<svg viewBox="0 0 200 190" ${a} xmlns="http://www.w3.org/2000/svg" style="overflow:visible">${faceGroup(coat, pattern, expr, sticker, overlay)}</svg>`;
+  return `<svg viewBox="0 0 200 190" ${a} xmlns="http://www.w3.org/2000/svg" style="overflow:visible">${faceGroup(coat, pattern, expr, sticker, overlay, fade)}</svg>`;
 }
 
 /** 全身のおすわり(viewBox 0 0 220 300)。がら(白の入り方)が分かるように、胸・足・しっぽまで描く */

@@ -18,7 +18,7 @@ const nav = [
   { href: '#evidence', label: '証拠' },
   { href: '#meter', label: '計測' },
   { href: '#rumors', label: 'ウワサ検証' },
-  { href: '#wanted', label: '指名手配' },
+  { href: '#wanted', label: '毛色図鑑' },
   { href: '#serious', label: '真面目な話' },
 ];
 ---
@@ -47,7 +47,8 @@ const nav = [
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
-      gtag('config', GA_ID);
+      // 本番ドメインだけ計測する(ローカル確認のアクセスでABテストのデータを汚さない)
+      if (location.hostname === 'shukan-ragdoll.com') gtag('config', GA_ID);
     </script>
   </head>
   <body>

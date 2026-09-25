@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { familySvg, faceSvg, COAT, PATTERN_LABEL, type Coat, type Pattern } from '../data/pop-art';
+import { familySvg, faceSvg, bodySvg, COAT, PATTERN_LABEL, OVERLAY_LABEL, type Coat, type Pattern, type Overlay } from '../data/pop-art';
 
 // 事実として書くのは、品種の基準・体のつくり・報告のある病気など確かなことだけ。
 // 性格は「よく言われる」と「実際は」を分けて書く(横田さんの指摘:「おだやか・のんびり」は大嘘)。
@@ -24,21 +24,42 @@ const rumors: { q: string; j: Judge; a: string }[] = [
   { q: '「人のそばにいたがる」', j: 'hontou', a: '人と一緒にいるのが好きな子が多いといわれ、家の中でついて回る子もいる。※ただしこれも子による。ひとりの時間が好きな子もいる。' },
 ];
 
+// 毛色・がらの情報は、CFA・TICA・FIFe・GCCF・WCF の公式ブリード標準(2025〜2026年版)で確認した内容。
 const coats: { c: Coat; crime: string; d: string }[] = [
-  { c: 'seal', crime: '王道ヅラの罪', d: 'こげ茶のポイント。いちばんよく見かける色。' },
-  { c: 'blue', crime: 'どう見てもグレーなのにブルーを名乗る罪', d: 'グレーがかった青いポイント。' },
-  { c: 'chocolate', crime: '食べられない罪', d: 'ミルクチョコのような明るい茶色のポイント。' },
-  { c: 'lilac', crime: '色の説明がむずかしい罪', d: 'ピンクがかった淡いグレーのポイント。' },
+  { c: 'seal', crime: '王道ヅラの罪', d: 'ポイントは濃いこげ茶(黒ではない)。体は淡い黄褐色〜クリーム。いちばんよく見かける色。' },
+  { c: 'chocolate', crime: '食べられない罪', d: 'ポイントはミルクチョコのような明るい茶色。体はアイボリー。' },
+  { c: 'red', crime: 'オレンジなのにレッドを名乗る罪', d: 'ポイントは明るいアプリコット〜濃い赤。体は白〜クリームがかった白。うっすらしまや、そばかすが出てもOK。団体によっては「フレーム」とも呼ぶ。' },
+  { c: 'blue', crime: 'どう見てもグレーなのにブルーを名乗る罪', d: 'ポイントは青みがかったグレー。体は冷たい感じの青白い白。シールの色が薄まった版(ダイリュート)。' },
+  { c: 'lilac', crime: '色の説明がむずかしい罪', d: 'ポイントはピンクがかった霜のようなグレー。体はほぼ真っ白。チョコの色が薄まった版。' },
+  { c: 'cream', crime: 'ほぼ白で存在感を消す罪', d: 'ポイントは淡いクリーム〜ピンクがかったクリーム。体は白っぽい。レッドの色が薄まった版。' },
 ];
-const patterns: { p: Pattern; crime: string; d: string }[] = [
-  { p: 'colorpoint', crime: '白をどこかに置いてきた罪', d: '顔・耳・しっぽ・足先がポイントカラー。白い部分がない。' },
-  { p: 'mitted', crime: '手ぶくろで証拠を残さない罪', d: '足先が白い「ミトン」をはいたような柄。あごから胸・おなかにかけて白いすじが入る。' },
-  { p: 'bicolor', crime: '顔に逆V字を書いてくる罪', d: '顔に白い逆V字(いわゆるハチワレ)。足やおなかも白。' },
+const patterns: { p: Pattern; crime: string; d: string; note?: string }[] = [
+  { p: 'colorpoint', crime: '白をどこかに置いてきた罪', d: '顔・耳・足・しっぽがポイントカラーで、白い部分がない。鼻と肉球もポイントと同じ色。' },
+  { p: 'mitted', crime: '手ぶくろで証拠を残さない罪', d: '前足に白いミトン、後ろ足はかかとまわりまで白いブーツ。あごは白で、胸からおなかに白いすじが通る。鼻すじに白い模様(ブレーズ)が入る子も。' },
+  { p: 'bicolor', crime: '顔に逆V字を書いてくる罪', d: '顔に白い逆V字(目の外側からはみ出さない)。あご・胸・おなか・4本の足が白。色があるのは耳・マスク・しっぽと、背中の「サドル」。' },
+  { p: 'van', crime: 'ほぼ白で出頭してくる罪', d: '色があるのは耳・しっぽ・顔の上のほうだけ。体と足はほぼ真っ白。', note: '※バンを認めているのはCFAだけ' },
 ];
-const paws = (p: Pattern) => {
-  const col = p === 'colorpoint' ? COAT.seal.soft : '#ffffff';
-  return `<svg viewBox="0 0 120 30" aria-hidden="true"><g fill="${col}" stroke="#141414" stroke-width="4"><ellipse cx="38" cy="15" rx="20" ry="11"/><ellipse cx="82" cy="15" rx="20" ry="11"/></g><path d="M32 10 v10 M44 10 v10 M76 10 v10 M88 10 v10" stroke="#141414" stroke-width="3" stroke-linecap="round"/></svg>`;
-};
+const overlays: { o: Overlay; c: Coat; crime: string; d: string }[] = [
+  { o: 'lynx', c: 'seal', crime: '顔にMを書いてくる罪', d: 'ポイントがしま模様になったもの(タビーポイント)。額にM字、目のまわりにメガネ模様、足としっぽにしま、耳のうしろに薄い「指紋」。6色すべてにある。' },
+  { o: 'tortie', c: 'seal', crime: '色を混ぜすぎた罪', d: 'ポイントにレッドやクリームがまだらに混ざる。シール・チョコ・ブルー・ライラックの4色だけ(ブルーとライラックは「ブルークリーム」「ライラッククリーム」とも)。三毛猫と同じしくみなので、ほとんどがメス。' },
+  { o: 'torbie', c: 'seal', crime: '両方やる罪', d: 'トーティ+リンクス(トーティリンクス)。見た目はリンクス寄りになりやすい。' },
+];
+type Mark = 'o' | 'x' | 'other';
+const REGISTRIES = ['CFA', 'TICA', 'FIFe', 'GCCF', 'WCF'];
+const registryRows: { k: string; v: Mark[]; note?: string }[] = [
+  { k: 'シール・チョコ・レッド・ブルー・ライラック・クリーム', v: ['o', 'o', 'o', 'o', 'o'] },
+  { k: 'リンクス・トーティ・トービー', v: ['o', 'o', 'o', 'o', 'o'] },
+  { k: 'カラーポイント・ミテッド・バイカラー', v: ['o', 'o', 'o', 'o', 'o'] },
+  { k: 'バン', v: ['o', 'x', 'x', 'x', 'x'] },
+  { k: 'ミンク・セピア・ソリッド(目が青くない)', v: ['x', 'other', 'x', 'x', 'x'], note: 'TICAでは「チェルビム」という別の猫種' },
+];
+const MARK: Record<Mark, string> = { o: '○', x: '×', other: '別品種' };
+const stages = [
+  { fade: 0.08, t: '生まれたて', d: 'ほぼ真っ白。ここから色がつく。' },
+  { fade: 0.35, t: '生後数日〜数週間', d: '耳・鼻・しっぽのあたりから、じわじわ色が出てくる。' },
+  { fade: 0.7, t: '1歳ごろ', d: 'だいぶそれっぽい。でもまだ途中。' },
+  { fade: 1, t: '2〜3歳ごろ', d: 'ポイントの色がほぼ完成(団体によって「2年」「3年」)。体が大人になるのは3〜4年ほど。年をとると体の色が濃くなることも。' },
+];
 ---
 <Base title="ラグドールは可愛いのか？|週刊ラグドール 特別号" description="【号外】ラグドールは可愛いのか？取材班が測ったら、思ったより長かった。青い目、でかい体、夜中の大運動会。よく言われるウワサの真偽と、毛色・がらの指名手配、迎える前の真面目な話も。">
   <section class="front" aria-labelledby="front-h">
@@ -114,37 +135,102 @@ const paws = (p: Pattern) => {
     ))}
   </div>
 
-  <div class="band" id="wanted"><span class="no">04</span><h2>指名手配:でかい容疑者たち</h2></div>
-  <p class="lede">ラグドールは顔・耳・しっぽ・足が濃い「ポイントカラー」の猫。色と、白の入り方(がら)の組み合わせで姿が変わります。</p>
-  <span class="sub-band">色で探す</span>
+  <div class="band" id="wanted"><span class="no">04</span><h2>指名手配:毛色の容疑者、全員集合</h2></div>
+  <p class="lede">ラグドールの見た目は「ポイントの色」×「白の入り方(がら)」×「模様」の組み合わせ。主要な猫の登録団体(CFA・TICA・FIFe・GCCF・WCF)は、どこもポイントの色を同じ6色で認めています。</p>
+
+  <span class="sub-band">色:6色</span>
   <div class="wanted-grid">
     {coats.map((x) => (
       <article class="wanted">
         <div class="w-title">WANTED</div>
         <div class="w-sub">でかすぎる容疑</div>
-        <div class="w-pic" set:html={faceSvg(x.c, 'bicolor', 'normal', `${COAT[x.c].label}のラグドール`)} />
+        <div class="w-pic" set:html={bodySvg(x.c, 'colorpoint', 'solid', `${COAT[x.c].label}ポイントのラグドール`)} />
         <h3>{COAT[x.c].label}</h3>
         <span class="crime">罪状:{x.crime}</span>
         <p>{x.d}</p>
       </article>
     ))}
   </div>
-  <span class="sub-band">がらで探す</span>
-  <div class="wanted-grid three">
+
+  <span class="sub-band">がら:4種</span>
+  <div class="wanted-grid four">
     {patterns.map((x) => (
       <article class="wanted">
         <div class="w-title">WANTED</div>
         <div class="w-sub">でかすぎる容疑</div>
-        <div class="w-pic"><Fragment set:html={faceSvg('seal', x.p, 'normal', `${PATTERN_LABEL[x.p]}のラグドール`)} /><Fragment set:html={paws(x.p)} /></div>
+        <div class="w-pic" set:html={bodySvg('seal', x.p, 'solid', `シール${PATTERN_LABEL[x.p]}のラグドール`)} />
         <h3>{PATTERN_LABEL[x.p]}</h3>
+        <span class="crime">罪状:{x.crime}</span>
+        <p>{x.d}</p>
+        {x.note && <p class="w-note">{x.note}</p>}
+      </article>
+    ))}
+  </div>
+
+  <span class="sub-band">模様:3種</span>
+  <div class="wanted-grid three">
+    {overlays.map((x) => (
+      <article class="wanted">
+        <div class="w-title">WANTED</div>
+        <div class="w-sub">でかすぎる容疑</div>
+        <div class="w-pic" set:html={bodySvg(x.c, 'colorpoint', x.o, `シール${OVERLAY_LABEL[x.o]}のラグドール`)} />
+        <h3>{OVERLAY_LABEL[x.o]}</h3>
         <span class="crime">罪状:{x.crime}</span>
         <p>{x.d}</p>
       </article>
     ))}
   </div>
-  <p class="wanted-note">※認められている色・がらや呼び方は、猫の登録団体によって違います(クリームやフレーム、しま模様の「リンクス」などが入ることも)。</p>
 
-  <div class="band" id="serious"><span class="no">05</span><h2>ここだけ真面目な話</h2></div>
+  <span class="sub-band">別件</span>
+  <article class="wanted wanted-wide">
+    <div class="w-pic" set:html={faceSvg('mink', 'mitted', 'normal', '目が青緑のミンクの猫')} />
+    <div>
+      <div class="w-title">ミンク・セピア・ソリッド</div>
+      <span class="crime">罪状:ラグドールを名乗る罪(目が青くない)</span>
+      <p>体の色が濃いめで、目がアクア(青緑)・金・緑などになる猫たち。ラグドールは品種の基準で目が青いことが必須なので、CFA・FIFe・GCCF・WCFはどこもラグドールとして認めていません。TICAでは2025年5月から、ミンク・セピア・ソリッドを「チェルビム(Cherubim)」という別の猫種として扱っています。「ラグドール」として紹介されていたら、どの団体の基準なのか確認を。</p>
+    </div>
+  </article>
+
+  <span class="sub-band">組み合わせ</span>
+  <div class="gacha">
+    <div class="gacha-pic" id="gacha-pic" set:html={bodySvg('blue', 'bicolor', 'lynx', 'ブルーリンクスバイカラーのラグドール')} />
+    <div class="gacha-body">
+      <p class="gacha-count">ざっくり数えて<strong>60通り</strong><small>(6色×がら3種×模様。CFAだけのバンまで入れると80通り)</small></p>
+      <p class="gacha-name" id="gacha-name" aria-live="polite">ブルー・リンクス・バイカラー</p>
+      <button class="btn btn-pink" type="button" id="gacha-btn">ラグドールガチャを回す</button>
+      <p class="small">※当サイト調べ(色×白の入り方×模様の単純な掛け算)。</p>
+    </div>
+  </div>
+
+  <div class="band"><span class="no">05</span><h2>生まれたときは、ほぼ白</h2></div>
+  <p class="lede">ポイントカラーの猫は、体の冷えやすいところに色が出るしくみ。ラグドールは白っぽく生まれて、年単位で完成していきます。</p>
+  <ol class="stages">
+    {stages.map((x) => (
+      <li class="stage">
+        <div class="stage-pic" set:html={faceSvg('seal', 'bicolor', 'normal', undefined, false, 'solid', x.fade)} />
+        <b>{x.t}</b>
+        <p>{x.d}</p>
+      </li>
+    ))}
+  </ol>
+
+  <div class="band"><span class="no">06</span><h2>団体ごとの認定、比べてみた</h2></div>
+  <div class="reg-wrap">
+    <table class="reg">
+      <thead><tr><th scope="col">色・がら</th>{REGISTRIES.map((r) => <th scope="col">{r}</th>)}</tr></thead>
+      <tbody>
+        {registryRows.map((r) => (
+          <tr>
+            <th scope="row">{r.k}{r.note && <small>{r.note}</small>}</th>
+            {r.v.map((m) => <td class={`m-${m}`}>{MARK[m]}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="wanted-note">※各団体の公式ブリード標準(2025〜2026年版)をもとに当サイトで確認。目の色はどの団体もブルー必須です。</p>
+
+  <div class="band" id="serious"><span class="no">07</span><h2>ここだけ真面目な話</h2></div>
   <div class="serious">
     <p class="serious-head"><span>迎える前に</span>可愛いだけで終わらせないために</p>
     <dl>
@@ -185,6 +271,7 @@ const paws = (p: Pattern) => {
   </button>
 
   <script>
+    import { bodySvg, canTortie, COAT, PATTERN_LABEL, OVERLAY_LABEL, type Coat, type Pattern, type Overlay } from '../data/pop-art';
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
@@ -253,6 +340,25 @@ const paws = (p: Pattern) => {
           document.body.appendChild(w);
           w.addEventListener('animationend', () => w.remove());
         }
+      });
+    }
+
+    // ラグドールガチャ:色×がら×模様をランダムに組み合わせて描く
+    const gBtn = document.getElementById('gacha-btn');
+    const gPic = document.getElementById('gacha-pic');
+    const gName = document.getElementById('gacha-name');
+    if (gBtn && gPic && gName) {
+      const COATS: Coat[] = ['seal', 'chocolate', 'red', 'blue', 'lilac', 'cream'];
+      const PATS: Pattern[] = ['colorpoint', 'mitted', 'bicolor'];
+      const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
+      gBtn.addEventListener('click', () => {
+        const c = pick(COATS);
+        const p = pick(PATS);
+        const o: Overlay = pick(canTortie(c) ? ['solid', 'lynx', 'tortie', 'torbie'] : ['solid', 'lynx']);
+        const name = [c === 'blue' && o === 'tortie' ? 'ブルークリーム' : c === 'lilac' && o === 'tortie' ? 'ライラッククリーム' : COAT[c].label + (OVERLAY_LABEL[o] ? '・' + OVERLAY_LABEL[o] : ''), PATTERN_LABEL[p]].join('・');
+        gPic.innerHTML = bodySvg(c, p, o, `${name}のラグドール`);
+        gName.textContent = name;
+        if (!reduce) gPic.animate([{ scale: '.6', rotate: '-12deg', opacity: 0 }, { scale: '1.08', rotate: '4deg', opacity: 1, offset: .6 }, { scale: '1', rotate: '0deg' }], { duration: 450, easing: 'ease-out' });
       });
     }
 
