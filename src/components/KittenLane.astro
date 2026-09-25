@@ -1,0 +1,218 @@
+---
+// 特徴ボックスの裏を走るラグドールの子猫(シールバイカラー)と毛糸玉。
+// 動きはスクリプトで制御:毛糸玉を追いかけ、止まった玉には身をかがめてお尻をふりふり → 飛びかかってはじく。
+// 走る速さに合わせて足の回転(ギャロップ)の速さも変わる。JSが動かない環境では真ん中で立ち止まった絵になる。
+const INK = '#4a3b35';
+const FUR = '#f6ecdf';     // 体(クリーム)
+const LEG = '#fffaf4';     // バイカラーの白い脚
+const LEG_FAR = '#efe6da';
+const POINT = '#6e5445';   // 耳・しっぽ・顔のポイント
+const SOFT = '#b39580';
+const BIB = '#fffaf4';
+const s = `stroke="${INK}" stroke-linecap="round" stroke-linejoin="round"`;
+// 脚は太もも(付け根で回る)とすね(ひざで回る)の2節。
+// 継ぎ目の線が見えないよう、線(ink)と塗り(fill)を別々に重ねる:全部の線を描いてから、上に塗りをかぶせる
+const leg = (cls: string, x: number, y: number, fur: string, mode: 'ink' | 'fill', hip: [number, number]) => {
+  const ink = mode === 'ink';
+  const w = ink ? 11 : 6;
+  const col = ink ? INK : fur;
+  const line = (y1: number, y2: number) => `<path d="M${x} ${y1} L${x} ${y2}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+  const pad = ink ? 2.4 : 0;
+  return `
+  <g class="leg ${cls}" style="transform-origin:${x}px ${y}px">
+    <ellipse cx="${x}" cy="${y + 2}" rx="${hip[0] + pad}" ry="${hip[1] + pad}" fill="${col}"/>
+    ${line(y, y + 14)}
+    <g class="shin" style="transform-origin:${x}px ${y + 14}px">
+      ${line(y + 14, y + 26)}
+      <ellipse cx="${x + 2}" cy="${y + 27.5}" rx="${5.2 + pad * .6}" ry="${3.6 + pad * .6}" fill="${col}"/>
+    </g>
+  </g>`;
+};
+const legs = (list: [string, number, number][], fur: string) => {
+  const one = (mode: 'ink' | 'fill') => list.map(([c, x, y]) => leg(c, x, y, fur, mode, c.startsWith('back') ? [8.5, 11] : [6.5, 8])).join('');
+  return one('ink') + one('fill');
+};
+const NEAR: [string, number, number][] = [['back near', 60, 62], ['front near', 98, 62]];
+const TAIL = 'M44 48 C34 40 30 24 33 12 C35 4 43 2 45 9';
+const svg = `<svg viewBox="0 0 170 110" xmlns="http://www.w3.org/2000/svg" class="kit">
+  <ellipse class="kit-shadow" cx="84" cy="100" rx="44" ry="4.2" fill="${INK}" opacity=".12"/>
+  <g class="lift"><g class="body">
+    <g class="tail" style="transform-origin:44px 50px">
+      <path d="${TAIL}" fill="none" stroke="${INK}" stroke-width="18" stroke-linecap="round"/>
+      <path d="${TAIL}" fill="none" stroke="${POINT}" stroke-width="12" stroke-linecap="round"/>
+      <path d="M25 30 l-5 -1 M26 20 l-5 -3 M40 6 l3 -5" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    ${legs([['back far', 54, 60], ['front far', 104, 60]], LEG_FAR)}
+    <ellipse cx="78" cy="56" rx="38" ry="19" fill="${FUR}" ${s} stroke-width="3"/>
+    ${NEAR.map(([c, x, y]) => leg(c, x, y, LEG, 'ink', c.startsWith('back') ? [8.5, 11] : [6.5, 8])).join('')}
+    <ellipse cx="78" cy="56" rx="36.5" ry="17.5" fill="${FUR}"/>
+    ${NEAR.map(([c, x, y]) => leg(c, x, y, LEG, 'fill', c.startsWith('back') ? [8.5, 11] : [6.5, 8])).join('')}
+    <path d="M52 42 Q78 34 104 42 Q80 44 52 50 Z" fill="${SOFT}" opacity=".45"/>
+    <ellipse cx="86" cy="66" rx="22" ry="8" fill="${BIB}"/>
+    <path d="M104 44 Q112 58 106 72 Q114 70 116 60 Q120 70 112 76" fill="${BIB}" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
+    <g class="head" style="transform-origin:118px 50px">
+      <path d="M112 26 L114 6 Q115 1 120 5 L130 16 Z" fill="${POINT}" ${s} stroke-width="3"/>
+      <path d="M136 18 L144 2 Q147 -2 150 3 L152 22 Z" fill="${POINT}" ${s} stroke-width="3"/>
+      <path d="M139 17 L145 6 L148 18 Z" fill="#f4b7b4"/>
+      <path d="M106 36 C106 20 118 14 130 14 C146 14 156 24 156 36 C158 42 156 46 158 50 C150 56 140 60 130 60 C118 60 108 56 104 50 C106 46 104 42 106 36 Z" fill="${FUR}" ${s} stroke-width="3"/>
+      <ellipse cx="141" cy="37" rx="16" ry="15" fill="${SOFT}"/>
+      <ellipse cx="143" cy="38" rx="11" ry="10" fill="${POINT}" opacity=".5"/>
+      <path d="M146 26 C144 34 140 42 136 52 Q146 56 156 50 C152 42 149 34 146 26 Z" fill="${LEG}"/>
+      <g class="eye"><circle cx="140" cy="34" r="6.4" fill="#7cc0f0" stroke="${INK}" stroke-width="1.8"/><circle cx="140.6" cy="34.6" r="4.2" fill="${INK}"/><circle cx="142.4" cy="32.2" r="1.7" fill="#fff"/></g>
+      <ellipse cx="134" cy="47" rx="5.5" ry="3.4" fill="#f6b3bf" opacity=".9"/>
+      <path d="M152 40 L158 40 L155 44 Z" fill="#e98c9b" ${s} stroke-width="1.6"/>
+      <path d="M155 44 Q154 49 149 49" fill="none" ${s} stroke-width="2"/>
+    </g>
+  </g></g>
+</svg>`;
+const yarn = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><g ${s}><circle cx="20" cy="20" r="17" fill="#9fd3f2" stroke-width="3"/><path d="M6 14 C16 6 30 10 36 22 M7 27 C17 19 30 23 34 33 M13 6 C23 15 24 29 17 37" fill="none" stroke-width="2"/></g></svg>`;
+---
+<div class="kitten-lane" aria-hidden="true">
+  <div class="runner" set:html={svg} />
+  <div class="yarn" set:html={yarn} />
+</div>
+
+<style is:global>
+  .kitten-lane { position: absolute; left: 0; right: 0; bottom: 0; height: 80px; z-index: 0; overflow: hidden; container-type: inline-size; pointer-events: none; }
+  .kitten-lane::after { content: ""; position: absolute; left: 0; right: 0; bottom: 3px; border-bottom: 3px dashed var(--leaf); }
+  .kitten-lane .runner { position: absolute; bottom: -4px; left: 0; width: 118px; translate: calc(50cqw - 80px) 0; }
+  .kitten-lane .yarn { position: absolute; bottom: 5px; left: 0; width: 24px; height: 24px; margin-left: -12px; translate: calc(50cqw + 58px) 0; }
+  .kitten-lane svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  .kit .leg, .kit .shin, .kit .body, .kit .head, .kit .tail { transition: rotate .14s ease-out, translate .14s ease-out; }
+  .kit .body { transform-origin: 80px 62px; }
+
+  /* 走る(ギャロップ):前足は前へ伸ばして着地→後ろへかき、後ろ足は前に引きつけて蹴り出す */
+  .kit { --gait: .42s; }
+  .kit.run .leg.front { animation: k-fthigh var(--gait) infinite; }
+  .kit.run .leg.front .shin { animation: k-fshin var(--gait) infinite; }
+  .kit.run .leg.back { animation: k-bthigh var(--gait) infinite; }
+  .kit.run .leg.back .shin { animation: k-bshin var(--gait) infinite; }
+  .kit.run .leg.far, .kit.run .leg.far .shin { animation-delay: calc(var(--gait) * -.09); }
+  .kit.run .body { animation: k-body var(--gait) infinite; }
+  .kit.run .head { animation: k-head var(--gait) infinite; }
+  .kit.run .tail { animation: k-tail calc(var(--gait) * 2) infinite; }
+  .kit.run .kit-shadow { transform-box: fill-box; transform-origin: center; animation: k-shadow var(--gait) infinite; }
+  @keyframes k-fthigh { 0% { rotate: -52deg; } 28% { rotate: -16deg; } 52% { rotate: 34deg; } 74% { rotate: 14deg; } 100% { rotate: -52deg; } }
+  @keyframes k-fshin { 0% { rotate: -8deg; } 28% { rotate: 0deg; } 52% { rotate: 14deg; } 74% { rotate: 80deg; } 100% { rotate: -8deg; } }
+  @keyframes k-bthigh { 0% { rotate: 44deg; } 20% { rotate: 24deg; } 45% { rotate: -16deg; } 62% { rotate: -36deg; } 82% { rotate: 4deg; } 100% { rotate: 44deg; } }
+  @keyframes k-bshin { 0% { rotate: 14deg; } 20% { rotate: 58deg; } 45% { rotate: 46deg; } 62% { rotate: -6deg; } 82% { rotate: 10deg; } 100% { rotate: 14deg; } }
+  @keyframes k-body { 0% { translate: 0 -7px; rotate: -3deg; } 30% { translate: 0 0; rotate: 2.5deg; } 55% { translate: 0 1px; rotate: 0deg; } 80% { translate: 0 -2px; rotate: -4deg; } 100% { translate: 0 -7px; rotate: -3deg; } }
+  @keyframes k-head { 0% { rotate: 3deg; } 30% { rotate: -3deg; } 55% { rotate: 0deg; } 80% { rotate: 4deg; } 100% { rotate: 3deg; } }
+  @keyframes k-tail { 0% { rotate: -4deg; } 30% { rotate: 6deg; } 55% { rotate: 2deg; } 80% { rotate: -7deg; } 100% { rotate: -4deg; } }
+  @keyframes k-shadow { 0%, 100% { scale: .8 1; opacity: .08; } 55% { scale: 1 1; opacity: .14; } }
+
+  /* 身をかがめて狙う:頭を低く、お尻をふりふり、しっぽの先がぴくぴく */
+  .kit.crouch .body { translate: 0 7px; rotate: 5deg; animation: k-wiggle .16s ease-in-out infinite alternate; }
+  .kit.crouch .leg.front { rotate: 42deg; } .kit.crouch .leg.front .shin { rotate: -70deg; }
+  .kit.crouch .leg.back { rotate: -40deg; } .kit.crouch .leg.back .shin { rotate: 72deg; }
+  .kit.crouch .head { rotate: -6deg; }
+  .kit.crouch .tail { animation: k-twitch .5s ease-in-out infinite alternate; }
+  @keyframes k-wiggle { from { rotate: 3.5deg; translate: -1px 7px; } to { rotate: 6.5deg; translate: 1px 7px; } }
+  @keyframes k-twitch { from { rotate: -62deg; } to { rotate: -50deg; } }
+
+  /* 飛びかかり:前足を伸ばし、後ろ足で蹴った形 */
+  .kit.air .body { rotate: -7deg; }
+  .kit.air .leg.front { rotate: -62deg; } .kit.air .leg.front .shin { rotate: -12deg; }
+  .kit.air .leg.back { rotate: 52deg; } .kit.air .leg.back .shin { rotate: 22deg; }
+  .kit.air .tail { rotate: -38deg; }
+  .kit.air .head { rotate: -4deg; }
+</style>
+
+<script>
+  const lane = document.querySelector<HTMLElement>('.kitten-lane');
+  const runner = lane?.querySelector<HTMLElement>('.runner');
+  const yarn = lane?.querySelector<HTMLElement>('.yarn');
+  const kit = runner?.querySelector<SVGSVGElement>('.kit');
+  const lift = kit?.querySelector<SVGGElement>('.lift');
+  if (lane && runner && yarn && kit && lift && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const rand = (a: number, b: number) => a + Math.random() * (b - a);
+    const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+    const BALL_R = 12;
+    let W = 0, unit = 1, len = 0, nose = 0;
+    let kx = 0, v = 0, bx = 0, bv = 0, rot = 0, time = 0;
+    let phase: 'chase' | 'stalk' | 'crouch' | 'pounce' | 'gone' = 'gone';
+    let timer = rand(0.3, 1.2), from = 0, dist = 0, seed = Math.random() * 10;
+    let pose = '';
+    const measure = () => {
+      W = lane.clientWidth; len = runner.clientWidth; unit = len / 170; nose = 140 * unit; // 前足が届くあたり
+    };
+    const reset = () => {
+      kx = -len - rand(10, 80); v = rand(200, 260);
+      bx = kx + len + rand(40, 110); bv = rand(200, 270);
+      phase = 'chase'; seed = Math.random() * 10;
+    };
+    const setPose = (p: string) => {
+      if (p === pose) return;
+      kit.classList.remove('run', 'crouch', 'air');
+      if (p) kit.classList.add(p);
+      pose = p;
+    };
+    const step = (dt: number) => {
+      time += dt;
+      // 毛糸玉:転がって摩擦でだんだん止まる
+      bx += bv * dt; bv *= Math.exp(-1.4 * dt); if (bv < 6) bv = 0;
+      rot += (bv * dt) / BALL_R;
+      const gap = bx - BALL_R - (kx + nose);
+      const ballGone = bx - BALL_R > W + 10;
+      let lift_y = 0;
+      if (phase === 'gone') {
+        timer -= dt; setPose('');
+        if (timer <= 0) { measure(); reset(); }
+        runner.style.visibility = yarn.style.visibility = phase === 'gone' ? 'hidden' : '';
+      } else if (phase === 'chase') {
+        // 玉との距離で速さを決め、少しムラを入れる(ずっと同じ速さだと機械っぽいので)
+        let target = ballGone ? 300 : gap > 140 ? 310 : gap > 30 ? 90 + gap * 1.5 : 60 + bv;
+        target *= 1 + 0.14 * Math.sin(time * 1.9 + seed) + 0.06 * Math.sin(time * 5.3 + seed * 2);
+        v += clamp(target - v, -620 * dt, 460 * dt);
+        if (!ballGone && gap < 2 && bv < 160) bv += rand(80, 170); // 前足でちょいっとはじく
+        if (!ballGone && bv < 70 && gap > 8 && gap < 130) phase = 'stalk'; // 玉が止まりかけたら狙う
+        if (ballGone && kx > W + 10) { phase = 'gone'; timer = rand(2.5, 6.5); }
+      } else if (phase === 'stalk') {
+        v += clamp(-v, -700 * dt, 0);
+        if (v < 4) { v = 0; phase = 'crouch'; timer = rand(0.55, 1.4); }
+      } else if (phase === 'crouch') {
+        timer -= dt;
+        if (timer <= 0) { phase = 'pounce'; timer = 0; from = kx; dist = Math.max(20, gap + rand(4, 14)); }
+      } else if (phase === 'pounce') {
+        timer += dt;
+        const D = 0.5, p = Math.min(1, timer / D);
+        const e = 1 - Math.pow(1 - p, 1.6);
+        v = dist / D;
+        kx = from + dist * e;
+        lift_y = 17 * 4 * p * (1 - p);
+        if (p >= 1) { phase = 'chase'; bv = rand(220, 380); v = rand(90, 170); }
+      }
+      if (phase === 'chase' || phase === 'stalk') kx += v * dt;
+      // 見た目の反映
+      if (phase === 'gone') setPose('');
+      else if (phase === 'pounce') setPose('air');
+      else if (phase === 'crouch') setPose('crouch');
+      else if (v > 22) setPose('run');
+      else setPose('');
+      if (pose === 'run') {
+        const rate = clamp(v / 240, 0.55, 1.45);
+        for (const a of kit.getAnimations({ subtree: true })) if (Math.abs(a.playbackRate - rate) > 0.04) a.playbackRate = rate;
+      }
+      lift.style.translate = `0 ${-lift_y}px`;
+      runner.style.translate = `${kx}px 0`;
+      yarn.style.translate = `${bx}px 0`;
+      yarn.style.rotate = `${rot}rad`;
+    };
+    let last = 0, on = false, raf = 0;
+    const loop = (t: number) => {
+      const dt = last ? Math.min(0.05, (t - last) / 1000) : 0;
+      last = t; step(dt);
+      if (on) raf = requestAnimationFrame(loop);
+    };
+    runner.style.visibility = yarn.style.visibility = 'hidden';
+    measure();
+    addEventListener('resize', measure, { passive: true });
+    // 画面に見えているときだけ動かす
+    new IntersectionObserver(([e]) => {
+      on = e.isIntersecting;
+      cancelAnimationFrame(raf);
+      if (on) { last = 0; raf = requestAnimationFrame(loop); }
+    }).observe(lane);
+  }
+</script>

@@ -1,0 +1,13 @@
+---
+import { PAW_SVG } from '../data/rag-art';
+
+interface Props {
+  id?: string;
+  more?: { href: string; label: string };
+}
+const { id, more } = Astro.props;
+---
+<div class="section-title">
+  <h2 id={id}><span class="paw" set:html={PAW_SVG} /><slot /></h2>
+  {more && <a href={more.href}>{more.label} →</a>}
+</div>

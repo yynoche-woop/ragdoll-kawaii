@@ -1,0 +1,182 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import RadarChart from '../components/RadarChart.astro';
+import KittenLane from '../components/KittenLane.astro';
+import { heroSceneSvg, ragSvg, walkingCatsSvg, COAT, PATTERN_LABEL, PAW_SVG, type Coat, type Pattern } from '../data/rag-art';
+
+const reasons = [
+  { t: '宝石みたいな青い瞳', d: 'ラグドールの目は、品種の基準でブルーだけ。透きとおる青い瞳に見つめられたら、もう目をそらせません。こんなに澄んだ目をした生き物が、この世にいていいのでしょうか。' },
+  { t: '抱っこで力が抜ける「ぬいぐるみ」', d: '「ラグドール」は英語で“ぬいぐるみ”のこと。抱き上げると体の力を抜いて身をまかせてくれる子が多いのが、名前の由来です。腕の中でとろける姿は反則級です。' },
+  { t: 'ふわっふわのセミロング', d: '絹のようになめらかな長めの毛に、首まわりのたっぷりした飾り毛。なでるたびに手がしあわせになる、極上の手ざわりです。' },
+  { t: 'おだやかで、やさしい', d: 'のんびり落ち着いた性格の子が多く、鳴き声も小さめといわれます。そばにいるだけで部屋の空気がやわらかくなる、癒やしの天才です。' },
+  { t: '犬みたいについてくる', d: '家族のあとをトコトコついて歩いたり、玄関までお出迎えしてくれたり。「ずっと一緒にいたい」がまっすぐ伝わってくる甘え方です。' },
+  { t: 'ゆっくり育つ、大きな体', d: '大人の体になるまで3〜4年ほどかけてゆっくり成長するといわれる大型の猫種。長い「子猫みたいな時期」と、抱きごたえのある大きな体の両方を楽しめます。' },
+];
+
+const coats: Coat[] = ['seal', 'blue', 'chocolate', 'lilac'];
+const coatNote: Record<Coat, string> = {
+  seal: 'こげ茶のポイント。いちばん代表的な、王道のラグドールカラーです。',
+  blue: 'グレーがかった青いポイント。クールでやさしい雰囲気です。',
+  chocolate: 'ミルクチョコのような明るい茶色。ふんわり甘い印象です。',
+  lilac: 'ピンクがかった淡いグレー。はかなげで上品な色合いです。',
+};
+const patterns: Pattern[] = ['colorpoint', 'mitted', 'bicolor'];
+const patternNote: Record<Pattern, string> = {
+  colorpoint: '顔・耳・しっぽ・足先がポイントカラー。白い部分がない、すっきりした姿です。',
+  mitted: '足先が白い「ミトン(手ぶくろ)」をはいたような柄。あごや胸にも白が入ります。',
+  bicolor: '顔に白い逆V字、足やおなかも白。マスクと白のコントラストが印象的です。',
+};
+
+const notes = [
+  { t: '大きくなります', d: '成長すると、オスは6〜9kgほどになる子もいます(目安)。キャットタワーやキャリーは、大きな体でもぐらつかない丈夫なものを選んであげてください。' },
+  { t: 'ブラッシングは習慣に', d: '毛玉ができにくい毛質といわれますが、わきの下やおなかはからまりがち。週に数回〜毎日のブラッシングで、ふわふわを保てます(抜け毛の多い時期は多めに)。' },
+  { t: '心臓の健康チェックを', d: 'ラグドールは、心臓の病気(肥大型心筋症)に気をつけたい猫種といわれています。症状が出にくい病気なので、定期的な健康診断で心臓も診てもらうと安心です。検査の内容は獣医師と相談してください。' },
+  { t: '体重管理もいっしょに', d: 'おっとりした子が多い分、運動量は少なめになりがち。遊びの時間をつくって、ごはんの量も体重を見ながら調整してあげましょう。' },
+];
+---
+<Base title="ラグドールは可愛いのか？|青い瞳のぬいぐるみ、ラグドールのかわいさを検証" description="ラグドールは本当に可愛いのか？青い瞳、ふわふわの毛、抱っこで脱力する「ぬいぐるみ」ぶりまで、ラグドールのかわいさを本気で検証します。毛色図鑑や飼う前に知っておきたいことも。">
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">ラグドール徹底検証サイト</span>
+      <h1>ラグドールは<br /><em>可愛いのか？</em></h1>
+      <p>青い瞳、ふわふわの毛、抱っこすると力を抜いて身をまかせる“ぬいぐるみ”。この猫が本当にかわいいのか、まじめに検証しました。</p>
+      <div class="cta">
+        <a class="btn btn-pink" href="#answer">結論を見る</a>
+        <a class="btn btn-butter" href="#colors">毛色図鑑をみる</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <Fragment set:html={heroSceneSvg()} />
+    </div>
+  </section>
+
+  <section class="praise" id="answer" aria-labelledby="answer-h">
+    <div class="speaker" set:html={ragSvg({ coat: 'seal', pattern: 'bicolor', smile: true, label: 'にっこり笑うシールバイカラーのラグドール' })} />
+    <div class="praise-body">
+      <div class="bubble verdict-bubble">
+        <span class="stamp" aria-hidden="true">検証終了!!</span>
+        <h2 id="answer-h" style="margin:0 0 .3em"><span class="paw" set:html={PAW_SVG} />結論:可愛いです。</h2>
+        検証の結果、<strong>ラグドールは「可愛い」のひと言では足りないほど可愛い</strong>ことがわかりました。青い瞳、ふわふわの毛、とろけるような抱っこ。どこから見ても、何度見ても、可愛いです。以下、その理由をくわしく説明します。
+      </div>
+      <div id="reasons" class="traits-wrap">
+        <KittenLane />
+        <div class="traits">
+          {reasons.map((x) => (
+            <div class="trait sketch">
+              <h3><span class="paw" style="width:18px;height:18px;color:var(--pink-deep)" set:html={PAW_SVG} />{x.t}</h3>
+              <p>{x.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div id="chart"><RadarChart /></div>
+      <p class="small" style="margin-top:10px">※性格には個体差があります。どんな子でも、ラグドールである時点で可愛いことに変わりはありません。</p>
+    </div>
+  </section>
+
+  <div class="walk-divider" set:html={walkingCatsSvg()} />
+
+  <SectionTitle id="colors">ラグドール毛色図鑑</SectionTitle>
+  <p class="lead" style="margin-top:-.4em">ラグドールは、顔・耳・しっぽが濃い「ポイントカラー」の猫。ポイントの色と、白の入り方(がら)の組み合わせで、いろいろな姿になります。</p>
+  <h3 class="zukan-h">ポイントの色</h3>
+  <div class="zukan">
+    {coats.map((c) => (
+      <figure class="zukan-card sketch">
+        <div class="zukan-art" set:html={ragSvg({ coat: c, pattern: 'bicolor' })} />
+        <figcaption><strong>{COAT[c].label}</strong><span>{coatNote[c]}</span></figcaption>
+      </figure>
+    ))}
+  </div>
+  <h3 class="zukan-h">がら(白の入り方)</h3>
+  <div class="zukan zukan-3">
+    {patterns.map((p) => (
+      <figure class="zukan-card sketch">
+        <div class="zukan-art" set:html={ragSvg({ coat: 'seal', pattern: p })} />
+        <figcaption><strong>{PATTERN_LABEL[p]}</strong><span>{patternNote[p]}</span></figcaption>
+      </figure>
+    ))}
+  </div>
+  <p class="small">※毛色・がらの呼び方や認められている種類は、猫の登録団体によって違いがあります。子猫のころは全体に白っぽく、成長とともにポイントの色がはっきりしてきます。</p>
+
+  <div class="walk-divider flip" set:html={walkingCatsSvg()} />
+
+  <SectionTitle id="note">いっしょに暮らす前に知っておきたいこと</SectionTitle>
+  <p class="lead" style="margin-top:-.4em">可愛いだけでなく、長く元気に暮らしてもらうために。ラグドールならではのポイントです。</p>
+  <div class="grid notes">
+    {notes.map((n, i) => (
+      <div class="card sketch">
+        <span class={`card-icon ${['bg-sky', 'bg-pink', 'bg-butter', 'bg-leaf'][i]}`} set:html={PAW_SVG} />
+        <h3>{n.t}</h3>
+        <p>{n.d}</p>
+      </div>
+    ))}
+  </div>
+
+  <section class="vote sketch" aria-labelledby="vote-h">
+    <div class="vote-art" set:html={ragSvg({ coat: 'blue', pattern: 'mitted', tilt: -8, label: '首をかしげるブルーミテッドのラグドール' })} />
+    <div>
+      <h2 id="vote-h" style="margin:0 0 .3em"><span class="paw" set:html={PAW_SVG} />最終結論</h2>
+      <p class="vote-big">ラグドールは、可愛い。</p>
+      <p>同意していただけたら、ボタンを押してください。何回押してもかまいません。</p>
+      <button class="btn btn-pink vote-btn" type="button" id="vote-btn">可愛いと思う!</button>
+      <p class="vote-count" aria-live="polite"><span id="vote-n">0</span> 回「可愛い」と思いました</p>
+    </div>
+  </section>
+
+  <script>
+    // ヒーローのパララックス(視差効果を減らす設定の端末では動かさない)
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const layers = [...document.querySelectorAll<SVGGElement>('.hero-art .px-layer')];
+    const hero = document.querySelector<HTMLElement>('.hero');
+    if (hero && layers.length && !reduce) {
+      let ticking = false;
+      const update = () => {
+        const y = Math.min(window.scrollY, hero.offsetTop + hero.offsetHeight);
+        for (const l of layers) l.style.transform = `translateY(${y * Number(l.dataset.depth)}px)`;
+        ticking = false;
+      };
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      update();
+    }
+    // もこの目がマウスを追う
+    const eyes = document.querySelector<SVGGElement>('.hero-art .hero-big .h-eyes');
+    if (hero && eyes && matchMedia('(hover: hover)').matches && !reduce) {
+      hero.addEventListener('pointermove', (e) => {
+        const r = eyes.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+        const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260);
+        eyes.style.translate = `${(dx / d) * 3.5 * k}px ${(dy / d) * 3 * k}px`;
+      });
+      hero.addEventListener('pointerleave', () => { eyes.style.translate = ''; });
+    }
+    // 「可愛いと思う!」ボタン:押した回数(この端末だけに保存)と、ハートが飛ぶ演出
+    const btn = document.getElementById('vote-btn');
+    const out = document.getElementById('vote-n');
+    if (btn && out) {
+      let n = 0;
+      try { n = Number(localStorage.getItem('rag-kawaii') ?? 0) || 0; } catch {}
+      out.textContent = String(n);
+      btn.addEventListener('click', () => {
+        n++;
+        out.textContent = String(n);
+        try { localStorage.setItem('rag-kawaii', String(n)); } catch {}
+        if (reduce) return;
+        const r = btn.getBoundingClientRect();
+        for (let i = 0; i < 7; i++) {
+          const h = document.createElement('span');
+          h.className = 'heart-pop';
+          h.textContent = ['♥', '♡', '♥'][i % 3];
+          h.style.left = `${r.left + window.scrollX + r.width / 2}px`;
+          h.style.top = `${r.top + window.scrollY}px`;
+          h.style.setProperty('--dx', `${(Math.random() - 0.5) * 160}px`);
+          h.style.setProperty('--dy', `${-60 - Math.random() * 90}px`);
+          h.style.setProperty('--r', `${(Math.random() - 0.5) * 60}deg`);
+          h.style.animationDelay = `${i * 35}ms`;
+          document.body.appendChild(h);
+          h.addEventListener('animationend', () => h.remove());
+        }
+      });
+    }
+  </script>
+</Base>

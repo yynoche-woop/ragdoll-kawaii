@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+import { ragFaceSvg } from '../data/rag-art';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(`${base}og.png`, Astro.site);
+const nav = [
+  { href: '#answer', label: '結論' },
+  { href: '#reasons', label: 'かわいい理由' },
+  { href: '#chart', label: 'グラフ' },
+  { href: '#colors', label: '毛色図鑑' },
+  { href: '#note', label: '知っておきたいこと' },
+];
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="ラグドールは可愛いのか？" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#fffaf1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700&display=swap" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a href={base} class="logo" aria-label="ラグドールは可愛いのか？ トップへ">
+          <span class="face" set:html={ragFaceSvg()} />
+          <span>ラグドールは可愛いのか？<small>IS THE RAGDOLL CUTE?</small></span>
+        </a>
+        <nav class="site-nav" aria-label="ページ内メニュー">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <span class="face" set:html={ragFaceSvg('blue', 'mitted')} />
+        <div>
+          <p><strong>ラグドールは可愛いのか？</strong> — 青い瞳のぬいぐるみ、ラグドールのかわいさを本気で検証するサイトです。</p>
+          <p>性格や体の特徴は一般的な傾向で、個体差があります。健康について気になることがあるときは、動物病院にご相談ください。</p>
+          <p class="footer-links"><a href="https://amesho-mori.com/">姉妹サイト:アメショの森(アメリカンショートヘア専門サイト)</a></p>
+          <p>© {new Date().getFullYear()} ラグドールは可愛いのか？</p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // クリックできる場所にマウスを乗せて動かすと、猫の足あとが残る(マウス操作のみ・動きを減らす設定では無効)
+      import { PAW_SVG } from '../data/rag-art';
+      const CLICKABLE = 'a, button, label, summary, [role="button"], input[type="submit"], input[type="button"]';
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(hover: hover)').matches) {
+        let last: { x: number; y: number } | null = null;
+        let side = 1;
+        document.addEventListener('pointermove', (e) => {
+          if (e.pointerType !== 'mouse' || !(e.target as Element).closest?.(CLICKABLE)) { last = null; return; }
+          const x = e.pageX, y = e.pageY;
+          if (!last) { last = { x, y }; return; }
+          const dx = x - last.x, dy = y - last.y;
+          if (Math.hypot(dx, dy) < 34) return;
+          const ang = Math.atan2(dy, dx);
+          side = -side; // 左右の足を交互に
+          const el = document.createElement('span');
+          el.className = 'paw-trail';
+          el.innerHTML = PAW_SVG;
+          el.style.left = `${x + Math.cos(ang + Math.PI / 2) * 7 * side}px`;
+          el.style.top = `${y + Math.sin(ang + Math.PI / 2) * 7 * side}px`;
+          el.style.rotate = `${ang + Math.PI / 2}rad`;
+          document.body.appendChild(el);
+          el.addEventListener('animationend', () => el.remove());
+          last = { x, y };
+        }, { passive: true });
+      }
+    </script>
+  </body>
+</html>
