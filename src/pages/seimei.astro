@@ -17,6 +17,22 @@ import { GRADE_INFO } from '../data/seimei-text';
     <div class="sr-front-art" set:html={faceSvg('blue', 'mitted', 'wow', '目を見開いたラグドール', true)} />
   </section>
 
+  <section class="sr-rule" aria-labelledby="sr-rule-title">
+    <span class="stamp" aria-hidden="true">特報</span>
+    <p class="sr-rule-lead" id="sr-rule-title">猫は生まれてきただけで尊い存在なので、人間と違って、凶は存在しません。</p>
+    <p>なので取材班は、人間の姓名判断の吉凶を、ぜんぶ1ランク上げて読み替えることにしました。</p>
+    <figure class="sr-map">
+      <figcaption>読み替え表</figcaption>
+      <div class="sr-map-head"><span>人間</span><span></span><span>猫</span></div>
+      <ol>
+        <li><span class="h">大吉</span><span class="arrow" aria-hidden="true">▶</span><span class="c c0">大大吉</span></li>
+        <li><span class="h">吉</span><span class="arrow" aria-hidden="true">▶</span><span class="c c1">大吉</span></li>
+        <li><span class="h">半吉</span><span class="arrow" aria-hidden="true">▶</span><span class="c c2">吉</span></li>
+        <li><span class="h">凶</span><span class="arrow" aria-hidden="true">▶</span><span class="c c3">半吉</span></li>
+      </ol>
+    </figure>
+  </section>
+
   <form class="sr-form" id="sr-form" novalidate>
     <div class="sr-fields">
       <label class="sr-field">
@@ -78,13 +94,13 @@ import { GRADE_INFO } from '../data/seimei-text';
       <dt>画数の数え方</dt>
       <dd>ひらがな・カタカナは姓名判断で一般的な画数(濁点は2画、半濁点は1画、小さい「ゃ」「ッ」は元の字と同じ、のばす「ー」は1画)。漢字は Unicode の漢字データベース(Unihan)の日本の字形の画数。常用漢字・人名用漢字・JIS第1〜第2水準にない字は「画数不明」になります。</dd>
       <dt>霊数と81</dt>
-      <dd>苗字や名前が1文字のときは、天格・地格・外格に「霊数」の1を足す一般的なルール。81を超えた数は80を引いて読みます。吉凶は一般的な吉凶表をもとにした4段階で、流派によって違うこともあります。</dd>
+      <dd>苗字や名前が1文字のときは、天格・地格・外格に「霊数」の1を足す一般的なルール。81を超えた数は80を引いて読みます。吉凶は一般的な吉凶表(4段階)をもとに、上の読み替え表のとおり1ランク上げて表示。どの画数でも、その子のかわいい個性。流派によって違うこともあります。</dd>
     </dl>
     <p class="small">※占いは遊びです。猫の性格や健康を言い当てるものではありません。性格は個体差、健康のことは動物病院へ。ちなみに取材班は、占いの途中でメインクーンの名前も入れていた。猫好きは結局ぜんぶの猫を占う。</p>
   </div>
 
   <script>
-    import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey, sexHash, LEADER_NUMS, type Sex } from '../data/seimei';
+    import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey, sexHash, LEADER_NUMS, RANK_LABEL, type Sex } from '../data/seimei';
     import { GRADE_INFO, TEXT, PARAMS, LAP_LABEL, verdictOf, LUCKY, SEX } from '../data/seimei-text';
 
     const form = document.getElementById('sr-form') as HTMLFormElement;
@@ -149,7 +165,7 @@ import { GRADE_INFO } from '../data/seimei-text';
           name.append(el('small', '', info.life));
           const h3 = el('h3', '', `${call}の${info.name} ${g.n}画`);
           name.append(h3);
-          head.append(name, el('span', 'judge sr-rank', g.rank));
+          head.append(name, el('span', 'judge sr-rank', RANK_LABEL[g.rank]));
           const body = el('div', 'sr-grade-body');
           body.append(
             el('p', 'sr-kw', `${g.folded}の数「${KEYWORD[g.folded]}」`),
@@ -178,7 +194,7 @@ import { GRADE_INFO } from '../data/seimei-text';
       $('sr-lucky-item').textContent = lucky.item;
       $('sr-lucky-why').textContent = lucky.why;
 
-      const share = `【号外】${sei}${mei}${sx.suffix}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${r.grades.jin.rank}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
+      const share = `【号外】${sei}${mei}${sx.suffix}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${RANK_LABEL[r.grades.jin.rank]}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
       $('sr-share-text').textContent = share;
       const url = location.origin + location.pathname;
       ($('sr-x') as HTMLAnchorElement).href = `https://x.com/intent/post?text=${encodeURIComponent(share)}&url=${encodeURIComponent(url)}`;
@@ -229,6 +245,18 @@ import { GRADE_INFO } from '../data/seimei-text';
     .sr-sex span { display: inline-block; padding: 6px 20px; border: 3px solid var(--k); background: var(--white); font-family: var(--font-head); box-shadow: 3px 3px 0 var(--k); }
     .sr-sex input:checked + span { background: var(--blue); color: var(--white); }
     .sr-sex input:focus-visible + span { outline: 4px solid var(--blue); outline-offset: 2px; }
+    .sr-rule { position: relative; margin-top: 26px; background: var(--k); color: var(--white); border: 4px solid var(--k); box-shadow: 6px 6px 0 var(--blue); padding: 26px 22px 22px; text-align: center; }
+    .sr-rule p { margin: 0 0 10px; }
+    .sr-rule-lead { font-family: var(--font-head); font-size: clamp(1.2rem, 3.6vw, 1.6rem); line-height: 1.5; word-break: keep-all; text-wrap: balance; }
+    .sr-map { margin: 16px auto 0; max-width: 380px; }
+    .sr-map figcaption { display: inline-block; font-family: var(--font-dot); color: var(--blue); margin-bottom: 8px; }
+    .sr-map-head, .sr-map li { display: grid; grid-template-columns: 1fr 36px 1fr; align-items: center; }
+    .sr-map-head { font-family: var(--font-dot); font-size: .85rem; color: var(--hair); margin-bottom: 6px; }
+    .sr-map ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .sr-map .h { padding: 4px 0; border: 2px dashed var(--hair); color: var(--hair); text-decoration: line-through; text-decoration-thickness: 2px; }
+    .sr-map .arrow { color: var(--blue); }
+    .sr-map .c { padding: 4px 0; font-family: var(--font-head); font-size: 1.1rem; background: var(--white); color: var(--k); border: 3px solid var(--white); }
+    .sr-map .c0 { background: var(--blue); color: var(--white); border-color: var(--blue); }
     .sr-leader { font-size: .88rem; font-weight: 900; background: var(--blue-soft); border-left: 6px solid var(--blue); padding: 6px 10px; }
     .sr-hint { font-size: .82rem; color: var(--gray); margin: 8px 0 14px; }
     .sr-error { margin: 14px 0 0; padding: 8px 12px; border: 3px solid var(--k); background: var(--blue-soft); font-weight: 900; }
