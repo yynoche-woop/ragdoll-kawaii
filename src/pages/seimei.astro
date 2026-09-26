@@ -33,11 +33,6 @@ import { GRADE_INFO } from '../data/seimei-text';
       <label><input type="radio" name="sex" value="f" /><span>女の子</span></label>
       <label><input type="radio" name="sex" value="m" /><span>男の子</span></label>
     </fieldset>
-    <fieldset class="sr-bday">
-      <legend>誕生日<small>(任意・わかれば)</small></legend>
-      <select name="bm" aria-label="誕生月"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><span>月</span>
-      <select name="bd" aria-label="誕生日"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select><span>日</span>
-    </fieldset>
     <p class="sr-hint">ひらがな・カタカナ・漢字でどうぞ。「くん」「ちゃん」はつけない。</p>
     <button class="btn btn-pink" type="submit">判定する</button>
     <p class="sr-error" id="sr-error" role="alert" hidden></p>
@@ -82,8 +77,6 @@ import { GRADE_INFO } from '../data/seimei-text';
       {Object.values(GRADE_INFO).map((g) => <><dt>{g.name}={g.life}</dt><dd>{g.note}。</dd></>)}
       <dt>画数の数え方</dt>
       <dd>ひらがな・カタカナは姓名判断で一般的な画数(濁点は2画、半濁点は1画、小さい「ゃ」「ッ」は元の字と同じ、のばす「ー」は1画)。漢字は Unicode の漢字データベース(Unihan)の日本の字形の画数。常用漢字・人名用漢字・JIS第1〜第2水準にない字は「画数不明」になります。</dd>
-      <dt>誕生日を入れると</dt>
-      <dd>星座と、そのエレメント(火・地・風・水)を五格にかけ合わせたひとことが増える。わからなければ空けてOK。星座占いも遊びです。</dd>
       <dt>霊数と81</dt>
       <dd>苗字や名前が1文字のときは、天格・地格・外格に「霊数」の1を足す一般的なルール。81を超えた数は80を引いて読みます。吉凶は一般的な吉凶表をもとにした4段階で、流派によって違うこともあります。</dd>
     </dl>
@@ -91,8 +84,7 @@ import { GRADE_INFO } from '../data/seimei-text';
   </div>
 
   <script>
-    import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey, sexHash, LEADER_NUMS, starSignOf, STAR_SIGNS, fillTpl, tierOf, type Sex } from '../data/seimei';
-    import { SIGN_TRAIT, SIGN_GRADE, SIGN_VERDICT } from '../data/seimei-sign-text';
+    import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey, sexHash, LEADER_NUMS, type Sex } from '../data/seimei';
     import { GRADE_INFO, TEXT, PARAMS, LAP_LABEL, verdictOf, LUCKY, SEX } from '../data/seimei-text';
 
     const form = document.getElementById('sr-form') as HTMLFormElement;
@@ -119,10 +111,6 @@ import { GRADE_INFO } from '../data/seimei-text';
       if (!seiIn || !meiIn) return showError('苗字と猫の名前、両方入れてください。片方だと占えない。');
       const sex = fd.get('sex') as Sex | null;
       if (sex !== 'f' && sex !== 'm') return showError('女の子か男の子か、選んでください。取材班が書き分けたので。');
-      const bm = Number(fd.get('bm') || 0);
-      const bd = Number(fd.get('bd') || 0);
-      if (!bm !== !bd) return showError('誕生日は月と日の両方をどうぞ。わからなければ両方空けてOK。');
-      if (bm && bd > new Date(2024, bm, 0).getDate()) return showError('その日付、カレンダーになかった。');
       const a = strokesOf(seiIn);
       const b = strokesOf(meiIn);
       if (a.latin || b.latin) return showError('英字・数字は非対応です。カタカナでどうぞ(例:Leo → レオ)。');
@@ -135,14 +123,12 @@ import { GRADE_INFO } from '../data/seimei-text';
       const sei = a.chars.map((c) => c.c).join('');
       const mei = b.chars.map((c) => c.c).join('');
       const sx = SEX[sex];
-      const sign = bm ? starSignOf(bm, bd) : null;
+      const h = sexHash(r.hash, sex);
       const call = `${mei}${sx.suffix}`;
-      const vars = sign ? { name: call, sign: sign.name, trait: SIGN_TRAIT[sign.key][sex] } : null;
-      const h = sign ? (sexHash(r.hash, sex) ^ Math.imul(STAR_SIGNS.indexOf(sign) + 1, 2654435761)) >>> 0 : sexHash(r.hash, sex);
       const v = verdictOf(r.score, sex);
-      $('sr-who').textContent = `■ ${sei} ${call}(${sx.label}${sign ? `・${sign.symbol}${sign.name}` : ''})の猫生、判定`;
+      $('sr-who').textContent = `■ ${sei} ${mei}${sx.suffix}(${sx.label})の猫生、判定`;
       setPhrased($('sr-title'), v.title);
-      $('sr-verdict-text').textContent = `${v.text}${sx.line}${vars && sign ? fillTpl(SIGN_VERDICT[sign.element][tierOf(r.score)], vars) : ''}(五格の合計スコア ${r.score}/15)`;
+      $('sr-verdict-text').textContent = `${v.text}${sx.line}(五格の合計スコア ${r.score}/15)`;
 
       $('sr-strokes').replaceChildren(
         ...[...a.chars, null, ...b.chars].map((c) => {
@@ -168,7 +154,6 @@ import { GRADE_INFO } from '../data/seimei-text';
           body.append(
             el('p', 'sr-kw', `${g.folded}の数「${KEYWORD[g.folded]}」`),
             el('p', '', TEXT[sex][k][g.rank]),
-            ...(vars && sign ? [el('p', 'sr-sign', `${sign.symbol} ${fillTpl(SIGN_GRADE[sign.element][k][g.rank === '大吉' || g.rank === '吉' ? 'good' : 'bad'], vars)}`)] : []),
             ...((k === 'jin' || k === 'sou') && LEADER_NUMS.includes(g.folded) ? [el('p', 'sr-leader', sx.leader)] : []),
             el('p', 'sr-formula', `計算:${g.formula}${g.n !== g.folded ? `=${g.n}→81超えなので${g.folded}で読む` : ''}`),
           );
@@ -193,7 +178,7 @@ import { GRADE_INFO } from '../data/seimei-text';
       $('sr-lucky-item').textContent = lucky.item;
       $('sr-lucky-why').textContent = lucky.why;
 
-      const share = `【号外】${sei}${call}${sign ? `(${sign.name})` : ''}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${r.grades.jin.rank}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
+      const share = `【号外】${sei}${mei}${sx.suffix}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${r.grades.jin.rank}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
       $('sr-share-text').textContent = share;
       const url = location.origin + location.pathname;
       ($('sr-x') as HTMLAnchorElement).href = `https://x.com/intent/post?text=${encodeURIComponent(share)}&url=${encodeURIComponent(url)}`;
@@ -244,11 +229,6 @@ import { GRADE_INFO } from '../data/seimei-text';
     .sr-sex span { display: inline-block; padding: 6px 20px; border: 3px solid var(--k); background: var(--white); font-family: var(--font-head); box-shadow: 3px 3px 0 var(--k); }
     .sr-sex input:checked + span { background: var(--blue); color: var(--white); }
     .sr-sex input:focus-visible + span { outline: 4px solid var(--blue); outline-offset: 2px; }
-    .sr-bday { border: 0; padding: 0; margin: 14px 0 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .sr-bday legend { font-weight: 900; font-size: .9rem; padding: 0; margin-bottom: 6px; width: 100%; }
-    .sr-bday legend small { font-weight: 500; color: var(--gray); margin-left: 4px; }
-    .sr-bday select { font: inherit; padding: 6px 10px; border: 3px solid var(--k); border-radius: 0; background: var(--white); color: var(--k); min-width: 4.5em; }
-    .sr-sign { font-size: .9rem; border: 3px dashed var(--k); padding: 8px 12px; background: var(--white); }
     .sr-leader { font-size: .88rem; font-weight: 900; background: var(--blue-soft); border-left: 6px solid var(--blue); padding: 6px 10px; }
     .sr-hint { font-size: .82rem; color: var(--gray); margin: 8px 0 14px; }
     .sr-error { margin: 14px 0 0; padding: 8px 12px; border: 3px solid var(--k); background: var(--blue-soft); font-weight: 900; }
