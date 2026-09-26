@@ -19,6 +19,7 @@
 ## デザイン
 - 週刊誌・号外テイスト。真っ白な地、黒インク、差し色はラグドールの目の青(#3d8cf0)だけ
 - ページ上部にハチワレ(グレーの前髪+白い逆V字)の髪型
+- 文字:見出し・ボタンは Zen Kaku Gothic New 900(`--font-head`)。Dela Gothic One は横長で縦につぶれて読みにくいので題字(ロゴ)だけ(`--font-logo`、横田さん 2026-09-27)
 - イラストは `src/data/pop-art.ts`:太い黒線のステッカー調。人は描かない。familySvg(寝そべって伸びる母ラグ+背中の子ラグ)、faceSvg / bodySvg(毛色6色+ミンク × がら4種 × 模様 solid/lynx/tortie/torbie)
 - `public/og.png` / `public/favicon.svg` はアメショの森の `.scratch/rag-assets.mts` で生成
 
