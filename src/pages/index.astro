@@ -384,5 +384,55 @@ const stages = [
         timer = window.setTimeout(() => peek.classList.remove('talk'), 1800);
       });
     }
+    // 図鑑の猫:さわると「ぴょん」「のび〜」「ぷるぷる」のどれか。カードもピンを軸にゆれる
+    const MOVES: [string, Keyframe[], number][] = [
+      ['ぴょん', [{ translate: '0 0', scale: '1 1' }, { translate: '0 0', scale: '1.12 .86', offset: .15 }, { translate: '0 -34px', scale: '.92 1.1', offset: .45 }, { translate: '0 0', scale: '1.1 .9', offset: .75 }, { translate: '0 0', scale: '1 1' }], 650],
+      ['のび〜', [{ scale: '1 1' }, { scale: '.9 1.45', offset: .45 }, { scale: '.92 1.42', offset: .7 }, { scale: '1.08 .92', offset: .85 }, { scale: '1 1' }], 1100],
+      ['ぷるぷる', [{ rotate: '0deg' }, { rotate: '-7deg' }, { rotate: '7deg' }, { rotate: '-5deg' }, { rotate: '5deg' }, { rotate: '0deg' }], 500],
+      ['ニャ', [{ scale: '1' }, { scale: '1.15', offset: .3 }, { scale: '.95', offset: .6 }, { scale: '1' }], 450],
+    ];
+    const popWord = (x: number, y: number, text: string) => {
+      const w = document.createElement('span');
+      w.className = 'pop-word';
+      w.textContent = text;
+      w.style.left = `${x - 30}px`;
+      w.style.top = `${y}px`;
+      w.style.setProperty('--dx', `${rand(-40, 40)}px`);
+      w.style.setProperty('--dy', `${rand(-90, -60)}px`);
+      w.style.setProperty('--r', `${rand(-15, 15)}deg`);
+      document.body.appendChild(w);
+      w.addEventListener('animationend', () => w.remove());
+    };
+    let lastMove = -1;
+    for (const pic of document.querySelectorAll<HTMLElement>('.wanted .w-pic')) {
+      pic.addEventListener('click', () => {
+        const svg = pic.querySelector('svg');
+        if (!svg || reduce) return;
+        let i = Math.floor(Math.random() * MOVES.length);
+        if (i === lastMove) i = (i + 1) % MOVES.length;
+        lastMove = i;
+        const [word, frames, duration] = MOVES[i];
+        svg.style.transformOrigin = '50% 100%';
+        svg.animate(frames, { duration, easing: 'ease-in-out' });
+        pic.closest('.wanted')?.animate([{ rotate: '0deg' }, { rotate: '-3deg' }, { rotate: '2deg' }, { rotate: '-1deg' }, { rotate: '0deg' }], { duration: 700, easing: 'ease-out' });
+        const r = pic.getBoundingClientRect();
+        popWord(r.left + scrollX + r.width / 2, r.top + scrollY + 10, word);
+      });
+    }
+
+    // 何もないところをタップすると、青い肉球スタンプ
+    const PAW = '<svg viewBox="0 0 40 40" aria-hidden="true"><g fill="currentColor" stroke="#141414" stroke-width="2"><ellipse cx="20" cy="27" rx="10" ry="8.5"/><ellipse cx="8" cy="16" rx="4.2" ry="5.2"/><ellipse cx="15.5" cy="9" rx="4.2" ry="5.4"/><ellipse cx="24.5" cy="9" rx="4.2" ry="5.4"/><ellipse cx="32" cy="16" rx="4.2" ry="5.2"/></g></svg>';
+    document.addEventListener('click', (e) => {
+      if (reduce || (e.target as Element).closest('a, button, input, label, .w-pic, .gacha-pic, svg')) return;
+      if (getSelection()?.toString()) return;
+      const p = document.createElement('span');
+      p.className = 'paw';
+      p.innerHTML = PAW;
+      p.style.left = `${e.pageX}px`;
+      p.style.top = `${e.pageY}px`;
+      p.style.rotate = `${rand(-30, 30)}deg`;
+      document.body.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    });
   </script>
 </Base>
