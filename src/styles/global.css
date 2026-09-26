@@ -332,3 +332,38 @@ body { line-break: strict; text-wrap: pretty; }
 h1, h2, h3, .wanted .crime, .col-title { text-wrap: balance; }
 /* 表のセルは文節で改行。anywhere だと列幅が1文字まで縮んで単語の途中で切れるので break-word に */
 td, th { overflow-wrap: break-word; }
+
+/* ヘッダーのラグドール:押すと「!?」とびっくり → 長い体で走って逃げる → トップへ */
+.brand .logo-face { position: relative; display: block; flex: none; aspect-ratio: 200 / 190; }
+.brand .face-calm, .brand .face-wow { position: absolute; inset: 0; }
+.brand .logo-face svg { width: 100%; height: 100%; }
+.brand .face-wow { opacity: 0; }
+.brand .bikkuri {
+  position: absolute; left: 78%; top: -16px; white-space: nowrap; color: var(--blue); font-family: var(--font-head);
+  font-size: 1.3rem; line-height: 1; -webkit-text-stroke: 1px var(--k); opacity: 0; pointer-events: none;
+}
+.brand.startled .face-calm { opacity: 0; }
+.brand.startled .face-wow { opacity: 1; }
+.brand.startled .logo-face { animation: rag-jump .35s cubic-bezier(.3, 1.6, .5, 1); }
+.brand.startled .bikkuri { animation: rag-bikkuri .35s ease-out forwards; }
+.brand.gone .logo-face { visibility: hidden; }
+.brand.back .logo-face { animation: rag-back .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes rag-jump { 0% { translate: 0 0; scale: 1; } 40% { translate: 0 -12px; scale: .9 1.15; } 100% { translate: 0 0; scale: 1.05 .95; } }
+@keyframes rag-bikkuri { 0% { opacity: 0; translate: 0 6px; scale: .4; } 60%, 100% { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes rag-back { from { opacity: 0; scale: .3; } to { opacity: 1; scale: 1; } }
+
+.runner { position: fixed; z-index: 100; width: 110px; pointer-events: none; visibility: hidden; }
+.runner.go { visibility: visible; animation: rag-run .9s cubic-bezier(.5, 0, .9, .6) forwards; }
+.runner.go svg { animation: rag-bob .16s ease-in-out infinite alternate; }
+.runner.go .leg-a { animation: rag-leg .16s ease-in-out infinite alternate; }
+.runner.go .leg-b { animation: rag-leg .16s ease-in-out infinite alternate-reverse; }
+.runner.go .run-tail { animation: rag-tail .16s ease-in-out infinite alternate; }
+@keyframes rag-run { 0% { translate: 0 0; } 12% { translate: -10px 0; } 100% { translate: var(--dist) 0; } }
+@keyframes rag-bob { from { translate: 0 0; } to { translate: 0 -5px; } }
+@keyframes rag-leg { from { rotate: -38deg; } to { rotate: 38deg; } }
+@keyframes rag-tail { from { rotate: -10deg; } to { rotate: 12deg; } }
+.dust {
+  position: fixed; z-index: 99; width: 18px; height: 18px; border-radius: 50%; pointer-events: none;
+  background: #fff; border: 3px solid var(--k); animation: rag-dust .6s ease-out both;
+}
+@keyframes rag-dust { 0% { opacity: 0; scale: .2; } 20% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: 1.6; translate: -18px -14px; } }

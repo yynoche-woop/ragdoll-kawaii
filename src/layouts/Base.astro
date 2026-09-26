@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { faceSvg } from '../data/pop-art';
+import { faceSvg, runSvg } from '../data/pop-art';
 
 interface Props {
   title: string;
@@ -60,8 +60,12 @@ const nav = [
     </div>
     <header class="masthead">
       <div class="wrap masthead-inner">
-        <a href={base} class="brand" aria-label="週刊ラグドール トップへ">
-          <span class="logo-face" set:html={faceSvg('seal', 'bicolor', 'normal')} />
+        <a href={base} class="brand" id="brand" aria-label="週刊ラグドール トップへ">
+          <span class="logo-face">
+            <span class="face-calm" set:html={faceSvg('seal', 'bicolor', 'normal')} />
+            <span class="face-wow" set:html={faceSvg('seal', 'bicolor', 'wow')} />
+            <span class="bikkuri" aria-hidden="true">!?</span>
+          </span>
           <span><b>週刊ラグドール</b><small>ラグドールは可愛いのか？ 特別号</small></span>
         </a>
         <p class="issue">{issueDate}発行 第1号<span class="price">定価:のびしろ</span></p>
@@ -79,6 +83,52 @@ const nav = [
         <span><b>号外</b>「可愛いのか？」の答え、まだ出ず</span>
       </div>
     </div>
+    <div class="runner" id="runner" aria-hidden="true" set:html={runSvg('seal')} />
+    <script>
+      // ヘッダーのラグドールを押すと、びっくりして走って逃げてからトップへ(動きを減らす設定・別タブで開く操作では普通のリンク)
+      const brand = document.getElementById('brand') as HTMLAnchorElement;
+      const runner = document.getElementById('runner')!;
+      const face = brand.querySelector('.logo-face') as HTMLElement;
+      brand.addEventListener('click', (e) => {
+        if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        e.preventDefault();
+        if (brand.classList.contains('startled')) return;
+        brand.classList.add('startled');
+        // びっくり(0.35秒)→ 顔のあった場所から走り出して画面の右へ消える
+        setTimeout(() => {
+          const r = face.getBoundingClientRect();
+          runner.style.left = `${r.left - 20}px`;
+          runner.style.top = `${r.top + r.height / 2 - 34}px`;
+          runner.style.setProperty('--dist', `${innerWidth - r.left + 140}px`);
+          brand.classList.add('gone');
+          runner.classList.add('go');
+          for (let i = 0; i < 5; i++) {
+            const d = document.createElement('span');
+            d.className = 'dust';
+            d.style.left = `${r.left + 10 + i * 34}px`;
+            d.style.top = `${r.bottom - 12 + (i % 2) * 6}px`;
+            d.style.animationDelay = `${i * 70}ms`;
+            document.body.appendChild(d);
+            d.addEventListener('animationend', () => d.remove());
+          }
+        }, 350);
+        setTimeout(() => {
+          const home = new URL(brand.href);
+          if (location.pathname === home.pathname) {
+            runner.classList.remove('go');
+            brand.classList.remove('startled', 'gone');
+            brand.classList.add('back');
+            scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => brand.classList.remove('back'), 600);
+          } else {
+            location.href = brand.href;
+          }
+        }, 1250);
+      });
+      // 戻るボタンでキャッシュから表示されたとき、逃げたままにしない
+      addEventListener('pageshow', () => { runner.classList.remove('go'); brand.classList.remove('startled', 'gone'); });
+    </script>
     <main class="wrap">
       <slot />
     </main>

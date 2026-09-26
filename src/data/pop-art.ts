@@ -42,9 +42,16 @@ function eyes(expr: Expr, lidColor: string, iris: string): string {
   return eye(74) + eye(126);
 }
 
-/** 顔(viewBox 0 0 200 190)。sticker: 白ふちを付ける */
+/** 2色を混ぜる(t=0でa、t=1でb) */
+function mix(a: string, b: string, t: number): string {
+  const n = (h: string, i: number) => parseInt(h.slice(1 + i * 2, 3 + i * 2), 16);
+  return '#' + [0, 1, 2].map((i) => Math.round(n(a, i) + (n(b, i) - n(a, i)) * t).toString(16).padStart(2, '0')).join('');
+}
+
+/** 顔(viewBox 0 0 200 190)。sticker: 白ふちを付ける。fade<1 は子猫(ポイントも体の色も薄く、生まれたてはほぼ白) */
 export function faceGroup(coat: Coat, pattern: Pattern = 'bicolor', expr: Expr = 'normal', sticker = false, overlay: Overlay = 'solid', fade = 1): string {
-  const c = COAT[coat];
+  const c0 = COAT[coat];
+  const c = fade < 1 ? { ...c0, body: mix(WHITE, c0.body, fade) } : c0;
   const s = `stroke="${K}" stroke-width="5" stroke-linejoin="round"`;
   const lynx = overlay === 'lynx' || overlay === 'torbie';
   const tortie = (overlay === 'tortie' || overlay === 'torbie') && TORTIE[coat];
@@ -157,3 +164,24 @@ export function familySvg(): string {
 }
 
 export const PAW_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><ellipse cx="12" cy="16" rx="5.2" ry="4.4"/><ellipse cx="5.6" cy="10.4" rx="2.3" ry="2.9"/><ellipse cx="9.4" cy="6.4" rx="2.3" ry="2.9"/><ellipse cx="14.6" cy="6.4" rx="2.3" ry="2.9"/><ellipse cx="18.4" cy="10.4" rx="2.3" ry="2.9"/></g></svg>`;
+
+/** 走って逃げるラグドール(右向き・viewBox 0 0 330 210)。長い胴体に4本足。足は .leg-a / .leg-b をCSSで交互に振る */
+export function runSvg(coat: Coat = 'seal'): string {
+  const c = COAT[coat];
+  const s = `stroke="${K}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"`;
+  const leg = (x: number, cls: string, fill: string) =>
+    `<g class="leg ${cls}" style="transform-origin:${x}px 140px"><rect x="${x - 13}" y="128" width="26" height="62" rx="13" fill="${fill}" ${s}/><ellipse cx="${x + 4}" cy="190" rx="17" ry="9" fill="${WHITE}" ${s}/></g>`;
+  const tail = 'M58 118 C24 110 12 76 26 50';
+  return `<svg viewBox="0 0 330 210" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+    <g class="run-tail" style="transform-origin:58px 118px">
+      <path d="${tail}" fill="none" stroke="${K}" stroke-width="40" stroke-linecap="round"/>
+      <path d="${tail}" fill="none" stroke="${c.point}" stroke-width="30" stroke-linecap="round"/>
+    </g>
+    ${leg(84, 'leg-b', c.soft)}${leg(214, 'leg-a', WHITE)}
+    <path d="M52 110 C52 82 76 72 110 72 L210 72 C246 72 262 90 262 116 C262 142 244 156 212 156 L100 156 C70 156 52 140 52 110 Z" fill="${c.body}" ${s}/>
+    <path d="M96 150 C120 132 190 132 222 150 Q160 162 96 150 Z" fill="${WHITE}"/>
+    ${leg(104, 'leg-a', c.soft)}${leg(234, 'leg-b', WHITE)}
+    <g transform="translate(196 -6) scale(.66) rotate(8 100 100)">${faceGroup(coat, 'bicolor', 'wow')}</g>
+    <path d="M-10 86 H-50 M-4 112 H-64 M-10 138 H-44" stroke="${K}" stroke-width="5" stroke-linecap="round" class="speed"/>
+  </svg>`;
+}
