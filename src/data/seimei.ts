@@ -98,6 +98,36 @@ export const LEADER_NUMS = [21, 23, 29, 33, 39];
 /** 性別で結果(パラメータ・ラッキーアイテムなど)の揺らし方を変える。五格の計算そのものは性別で変わらない */
 export const sexHash = (hash: number, sex: Sex) => (sex === 'm' ? (hash ^ 0x9e3779b9) >>> 0 : hash);
 
+// ---------- 星座(誕生日を入れたときだけ) ----------
+export type Element = 'fire' | 'earth' | 'air' | 'water';
+export interface StarSign { key: string; name: string; symbol: string; from: [number, number]; element: Element }
+export const STAR_SIGNS: StarSign[] = [
+  { key: 'capricorn', name: 'やぎ座', symbol: '♑', from: [12, 22], element: 'earth' },
+  { key: 'aquarius', name: 'みずがめ座', symbol: '♒', from: [1, 20], element: 'air' },
+  { key: 'pisces', name: 'うお座', symbol: '♓', from: [2, 19], element: 'water' },
+  { key: 'aries', name: 'おひつじ座', symbol: '♈', from: [3, 21], element: 'fire' },
+  { key: 'taurus', name: 'おうし座', symbol: '♉', from: [4, 20], element: 'earth' },
+  { key: 'gemini', name: 'ふたご座', symbol: '♊', from: [5, 21], element: 'air' },
+  { key: 'cancer', name: 'かに座', symbol: '♋', from: [6, 22], element: 'water' },
+  { key: 'leo', name: 'しし座', symbol: '♌', from: [7, 23], element: 'fire' },
+  { key: 'virgo', name: 'おとめ座', symbol: '♍', from: [8, 23], element: 'earth' },
+  { key: 'libra', name: 'てんびん座', symbol: '♎', from: [9, 23], element: 'air' },
+  { key: 'scorpio', name: 'さそり座', symbol: '♏', from: [10, 24], element: 'water' },
+  { key: 'sagittarius', name: 'いて座', symbol: '♐', from: [11, 23], element: 'fire' },
+];
+export const ELEMENT_LABEL: Record<Element, string> = { fire: '火', earth: '地', air: '風', water: '水' };
+/** 月日から星座(やぎ座は年をまたぐので、どの星座の開始日より前なら やぎ座) */
+export function starSignOf(month: number, day: number): StarSign {
+  let hit = STAR_SIGNS[0];
+  for (const s of STAR_SIGNS) if (month > s.from[0] || (month === s.from[0] && day >= s.from[1])) hit = s;
+  if (month === 12 && day >= 22) hit = STAR_SIGNS[0];
+  return hit;
+}
+/** テンプレートの {name} {sign} {trait} を埋める */
+export const fillTpl = (tpl: string, vars: Record<string, string>) => tpl.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
+/** 総合スコアを5段階に(verdictOf と同じ区切り。0がいちばん良い) */
+export const tierOf = (score: number) => (score >= 13 ? 0 : score >= 10 ? 1 : score >= 7 ? 2 : score >= 4 ? 3 : 4);
+
 // ---------- 五格 ----------
 export type GradeKey = 'ten' | 'jin' | 'chi' | 'gai' | 'sou';
 export interface Grade { key: GradeKey; n: number; folded: number; rank: Rank; formula: string }
