@@ -8,6 +8,7 @@
   - GA4:プロパティ「週刊ラグドール」G-CKBY18KWLF(本番ドメインのときだけ計測)
   - Search Console:ドメインプロパティ sc-domain:shukan-ragdoll.com(Cloudflare の TXT で確認済み)、sitemap.xml 送信済み
 - `npm run build` / `npx astro dev`
+- 広告:Amazonアソシエイト(トラッキングID shukanragdoll-22)。`src/components/DnaTest.astro`(猫のDNA検査キット)を姓名判断の下にだけ置く。広告まみれにしない方針なので、ほかのページには入れない(横田さん 2026-09-26)
 
 ## コラム(アクセス集めの本体)
 - `src/content/columns/*.md` → `/columns/<ファイル名>/`。一覧は `/columns/`、トップにも最新6本
