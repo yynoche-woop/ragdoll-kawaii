@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import DnaTest from '../components/DnaTest.astro';
 import { faceSvg } from '../data/pop-art';
 import { GRADE_INFO } from '../data/seimei-text';
 ---
@@ -101,6 +102,8 @@ import { GRADE_INFO } from '../data/seimei-text';
     </dl>
     <p class="small">※占いは遊びです。猫の性格や健康を言い当てるものではありません。性格は個体差、健康のことは動物病院へ。ちなみに取材班は、占いの途中でメインクーンの名前も入れていた。猫好きは結局ぜんぶの猫を占う。</p>
   </div>
+
+  <DnaTest />
 
   <script>
     import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey, sexHash, LEADER_NUMS, RANK_LABEL, type Sex } from '../data/seimei';

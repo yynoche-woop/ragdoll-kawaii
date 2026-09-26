@@ -1,0 +1,30 @@
+---
+// 猫のDNA検査キット(Amazonアソシエイト、タグ shukanragdoll-22)。姓名判断の下にだけ出す(横田さんの方針 2026-09-26:広告を増やしすぎない)
+// Basepaws(米国)。遺伝性疾患のマーカー(ラグドールで報告のある肥大型心筋症の変異 MYBPC3 R820W、多発性嚢胞腎など)と猫種構成。Amazon US 出品の輸入品で結果は英語。2026-09-26 時点 ¥19,751・レビュー1,545件
+const url = 'https://www.amazon.co.jp/dp/B07NP4Q3Z8?tag=shukanragdoll-22';
+const img = 'https://m.media-amazon.com/images/I/41sFqchrGzL._AC_SL400_.jpg';
+---
+<div class="band"><span class="no">広告</span><h2>占いの次は、DNAを調べてみた</h2></div>
+<a class="dna" href={url} target="_blank" rel="sponsored noopener">
+  <img src={img} alt="Basepaws 猫のDNA検査キット" loading="lazy" width="400" height="400" />
+  <span class="dna-body">
+    <span class="dna-maker">Basepaws(ベースポーズ)</span>
+    <span class="dna-name">猫のDNA検査キット Breed + Health</span>
+    <span class="dna-text">ほっぺの内側を綿棒でこするだけ。ラグドールで報告のある肥大型心筋症の遺伝子変異や、多発性嚢胞腎などを調べられる。ついでに「うちの子、何の猫がまざってる?」もわかる。</span>
+    <span class="dna-go">Amazonで見る →</span>
+  </span>
+</a>
+<p class="dna-note">PR:Amazonのアソシエイトとして、週刊ラグドールは適格販売により収入を得ています。アメリカの検査サービスで、結果は英語。病気を診断するものではないので、気になる結果が出たら動物病院へ。</p>
+
+<style>
+  .dna { display: grid; grid-template-columns: 170px 1fr; gap: 18px; align-items: start; max-width: 680px; padding: 16px; background: var(--white); border: 3px solid var(--k); box-shadow: var(--shadow); color: var(--k); text-decoration: none; transition: transform .15s; }
+  .dna:hover { transform: translate(-2px, -2px); }
+  .dna img { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; border: 2px solid var(--k); background: #fff; }
+  .dna-body { display: grid; gap: 6px; }
+  .dna-maker { font-size: .78rem; color: var(--gray); }
+  .dna-name { font-family: var(--font-head); font-size: 1.1rem; line-height: 1.4; word-break: keep-all; }
+  .dna-text { font-size: .9rem; line-height: 1.7; }
+  .dna-go { justify-self: start; margin-top: 4px; font-weight: 900; font-size: .88rem; background: var(--blue); color: var(--white); padding: 3px 14px; }
+  .dna-note { font-size: .78rem; color: var(--gray); margin-top: 12px; max-width: 680px; }
+  @media (max-width: 520px) { .dna { grid-template-columns: 110px 1fr; gap: 12px; padding: 12px; } .dna-name { font-size: 1rem; } }
+</style>
