@@ -28,6 +28,11 @@ import { GRADE_INFO } from '../data/seimei-text';
         <input name="mei" type="text" maxlength="8" placeholder="例:モカ" autocomplete="off" />
       </label>
     </div>
+    <fieldset class="sr-sex">
+      <legend>性別</legend>
+      <label><input type="radio" name="sex" value="f" /><span>女の子</span></label>
+      <label><input type="radio" name="sex" value="m" /><span>男の子</span></label>
+    </fieldset>
     <p class="sr-hint">ひらがな・カタカナ・漢字でどうぞ。「くん」「ちゃん」はつけない。</p>
     <button class="btn btn-pink" type="submit">判定する</button>
     <p class="sr-error" id="sr-error" role="alert" hidden></p>
@@ -79,8 +84,8 @@ import { GRADE_INFO } from '../data/seimei-text';
   </div>
 
   <script>
-    import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey } from '../data/seimei';
-    import { GRADE_INFO, TEXT, PARAMS, LAP_LABEL, verdictOf, LUCKY } from '../data/seimei-text';
+    import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey, sexHash, LEADER_NUMS, type Sex } from '../data/seimei';
+    import { GRADE_INFO, TEXT, PARAMS, LAP_LABEL, verdictOf, LUCKY, SEX } from '../data/seimei-text';
 
     const form = document.getElementById('sr-form') as HTMLFormElement;
     const $ = (id: string) => document.getElementById(id)!;
@@ -104,6 +109,8 @@ import { GRADE_INFO } from '../data/seimei-text';
       const seiIn = String(fd.get('sei') || '').trim();
       const meiIn = String(fd.get('mei') || '').trim();
       if (!seiIn || !meiIn) return showError('苗字と猫の名前、両方入れてください。片方だと占えない。');
+      const sex = fd.get('sex') as Sex | null;
+      if (sex !== 'f' && sex !== 'm') return showError('女の子か男の子か、選んでください。取材班が書き分けたので。');
       const a = strokesOf(seiIn);
       const b = strokesOf(meiIn);
       if (a.latin || b.latin) return showError('英字・数字は非対応です。カタカナでどうぞ(例:Leo → レオ)。');
@@ -115,10 +122,12 @@ import { GRADE_INFO } from '../data/seimei-text';
       const r = calcSeimei(a.chars, b.chars);
       const sei = a.chars.map((c) => c.c).join('');
       const mei = b.chars.map((c) => c.c).join('');
-      const v = verdictOf(r.score);
-      $('sr-who').textContent = `■ ${sei} ${mei} の猫生、判定`;
+      const sx = SEX[sex];
+      const h = sexHash(r.hash, sex);
+      const v = verdictOf(r.score, sex);
+      $('sr-who').textContent = `■ ${sei} ${mei}${sx.suffix}(${sx.label})の猫生、判定`;
       setPhrased($('sr-title'), v.title);
-      $('sr-verdict-text').textContent = `${v.text}(五格の合計スコア ${r.score}/15)`;
+      $('sr-verdict-text').textContent = `${v.text}${sx.line}(五格の合計スコア ${r.score}/15)`;
 
       $('sr-strokes').replaceChildren(
         ...[...a.chars, null, ...b.chars].map((c) => {
@@ -143,7 +152,8 @@ import { GRADE_INFO } from '../data/seimei-text';
           const body = el('div', 'sr-grade-body');
           body.append(
             el('p', 'sr-kw', `${g.folded}の数「${KEYWORD[g.folded]}」`),
-            el('p', '', TEXT[k][g.rank]),
+            el('p', '', TEXT[sex][k][g.rank]),
+            ...((k === 'jin' || k === 'sou') && LEADER_NUMS.includes(g.folded) ? [el('p', 'sr-leader', sx.leader)] : []),
             el('p', 'sr-formula', `計算:${g.formula}${g.n !== g.folded ? `=${g.n}→81超えなので${g.folded}で読む` : ''}`),
           );
           card.append(head, body);
@@ -154,20 +164,20 @@ import { GRADE_INFO } from '../data/seimei-text';
       const dl = $('sr-params');
       dl.replaceChildren();
       for (const p of PARAMS) {
-        const s = stars(r.grades[p.grade], p.salt + (r.hash % 3));
+        const s = stars(r.grades[p.grade], p.salt + (h % 3));
         const dd = el('dd', 'sr-meter');
         dd.setAttribute('aria-label', `5段階で${s}`);
         for (let i = 0; i < 5; i++) dd.append(el('i', i < s ? 'on' : ''));
         dl.append(el('dt', '', p.label), dd);
       }
-      const lap = 5 + ((r.hash >>> 2) % 60) + (r.grades.gai.folded % 7);
+      const lap = Math.min(100, 5 + ((h >>> 2) % 60) + (r.grades.gai.folded % 7) + sx.lapBonus);
       dl.append(el('dt', '', LAP_LABEL), el('dd', 'sr-lap', `${lap}%`));
 
-      const lucky = LUCKY[(r.hash >>> 4) % LUCKY.length];
+      const lucky = LUCKY[(h >>> 4) % LUCKY.length];
       $('sr-lucky-item').textContent = lucky.item;
       $('sr-lucky-why').textContent = lucky.why;
 
-      const share = `【号外】${sei}${mei}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${r.grades.jin.rank}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
+      const share = `【号外】${sei}${mei}${sx.suffix}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${r.grades.jin.rank}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
       $('sr-share-text').textContent = share;
       const url = location.origin + location.pathname;
       ($('sr-x') as HTMLAnchorElement).href = `https://x.com/intent/post?text=${encodeURIComponent(share)}&url=${encodeURIComponent(url)}`;
@@ -211,6 +221,14 @@ import { GRADE_INFO } from '../data/seimei-text';
     .sr-field span { display: block; font-weight: 900; font-size: .9rem; margin-bottom: 4px; word-break: keep-all; }
     .sr-field input { width: 100%; font: inherit; font-size: 1.1rem; padding: 10px 12px; border: 3px solid var(--k); border-radius: 0; background: var(--white); color: var(--k); }
     .sr-field input:focus { outline: 4px solid var(--blue); outline-offset: 0; }
+    .sr-sex { border: 0; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .sr-sex legend { font-weight: 900; font-size: .9rem; padding: 0; margin-bottom: 6px; width: 100%; }
+    .sr-sex label { cursor: pointer; }
+    .sr-sex input { position: absolute; opacity: 0; pointer-events: none; }
+    .sr-sex span { display: inline-block; padding: 6px 20px; border: 3px solid var(--k); background: var(--white); font-family: var(--font-head); box-shadow: 3px 3px 0 var(--k); }
+    .sr-sex input:checked + span { background: var(--blue); color: var(--white); }
+    .sr-sex input:focus-visible + span { outline: 4px solid var(--blue); outline-offset: 2px; }
+    .sr-leader { font-size: .88rem; font-weight: 900; background: var(--blue-soft); border-left: 6px solid var(--blue); padding: 6px 10px; }
     .sr-hint { font-size: .82rem; color: var(--gray); margin: 8px 0 14px; }
     .sr-error { margin: 14px 0 0; padding: 8px 12px; border: 3px solid var(--k); background: var(--blue-soft); font-weight: 900; }
     @media (max-width: 560px) { .sr-fields { grid-template-columns: 1fr; } .sr-form { padding: 16px; } }

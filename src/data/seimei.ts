@@ -91,6 +91,13 @@ export const KEYWORD: string[] = [
   'はじまりに還る大肉球',
 ];
 
+// ---------- 性別 ----------
+export type Sex = 'f' | 'm';
+// 人間の姓名判断で「頭領運(リーダーの数)」とされ、女性には強すぎるといわれることもある数。猫版では性別ごとに読み替える
+export const LEADER_NUMS = [21, 23, 29, 33, 39];
+/** 性別で結果(パラメータ・ラッキーアイテムなど)の揺らし方を変える。五格の計算そのものは性別で変わらない */
+export const sexHash = (hash: number, sex: Sex) => (sex === 'm' ? (hash ^ 0x9e3779b9) >>> 0 : hash);
+
 // ---------- 五格 ----------
 export type GradeKey = 'ten' | 'jin' | 'chi' | 'gai' | 'sou';
 export interface Grade { key: GradeKey; n: number; folded: number; rank: Rank; formula: string }
