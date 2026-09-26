@@ -281,7 +281,7 @@ const stages = [
     </div>
   </section>
 
-  <button class="peek" type="button" aria-label="のぞいているラグドール">
+  <button class="peek" type="button" aria-label="ページの上へ戻る(のぞいているラグドール)">
     <span class="say">見た？</span>
     <Fragment set:html={faceSvg('lilac', 'bicolor', 'normal', undefined, true)} />
   </button>
@@ -394,7 +394,7 @@ const stages = [
       });
     }
 
-    // 画面の右下からのぞくラグドール(一面を過ぎたら出てくる。押すとしゃべる)
+    // 画面の右下からのぞくラグドール(一面を過ぎたら出てくる。押すとしゃべって、ページの上へ戻る)
     const peek = document.querySelector<HTMLButtonElement>('.peek');
     const front = document.querySelector('.front');
     if (peek && front) {
@@ -406,6 +406,8 @@ const stages = [
         peek.classList.add('talk');
         clearTimeout(timer);
         timer = window.setTimeout(() => peek.classList.remove('talk'), 1800);
+        // ひとことしゃべってから、ページの上へ
+        setTimeout(() => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }), reduce ? 0 : 450);
       });
     }
     // 図鑑の猫:さわると「ぴょん」「のび〜」「ぷるぷる」のどれか。カードもピンを軸にゆれる
