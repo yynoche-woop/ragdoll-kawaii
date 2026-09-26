@@ -122,7 +122,7 @@ const stages = [
   <div class="band" id="meter"><span class="no">02</span><h2>のび、計ってみた</h2></div>
   <p class="lede">母ラグが寝そべったときの「のび」を、専用メーターで計測しました。</p>
   <div class="meter-box">
-    <svg class="gauge" viewBox="0 0 400 240" role="img" aria-label="のびメーター。針が振り切れて計測不能">
+    <svg class="gauge" viewBox="0 0 400 240" role="img" aria-label="のびメーター。針が振り切れた">
       <path d="M40 200 A160 160 0 0 1 360 200" fill="none" stroke="#141414" stroke-width="34" />
       <path d="M40 200 A160 160 0 0 1 200 40" fill="none" stroke="#e3efff" stroke-width="26" />
       <path d="M200 40 A160 160 0 0 1 313 87" fill="none" stroke="#aeb6c4" stroke-width="26" />
@@ -291,14 +291,30 @@ const stages = [
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
-    // かわいさメーター:見えたら針が振り切れて、数字が暴走して「計測不能」
+    // のびメーター:見えたら針が振り切れて、数字が暴走して、ランダムな計測結果(無限大・宇宙など)
     const gauge = document.querySelector<SVGSVGElement>('.gauge');
     const num = document.getElementById('gauge-num');
     const note = document.getElementById('gauge-note');
     if (gauge && num && note) {
       const needle = gauge.querySelector<SVGGElement>('.needle')!;
       const crack = gauge.querySelector<SVGGElement>('.crack')!;
-      const finish = () => { needle.style.rotate = '96deg'; crack.setAttribute('opacity', '1'); num.textContent = '計測不能'; note.textContent = 'まだ伸びています'; };
+      // 計測結果は毎回ランダム(「計測不能」はアメショの森と被るので使わない)
+      const RESULTS = [
+        ['無限大', 'まだ伸びています'],
+        ['宇宙', '端が観測できません'],
+        ['哲学的', 'のびとは何か、考え始めました'],
+        ['地平線', '向こう側にしっぽがあるらしい'],
+        ['∞+1', 'さっきより伸びました'],
+        ['光年', '頭としっぽで時差があります'],
+        ['概念', 'もはや猫というより「長さ」'],
+        ['続きは来週', '誌面に収まりませんでした'],
+        ['伝説級', '取材班、メジャーを買い足しに行きました'],
+        ['ほぼ廊下', '寝そべると通れません'],
+        ['測定器が照れた', '目が合ったので中断'],
+        ['液体', '容器の形になりました'],
+      ];
+      const [word, sub] = RESULTS[Math.floor(Math.random() * RESULTS.length)];
+      const finish = () => { needle.style.rotate = '96deg'; crack.setAttribute('opacity', '1'); num.textContent = word; note.textContent = sub; };
       if (reduce || !('IntersectionObserver' in window)) finish();
       else {
         const io = new IntersectionObserver(([e]) => {

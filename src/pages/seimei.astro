@@ -273,7 +273,10 @@ ${url}`)}`;
     .sr-sex label { cursor: pointer; }
     .sr-sex input { position: absolute; opacity: 0; pointer-events: none; }
     .sr-sex span { display: inline-block; padding: 6px 20px; border: 3px solid var(--k); background: var(--white); font-family: var(--font-head); font-weight: 900; box-shadow: 3px 3px 0 var(--k); }
-    .sr-sex input:checked + span { background: var(--blue); color: var(--white); }
+    /* 選んだ性別は「押し込まれた・✓付き・淡い青」。判定ボタン(青ベタ・影あり)と見分けられるように */
+    .sr-sex span::before { content: ""; display: inline-block; width: 0; transition: width .1s; }
+    .sr-sex input:checked + span { background: var(--blue-soft); color: var(--k); border-color: var(--blue); box-shadow: none; translate: 3px 3px; }
+    .sr-sex input:checked + span::before { content: "✓"; width: 1.2em; color: var(--blue); }
     .sr-sex input:focus-visible + span { outline: 4px solid var(--blue); outline-offset: 2px; }
     .sr-rule { position: relative; margin-top: 26px; background: var(--k); color: var(--white); border: 4px solid var(--k); box-shadow: 6px 6px 0 var(--blue); padding: 26px 22px 22px; text-align: center; }
     .sr-rule p { margin: 0 0 10px; }
