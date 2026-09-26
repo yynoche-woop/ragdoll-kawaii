@@ -103,6 +103,15 @@ const nav = [
           runner.style.setProperty('--dist', `${innerWidth - r.left + 140}px`);
           brand.classList.add('gone');
           runner.classList.add('go');
+          // コマ送り(のびる→ちぢむ→着地)。最初はゆっくり、だんだん速く(1コマ 150ms → 55ms)
+          let f = 0, wait = 150;
+          const step = () => {
+            if (!runner.classList.contains('go')) return;
+            runner.dataset.f = String((f++ % 3) + 1);
+            wait = Math.max(55, wait * 0.9);
+            setTimeout(step, wait);
+          };
+          step();
           for (let i = 0; i < 5; i++) {
             const d = document.createElement('span');
             d.className = 'dust';
@@ -119,12 +128,11 @@ const nav = [
             runner.classList.remove('go');
             brand.classList.remove('startled', 'gone');
             brand.classList.add('back');
-            scrollTo({ top: 0, behavior: 'smooth' });
             setTimeout(() => brand.classList.remove('back'), 600);
           } else {
             location.href = brand.href;
           }
-        }, 1250);
+        }, 2000);
       });
       // 戻るボタンでキャッシュから表示されたとき、逃げたままにしない
       addEventListener('pageshow', () => { runner.classList.remove('go'); brand.classList.remove('startled', 'gone'); });
