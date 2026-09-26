@@ -16,7 +16,7 @@ sources:
   - { title: "Egenvall A, et al. Mortality of Life-Insured Swedish Cats during 1999–2006: Age, Breed, Sex, and Diagnosis. J Vet Intern Med. 2009", url: "https://academic.oup.com/jvim/article/23/6/1175/8447118" }
   - { title: "Pesteanu-Somogyi LD, et al. Prevalence of feline infectious peritonitis in specific cat breeds. J Feline Med Surg. 2006 (Europe PMC)", url: "https://europepmc.org/article/PMC/PMC7128820" }
   - { title: "犬猫の睡眠時呼吸数(こざわ犬猫病院)", url: "https://www.anicare.net/illness/respiratoryrate/" }
-draft: true
+draft: false
 ---
 
 「ラグドール かかりやすい病気」「ラグドール 肥大型心筋症」「ラグドール fip 確率」。迎える前も、迎えたあとも、気になって検索してしまうテーマだ。この記事はふざけずにいく。わかっていることと、わかっていないことを分けて書く。

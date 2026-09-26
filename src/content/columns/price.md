@@ -16,7 +16,7 @@ sources:
   - { title: "対面説明が必要な18項目(環境省)", url: "https://www.env.go.jp/nature/dobutsu/aigo/pickup/list_18.html" }
   - { title: "Ragdoll Hypertrophic Cardiomyopathy (RD-HCM) (Langford Vets)", url: "https://www.langfordvets.co.uk/diagnostic-laboratories/cat-genetic-testing/genetic-disease-and-trait-tests/ragdoll-hypertrophic-cardiomyopathy-rd-hcm/" }
   - { title: "東京都動物愛護相談センターから譲渡を受けるには(ワンニャンとうきょう)", url: "https://wannyan.metro.tokyo.lg.jp/center-kara/" }
-draft: true
+draft: false
 ---
 
 「ラグドール いくら」「ラグドール なぜ高い」「ラグドール なぜ安い」。検索窓は正直だ。高いと言われたり安いと言われたり、同じ猫種なのに値段の話がやけにブレる。取材班、値札の裏側を見にいった。

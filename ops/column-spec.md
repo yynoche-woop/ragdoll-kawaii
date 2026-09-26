@@ -84,5 +84,9 @@ draft: false
 | weight-by-age | ラグドールの体重は月齢でどれくらい?オス・メス別の目安 | jitsuyo | false |
 | summer-room-temp | ラグドールは暑がり?夏の室温とエアコンの目安 | jitsuyo | false |
 | shedding-matting | ラグドールの抜け毛・毛玉対策:わきの下とおしりを守れ | jitsuyo | false |
-| health | ラグドールがかかりやすい病気と、迎える前に知っておきたいこと | jitsuyo | true |
-| price | ラグドールの値段はなぜ幅がある?相場の見方 | jitsuyo | true |
+| health | ラグドールがかかりやすい病気と、迎える前に知っておきたいこと | jitsuyo | false |
+| price | ラグドールの値段はなぜ幅がある?相場の見方 | jitsuyo | false |
+| names | 【検証】ラグドールにはどんな名前が似合うのか:人気の猫の名前と毛色別の名前案 | kensho | false |
+| blue-eyes | 【検証】ラグドールの目はなぜ青い?オッドアイのラグドールはいるのか | kensho | false |
+| male-female | 【検証】ラグドールのオスは甘えん坊、メスはツンデレ?性格の違いを調べた | kensho | false |
+| regret | ラグドールを飼って後悔する?よく聞く理由と、迎える前のチェックリスト | jitsuyo | false |

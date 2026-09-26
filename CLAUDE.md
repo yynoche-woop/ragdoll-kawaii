@@ -13,7 +13,7 @@
 ## コラム(アクセス集めの本体)
 - `src/content/columns/*.md` → `/columns/<ファイル名>/`。一覧は `/columns/`、トップにも最新6本
 - 書き方は `ops/column-spec.md` に従う(「ウワサ → 取材班が調べた → 判定 → 飼い主向けメモ」の型、frontmatter の verdict / sources 必須)
-- `draft: true` は本番に出ない。病気・値段など情報リスクの高い記事は draft で入れ、横田さんの確認後に外す
+- `draft: true` は本番に出ない。ただし下書き止めはしない方針(2026-09-27〜):病気・値段の記事も `draft: false` で公開し、健康・費用は断定せず受診の目安を書き、数字は幅を持たせた「目安」にする
 - ネタ元:`ops/x-memes-2026-09-25.md`(Xでネタにされる話)、`ops/google-suggest-2026-09-25.txt`(検索キーワード)
 
 ## デザイン
