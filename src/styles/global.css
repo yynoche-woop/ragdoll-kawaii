@@ -354,14 +354,15 @@ td, th { overflow-wrap: break-word; }
 
 .runner { position: fixed; z-index: 100; width: 110px; pointer-events: none; visibility: hidden; }
 .runner.go { visibility: visible; animation: rag-run .9s cubic-bezier(.5, 0, .9, .6) forwards; }
-.runner.go svg { animation: rag-bob .16s ease-in-out infinite alternate; }
-.runner.go .leg-a { animation: rag-leg .16s ease-in-out infinite alternate; }
-.runner.go .leg-b { animation: rag-leg .16s ease-in-out infinite alternate-reverse; }
-.runner.go .run-tail { animation: rag-tail .16s ease-in-out infinite alternate; }
+.runner .rf { visibility: hidden; }
+.runner.go .rf { animation: .27s step-end infinite; }
+.runner.go .rf1 { animation-name: rag-f1; }
+.runner.go .rf2 { animation-name: rag-f2; }
+.runner.go .rf3 { animation-name: rag-f3; }
+@keyframes rag-f1 { 0% { visibility: visible; } 33.3% { visibility: hidden; } }
+@keyframes rag-f2 { 0% { visibility: hidden; } 33.3% { visibility: visible; } 66.6% { visibility: hidden; } }
+@keyframes rag-f3 { 0% { visibility: hidden; } 66.6% { visibility: visible; } }
 @keyframes rag-run { 0% { translate: 0 0; } 12% { translate: -10px 0; } 100% { translate: var(--dist) 0; } }
-@keyframes rag-bob { from { translate: 0 0; } to { translate: 0 -5px; } }
-@keyframes rag-leg { from { rotate: -38deg; } to { rotate: 38deg; } }
-@keyframes rag-tail { from { rotate: -10deg; } to { rotate: 12deg; } }
 .dust {
   position: fixed; z-index: 99; width: 18px; height: 18px; border-radius: 50%; pointer-events: none;
   background: #fff; border: 3px solid var(--k); animation: rag-dust .6s ease-out both;

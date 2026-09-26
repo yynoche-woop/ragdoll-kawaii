@@ -165,23 +165,38 @@ export function familySvg(): string {
 
 export const PAW_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><ellipse cx="12" cy="16" rx="5.2" ry="4.4"/><ellipse cx="5.6" cy="10.4" rx="2.3" ry="2.9"/><ellipse cx="9.4" cy="6.4" rx="2.3" ry="2.9"/><ellipse cx="14.6" cy="6.4" rx="2.3" ry="2.9"/><ellipse cx="18.4" cy="10.4" rx="2.3" ry="2.9"/></g></svg>`;
 
-/** 走って逃げるラグドール(右向き・viewBox 0 0 330 210)。長い胴体に4本足。足は .leg-a / .leg-b をCSSで交互に振る */
+/** 走って逃げるラグドール(右向き・viewBox 0 0 330 210)。
+ * ギャロップを3コマで描き、CSSでコマを切り替える(のびる → ちぢむ → 前足で着地)。足は曲がった太い線で、パタパタ振らない。しっぽはご機嫌に真上へピン */
 export function runSvg(coat: Coat = 'seal'): string {
   const c = COAT[coat];
-  const s = `stroke="${K}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"`;
-  const leg = (x: number, cls: string, fill: string) =>
-    `<g class="leg ${cls}" style="transform-origin:${x}px 140px"><rect x="${x - 13}" y="128" width="26" height="62" rx="13" fill="${fill}" ${s}/><ellipse cx="${x + 4}" cy="190" rx="17" ry="9" fill="${WHITE}" ${s}/></g>`;
-  const tail = 'M58 118 C24 110 12 76 26 50';
+  const s = `stroke="${K}" stroke-width="5" stroke-linejoin="round"`;
+  const limb = (d: string, far = false) => {
+    return `<path d="${d}" fill="none" stroke="${K}" stroke-width="28" stroke-linecap="round"/>
+      <path d="${d}" fill="none" stroke="${far ? '#e4e4e4' : WHITE}" stroke-width="18" stroke-linecap="round"/>`;
+  };
+  const tail = (d: string) => `<path d="${d}" fill="none" stroke="${K}" stroke-width="38" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${c.point}" stroke-width="28" stroke-linecap="round"/>`;
+  const frame = (n: number, f: { tail: string; body: string; ff: string; fn: string; bf: string; bn: string; head: string }) =>
+    `<g class="rf rf${n}">${tail(f.tail)}${limb(f.bf, true)}${limb(f.ff, true)}${limb(f.bn)}${limb(f.fn)}<path d="${f.body}" fill="${c.body}" ${s}/>
+      <g transform="${f.head} scale(.64)">${faceGroup(coat, 'bicolor', 'wow')}</g></g>`;
   return `<svg viewBox="0 0 330 210" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
-    <g class="run-tail" style="transform-origin:58px 118px">
-      <path d="${tail}" fill="none" stroke="${K}" stroke-width="40" stroke-linecap="round"/>
-      <path d="${tail}" fill="none" stroke="${c.point}" stroke-width="30" stroke-linecap="round"/>
-    </g>
-    ${leg(84, 'leg-b', c.soft)}${leg(214, 'leg-a', WHITE)}
-    <path d="M52 110 C52 82 76 72 110 72 L210 72 C246 72 262 90 262 116 C262 142 244 156 212 156 L100 156 C70 156 52 140 52 110 Z" fill="${c.body}" ${s}/>
-    <path d="M96 150 C120 132 190 132 222 150 Q160 162 96 150 Z" fill="${WHITE}"/>
-    ${leg(104, 'leg-a', c.soft)}${leg(234, 'leg-b', WHITE)}
-    <g transform="translate(196 -6) scale(.66) rotate(8 100 100)">${faceGroup(coat, 'bicolor', 'wow')}</g>
-    <path d="M-10 86 H-50 M-4 112 H-64 M-10 138 H-44" stroke="${K}" stroke-width="5" stroke-linecap="round" class="speed"/>
+    ${frame(1, { // のびる(4本とも宙に浮く)
+      tail: 'M84 98 C80 70 80 40 82 14 Q84 0 96 6',
+      body: 'M70 104 C70 80 100 72 140 74 L210 76 C244 78 262 92 262 110 C262 130 244 140 210 140 L110 142 C84 142 70 128 70 104 Z',
+      ff: 'M226 112 Q262 148 294 146', fn: 'M212 114 Q248 160 284 160',
+      bf: 'M106 112 Q70 148 40 148', bn: 'M94 116 Q60 162 26 164',
+      head: 'translate(200 -12) rotate(6 100 100)' })}
+    ${frame(2, { // ちぢむ(背中が丸くなり、後ろ足が前へ)
+      tail: 'M104 90 C100 64 102 34 106 8 Q108 -6 120 0',
+      body: 'M88 118 C84 80 116 60 156 60 C200 60 236 76 240 104 C244 132 222 146 190 146 L124 146 C100 146 90 136 88 118 Z',
+      ff: 'M212 116 Q210 160 190 174', fn: 'M200 118 Q198 166 174 182',
+      bf: 'M114 116 Q136 158 160 166', bn: 'M104 118 Q126 168 152 180',
+      head: 'translate(180 -26) rotate(-4 100 100)' })}
+    ${frame(3, { // 前足で着地、後ろ足でける
+      tail: 'M90 100 C86 72 86 42 88 16 Q90 2 102 8',
+      body: 'M76 112 C74 84 104 72 146 72 L206 76 C240 80 258 98 256 118 C254 140 234 148 204 148 L112 148 C88 148 76 134 76 112 Z',
+      ff: 'M222 118 Q238 162 246 184', fn: 'M210 120 Q224 168 230 192',
+      bf: 'M106 118 Q86 162 60 174', bn: 'M96 120 Q76 170 46 184',
+      head: 'translate(194 -8)' })}
+    <path d="M-10 86 H-50 M-4 112 H-64 M-10 138 H-44" stroke="${K}" stroke-width="5" stroke-linecap="round"/>
   </svg>`;
 }
