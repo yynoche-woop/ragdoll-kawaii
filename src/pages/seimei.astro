@@ -251,11 +251,11 @@ ${url}`)}`;
     .sr-front { position: relative; display: grid; grid-template-columns: 1fr 220px; background: var(--white); border: 4px solid var(--k); box-shadow: var(--shadow); overflow: hidden; }
     .sr-front-copy { padding: 30px 26px 22px; border-right: 4px solid var(--k); }
     .sr-front h1 { font-size: clamp(2rem, 6vw, 3.6rem); margin: .3em 0 .2em; }
-    .sr-sub { font-family: var(--font-head); font-size: clamp(1rem, 2.2vw, 1.25rem); border-top: 3px solid var(--k); border-bottom: 3px solid var(--k); padding: 6px 0; margin: 8px 0 12px; word-break: keep-all; overflow-wrap: anywhere; }
+    .sr-sub { font-family: var(--font-head); font-weight: 900; font-size: clamp(1rem, 2.2vw, 1.25rem); border-top: 3px solid var(--k); border-bottom: 3px solid var(--k); padding: 6px 0; margin: 8px 0 12px; word-break: keep-all; overflow-wrap: anywhere; }
     .sr-front p { margin: 0 0 .6em; }
     .sr-front-art { display: grid; place-items: center; padding: 20px; background: var(--blue-soft); background-image: radial-gradient(rgba(61, 140, 240, .25) 2.2px, transparent 2.4px); background-size: 14px 14px; }
     .sr-front-art svg { width: 100%; max-width: 180px; }
-    .sr-gogai { position: absolute; right: -8px; top: 14px; z-index: 2; background: var(--blue); color: var(--white); font-family: var(--font-head); font-size: 1.3rem; padding: 2px 20px; border: 3px solid var(--k); rotate: 6deg; box-shadow: 4px 4px 0 var(--k); }
+    .sr-gogai { position: absolute; right: -8px; top: 14px; z-index: 2; background: var(--blue); color: var(--white); font-family: var(--font-head); font-weight: 900; font-size: 1.3rem; padding: 2px 20px; border: 3px solid var(--k); rotate: 6deg; box-shadow: 4px 4px 0 var(--k); }
     @media (max-width: 700px) {
       .sr-front { grid-template-columns: 1fr; }
       .sr-front-copy { border-right: 0; padding: 22px 18px 18px; }
@@ -272,12 +272,12 @@ ${url}`)}`;
     .sr-sex legend { font-weight: 900; font-size: .9rem; padding: 0; margin-bottom: 6px; width: 100%; }
     .sr-sex label { cursor: pointer; }
     .sr-sex input { position: absolute; opacity: 0; pointer-events: none; }
-    .sr-sex span { display: inline-block; padding: 6px 20px; border: 3px solid var(--k); background: var(--white); font-family: var(--font-head); box-shadow: 3px 3px 0 var(--k); }
+    .sr-sex span { display: inline-block; padding: 6px 20px; border: 3px solid var(--k); background: var(--white); font-family: var(--font-head); font-weight: 900; box-shadow: 3px 3px 0 var(--k); }
     .sr-sex input:checked + span { background: var(--blue); color: var(--white); }
     .sr-sex input:focus-visible + span { outline: 4px solid var(--blue); outline-offset: 2px; }
     .sr-rule { position: relative; margin-top: 26px; background: var(--k); color: var(--white); border: 4px solid var(--k); box-shadow: 6px 6px 0 var(--blue); padding: 26px 22px 22px; text-align: center; }
     .sr-rule p { margin: 0 0 10px; }
-    .sr-rule-lead { font-family: var(--font-head); font-size: clamp(1.2rem, 3.6vw, 1.6rem); line-height: 1.5; word-break: keep-all; text-wrap: balance; }
+    .sr-rule-lead { font-family: var(--font-head); font-weight: 900; font-size: clamp(1.2rem, 3.6vw, 1.6rem); line-height: 1.5; word-break: keep-all; text-wrap: balance; }
     .sr-map { margin: 16px auto 0; max-width: 380px; }
     .sr-map figcaption { display: inline-block; font-family: var(--font-dot); color: var(--blue); margin-bottom: 8px; }
     .sr-map-head, .sr-map li { display: grid; grid-template-columns: 1fr 36px 1fr; align-items: center; }
@@ -285,7 +285,7 @@ ${url}`)}`;
     .sr-map ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
     .sr-map .h { padding: 4px 0; border: 2px dashed var(--hair); color: var(--hair); text-decoration: line-through; text-decoration-thickness: 2px; }
     .sr-map .arrow { color: var(--blue); }
-    .sr-map .c { padding: 4px 0; font-family: var(--font-head); font-size: 1.1rem; background: var(--white); color: var(--k); border: 3px solid var(--white); }
+    .sr-map .c { padding: 4px 0; font-family: var(--font-head); font-weight: 900; font-size: 1.1rem; background: var(--white); color: var(--k); border: 3px solid var(--white); }
     .sr-map .c0 { background: var(--blue); color: var(--white); border-color: var(--blue); }
     .btn-line { background: #06c755; color: #fff; }
     .sr-shared { margin: 0 0 14px; padding: 6px 104px 6px 12px; background: var(--blue-soft); border: 3px solid var(--k); font-weight: 900; font-size: .92rem; }
@@ -302,7 +302,7 @@ ${url}`)}`;
     .sr-verdict p { margin: 0; }
     .sr-strokes { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0 0; }
     .sr-char { display: inline-flex; flex-direction: column; align-items: center; min-width: 46px; padding: 4px 6px; background: var(--white); border: 3px solid var(--k); line-height: 1.25; }
-    .sr-char b { font-family: var(--font-head); font-weight: 400; font-size: 1.3rem; }
+    .sr-char b { font-family: var(--font-head); font-weight: 900; font-size: 1.3rem; }
     .sr-char small { font-family: var(--font-dot); font-size: .75rem; }
     .sr-gap { width: 12px; }
 
@@ -332,10 +332,10 @@ ${url}`)}`;
     .sr-meter { display: flex; gap: 4px; }
     .sr-meter i { width: 22px; height: 14px; border: 2px solid var(--k); background: var(--white); }
     .sr-meter i.on { background: var(--blue); }
-    .sr-lap { font-family: var(--font-head); font-size: 1.5rem; color: var(--blue); line-height: 1.2; }
+    .sr-lap { font-family: var(--font-head); font-weight: 900; font-size: 1.5rem; color: var(--blue); line-height: 1.2; }
     .sr-lucky { display: flex; flex-direction: column; gap: 4px; background: var(--k); color: var(--white); border: 3px solid var(--k); box-shadow: 6px 6px 0 var(--blue); padding: 16px 18px; }
     .sr-lucky-label { font-family: var(--font-dot); color: var(--blue); }
-    .sr-lucky strong { font-family: var(--font-head); font-weight: 400; font-size: 1.4rem; word-break: keep-all; overflow-wrap: anywhere; }
+    .sr-lucky strong { font-family: var(--font-head); font-weight: 900; font-size: 1.4rem; word-break: keep-all; overflow-wrap: anywhere; }
     @media (max-width: 700px) { .sr-params-box { grid-template-columns: 1fr; } }
 
     .sr-share { margin-top: 26px; border-top: 4px double var(--k); padding-top: 16px; }
