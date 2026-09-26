@@ -55,6 +55,7 @@ import { GRADE_INFO } from '../data/seimei-text';
   </form>
 
   <section class="sr-result" id="sr-result" aria-live="polite" hidden>
+    <p class="sr-shared" id="sr-shared" hidden>■ シェアされた判定です。<a href="#sr-form">うちの子も判定する</a></p>
     <span class="stamp" aria-hidden="true">判定</span>
     <div class="sr-verdict">
       <span class="label" id="sr-who"></span>
@@ -80,6 +81,8 @@ import { GRADE_INFO } from '../data/seimei-text';
     <div class="sr-share">
       <p class="sr-share-text" id="sr-share-text"></p>
       <div class="cta">
+        <a class="btn btn-line" id="sr-line" href="#" target="_blank" rel="noopener">LINEで送る</a>
+          <button class="btn btn-blue" type="button" id="sr-share" hidden>ほかのアプリで送る</button>
         <button class="btn btn-blue" type="button" id="sr-copy">結果をコピー</button>
         <a class="btn" id="sr-x" href="#" target="_blank" rel="noopener">Xでシェア</a>
       </div>
@@ -196,7 +199,9 @@ import { GRADE_INFO } from '../data/seimei-text';
 
       const share = `【号外】${sei}${mei}${sx.suffix}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${RANK_LABEL[r.grades.jin.rank]}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
       $('sr-share-text').textContent = share;
-      const url = location.origin + location.pathname;
+      // 入力内容を URL に入れておく(このURLを開くと同じ結果が出る)
+      const url = `${location.origin}${location.pathname}?${new URLSearchParams({ sei, mei, sex })}`;
+      history.replaceState(null, '', url);
       ($('sr-x') as HTMLAnchorElement).href = `https://x.com/intent/post?text=${encodeURIComponent(share)}&url=${encodeURIComponent(url)}`;
       $('sr-copy').onclick = async () => {
         try {
@@ -207,14 +212,36 @@ import { GRADE_INFO } from '../data/seimei-text';
         }
         setTimeout(() => ($('sr-copy').textContent = '結果をコピー'), 2000);
       };
+      ($('sr-line') as HTMLAnchorElement).href = `https://line.me/R/share?text=${encodeURIComponent(`${share}
+${url}`)}`;
+      // スマホの共有シート。使えないブラウザではボタンを出さない
+      const shareBtn = $('sr-share') as HTMLButtonElement;
+      shareBtn.hidden = !('share' in navigator);
+      shareBtn.onclick = () => navigator.share({ text: share, url }).catch(() => {});
       $('sr-result').hidden = false;
       return true;
     };
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      $('sr-shared').hidden = true;
       if (run()) $('sr-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+
+    // シェアされたURL(?sei=…&mei=…&sex=…)で開いたら、同じ結果をそのまま表示する
+    const q = new URLSearchParams(location.search);
+    const qSei = q.get('sei')?.trim();
+    const qMei = q.get('mei')?.trim();
+    if (qSei && qMei) {
+      (form.elements.namedItem('sei') as HTMLInputElement).value = qSei.slice(0, 6);
+      (form.elements.namedItem('mei') as HTMLInputElement).value = qMei.slice(0, 8);
+      const qSex = q.get('sex');
+      if (qSex === 'f' || qSex === 'm') form.querySelector<HTMLInputElement>(`input[name="sex"][value="${qSex}"]`)!.checked = true;
+      if (run()) {
+        $('sr-shared').hidden = false;
+        $('sr-result').scrollIntoView({ block: 'start' });
+      }
+    }
   </script>
 
   <style is:global>
@@ -257,6 +284,8 @@ import { GRADE_INFO } from '../data/seimei-text';
     .sr-map .arrow { color: var(--blue); }
     .sr-map .c { padding: 4px 0; font-family: var(--font-head); font-size: 1.1rem; background: var(--white); color: var(--k); border: 3px solid var(--white); }
     .sr-map .c0 { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .btn-line { background: #06c755; color: #fff; }
+    .sr-shared { margin: 0 0 14px; padding: 6px 104px 6px 12px; background: var(--blue-soft); border: 3px solid var(--k); font-weight: 900; font-size: .92rem; }
     .sr-leader { font-size: .88rem; font-weight: 900; background: var(--blue-soft); border-left: 6px solid var(--blue); padding: 6px 10px; }
     .sr-hint { font-size: .82rem; color: var(--gray); margin: 8px 0 14px; }
     .sr-error { margin: 14px 0 0; padding: 8px 12px; border: 3px solid var(--k); background: var(--blue-soft); font-weight: 900; }
