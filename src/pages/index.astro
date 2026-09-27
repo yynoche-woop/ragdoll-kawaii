@@ -382,7 +382,7 @@ const stages = [
     if (gBtn && gPic && gName) {
       // 60通りはぜんぶ出るが、よく見る色・がら(シールやブルーの模様なし)ほど出やすくする。
       // 均等だと模様なしが1/4しか出ず「定番が出てこない」ため(2026-09-27 指摘)。重みは見かける頻度のざっくり目安
-      const COATS: [Coat, number][] = [['seal', 5], ['blue', 4], ['chocolate', 1], ['lilac', 1.5], ['red', 1], ['cream', 1]];
+      const COATS: [Coat, number][] = [['seal', 6], ['blue', 5], ['chocolate', 1], ['lilac', 1.5], ['red', 1], ['cream', 1]];
       const PATS: [Pattern, number][] = [['colorpoint', 1], ['mitted', 1], ['bicolor', 1.2]];
       const OVERLAYS: [Overlay, number][] = [['solid', 7], ['lynx', 2], ['tortie', 1], ['torbie', 0.6]];
       const pick = <T,>(a: [T, number][]) => {
@@ -394,8 +394,12 @@ const stages = [
         const c = pick(COATS);
         const p = pick(PATS);
         const o: Overlay = pick(canTortie(c) ? OVERLAYS : OVERLAYS.slice(0, 2));
-        // 模様なしは「シールポイント」「ブルーポイント・バイカラー」と呼ぶのが一般的(CFA: Seal Point / Blue Point Bicolor)
-        const name = [c === 'blue' && o === 'tortie' ? 'ブルークリーム' : c === 'lilac' && o === 'tortie' ? 'ライラッククリーム' : COAT[c].label + (OVERLAY_LABEL[o] ? '・' + OVERLAY_LABEL[o] : 'ポイント'), PATTERN_LABEL[p]].join('・');
+        // 呼び方は日本のブリーダーでよく使う形に:模様なしは「シールポイント」「ブルーポイント・バイカラー」、
+        // リンクス等は「ブルー・リンクス・バイカラー」。カラーポイント(白なし)は「ポイント」とだけ呼ぶ
+        const base = c === 'blue' && o === 'tortie' ? 'ブルークリーム' : c === 'lilac' && o === 'tortie' ? 'ライラッククリーム' : COAT[c].label + (OVERLAY_LABEL[o] ? '・' + OVERLAY_LABEL[o] : '');
+        const name = o === 'solid'
+          ? `${base}ポイント${p === 'colorpoint' ? '' : '・' + PATTERN_LABEL[p]}`
+          : `${base}・${p === 'colorpoint' ? 'ポイント' : PATTERN_LABEL[p]}`;
         gPic.innerHTML = bodySvg(c, p, o, `${name}のラグドール`);
         gName.textContent = name;
         if (!reduce) gPic.animate([{ scale: '.6', rotate: '-12deg', opacity: 0 }, { scale: '1.08', rotate: '4deg', opacity: 1, offset: .6 }, { scale: '1', rotate: '0deg' }], { duration: 450, easing: 'ease-out' });
