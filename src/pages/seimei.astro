@@ -255,7 +255,7 @@ ${url}`)}`;
     .sr-front { position: relative; display: grid; grid-template-columns: 1fr 220px; background: var(--white); border: 4px solid var(--k); box-shadow: var(--shadow); overflow: hidden; }
     .sr-front-copy { padding: 30px 26px 22px; border-right: 4px solid var(--k); }
     .sr-front h1 { font-size: clamp(2rem, 6vw, 3.6rem); margin: .3em 0 .2em; }
-    .sr-sub { font-family: var(--font-head); font-weight: 900; font-size: clamp(1rem, 2.2vw, 1.25rem); border-top: 3px solid var(--k); border-bottom: 3px solid var(--k); padding: 6px 0; margin: 8px 0 12px; word-break: keep-all; overflow-wrap: anywhere; }
+    .sr-sub { font-family: var(--font-head); font-weight: 900; font-size: clamp(1rem, 2.2vw, 1.25rem); border-top: 3px solid var(--k); border-bottom: 3px solid var(--k); padding: 6px 0; margin: 8px 0 12px; word-break: keep-all; overflow-wrap: break-word; }
     .sr-front p { margin: 0 0 .6em; }
     .sr-front-art { display: grid; place-items: center; padding: 20px; background: var(--blue-soft); background-image: radial-gradient(rgba(61, 140, 240, .25) 2.2px, transparent 2.4px); background-size: 14px 14px; }
     .sr-front-art svg { width: 100%; max-width: 180px; }
@@ -304,8 +304,8 @@ ${url}`)}`;
     .sr-result { position: relative; margin-top: 40px; scroll-margin-top: 30px; }
     .sr-result > .stamp { z-index: 2; }
     .sr-verdict { background: var(--k); color: var(--white); border: 4px solid var(--k); box-shadow: 6px 6px 0 var(--blue); padding: 26px 26px 22px; }
-    .sr-verdict .label { font-family: var(--font-dot); color: var(--blue); overflow-wrap: anywhere; }
-    .sr-verdict h2 { font-size: clamp(1.7rem, 5.4vw, 3rem); color: var(--white); margin: 6px 0 10px; word-break: keep-all; overflow-wrap: anywhere; }
+    .sr-verdict .label { font-family: var(--font-dot); color: var(--blue); overflow-wrap: break-word; }
+    .sr-verdict h2 { font-size: clamp(1.7rem, 5.4vw, 3rem); color: var(--white); margin: 6px 0 10px; word-break: keep-all; overflow-wrap: break-word; }
     .sr-verdict p { margin: 0; }
     /* 総合判定:大きな文字+背景にうっすら透かし */
     .sr-verdict { position: relative; overflow: hidden; }
@@ -349,10 +349,10 @@ ${url}`)}`;
     .sr-lap { font-family: var(--font-head); font-weight: 900; font-size: 1.5rem; color: var(--blue); line-height: 1.2; }
     .sr-lucky { display: flex; flex-direction: column; gap: 4px; background: var(--k); color: var(--white); border: 3px solid var(--k); box-shadow: 6px 6px 0 var(--blue); padding: 16px 18px; }
     .sr-lucky-label { font-family: var(--font-dot); color: var(--blue); }
-    .sr-lucky strong { font-family: var(--font-head); font-weight: 900; font-size: 1.4rem; word-break: keep-all; overflow-wrap: anywhere; }
+    .sr-lucky strong { font-family: var(--font-head); font-weight: 900; font-size: 1.4rem; word-break: keep-all; overflow-wrap: break-word; }
     @media (max-width: 700px) { .sr-params-box { grid-template-columns: 1fr; } }
 
     .sr-share { margin-top: 26px; border-top: 4px double var(--k); padding-top: 16px; }
-    .sr-share-text { font-weight: 900; background: var(--blue-soft); border: 3px solid var(--k); padding: 10px 14px; overflow-wrap: anywhere; }
+    .sr-share-text { font-weight: 900; background: var(--blue-soft); border: 3px solid var(--k); padding: 10px 14px; overflow-wrap: break-word; }
   </style>
 </Base>
