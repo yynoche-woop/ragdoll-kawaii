@@ -156,7 +156,7 @@ main { padding-block: 26px 60px; }
 /* ---------- 真面目コーナー ---------- */
 .serious { background: var(--white); border: 3px solid var(--k); box-shadow: var(--shadow); padding: 8px 24px 20px; }
 .serious-head { display: flex; align-items: center; gap: 10px; margin: 14px 0 6px; font-weight: 900; }
-.serious-head span { background: var(--blue); color: var(--white); font-size: .8rem; padding: 0 10px; }
+.serious-head span { flex: none; white-space: nowrap; background: var(--blue); color: var(--white); font-size: .8rem; padding: 0 10px; }
 .serious dl { margin: 0; }
 .serious dt { font-family: var(--font-head); font-weight: 900; font-size: 1.1rem; margin-top: 16px; padding-left: 12px; border-left: 6px solid var(--pink); }
 .serious dd { margin: 6px 0 0; font-size: .94rem; }
@@ -329,8 +329,13 @@ main { padding-block: 26px 60px; }
   @keyframes tail-sway { 0%, 100% { rotate: 0deg; } 30% { rotate: -9deg; } 55% { rotate: 5deg; } }
 }
 
-/* 日本語の禁則:「ー」「ッ」「ょ」や句読点を行頭に置かない(strict)。段落は最終行に1〜2文字だけ残らないように */
-body { line-break: strict; text-wrap: pretty; }
+/* 日本語の禁則:「ー」「ッ」「ょ」や句読点を行頭に置かない(strict) */
+/* 本文も文節の切れ目で改行する(横田さん 2026-09-27「スマホで読みやすいタイミングで改行」)。
+   ビルド時に BudouX で <wbr> を入れた文字列は <pb-t> に入っているので、そこだけ keep-all にする
+   (JSで出す文字には <wbr> がないので通常の折り返しのまま)。
+   text-wrap: pretty は iPhone の Safari だと行を短く揃えようとして、単語の途中で切れたうえ右側が大きく空くので使わない */
+body { line-break: strict; overflow-wrap: break-word; }
+pb-t { word-break: keep-all; }
 h1, h2, h3, .wanted .crime, .col-title { text-wrap: balance; }
 /* 表のセルは文節で改行。anywhere だと列幅が1文字まで縮んで単語の途中で切れるので break-word に */
 td, th { overflow-wrap: break-word; }

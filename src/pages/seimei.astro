@@ -4,7 +4,7 @@ import DnaTest from '../components/DnaTest.astro';
 import { faceSvg } from '../data/pop-art';
 import { GRADE_INFO } from '../data/seimei-text';
 ---
-<Base title="猫の姓名判断|週刊ラグドール" description="【号外】猫の名前、画数で占ってみた。苗字と猫の名前から、天格・人格・地格・外格・総格の五格で「猫生」を判定。ひざからのはみ出し率も出ます。占いは遊びです。">
+<Base title="猫の姓名判断|週刊ラグドール" description="【号外】猫の名前、画数で占ってみた。苗字と猫の名前から、天格・猫格・地格・外格・総格の五格で「猫生」を判定。ひざからのはみ出し率も出ます。占いは遊びです。">
   <nav class="crumb"><a href="/">トップ</a> › 猫の姓名判断</nav>
 
   <section class="sr-front">
@@ -12,7 +12,7 @@ import { GRADE_INFO } from '../data/seimei-text';
     <div class="sr-front-copy">
       <span class="kicker">緊急占い</span>
       <h1>猫の名前、<br />画数で占ってみた</h1>
-      <p class="sr-sub">取材班、姓名判断の本を<span class="hl">猫に置き換えた</span></p>
+      <p class="sr-sub">取材班、姓名判断を<span class="hl">猫に置き換えた</span></p>
       <p>人間の姓名判断でおなじみの「五格」を、猫の暮らしに置き換えました。苗字(飼い主の苗字)と猫の名前を入れると、猫生(ねこせい)がわかる。……たぶん。</p>
     </div>
     <div class="sr-front-art" set:html={faceSvg('blue', 'mitted', 'wow', '目を見開いたラグドール', true)} />
@@ -20,8 +20,7 @@ import { GRADE_INFO } from '../data/seimei-text';
 
   <section class="sr-rule" aria-labelledby="sr-rule-title">
     <span class="stamp" aria-hidden="true">特報</span>
-    <p class="sr-rule-lead" id="sr-rule-title">猫は生まれてきただけで尊い存在なので、人間と違って、凶は存在しません。</p>
-    <p>なので取材班は、人間の姓名判断の吉凶を、ぜんぶ1ランク上げて読み替えることにしました。</p>
+    <p class="sr-rule-lead" id="sr-rule-title">猫は生まれてきただけで尊いので、凶はありません。</p>
     <figure class="sr-map">
       <figcaption>読み替え表</figcaption>
       <div class="sr-map-head"><span>人間</span><span></span><span>猫</span></div>
@@ -60,6 +59,7 @@ import { GRADE_INFO } from '../data/seimei-text';
     <span class="stamp" aria-hidden="true">判定</span>
     <div class="sr-verdict">
       <span class="label" id="sr-who"></span>
+      <p class="sr-overall"><span>総合</span><b id="sr-overall"></b></p>
       <h2 id="sr-title"></h2>
       <p id="sr-verdict-text"></p>
     </div>
@@ -96,11 +96,11 @@ import { GRADE_INFO } from '../data/seimei-text';
     <dl>
       {Object.values(GRADE_INFO).map((g) => <><dt>{g.name}={g.life}</dt><dd>{g.note}。</dd></>)}
       <dt>画数の数え方</dt>
-      <dd>ひらがな・カタカナは姓名判断で一般的な画数(濁点は2画、半濁点は1画、小さい「ゃ」「ッ」は元の字と同じ、のばす「ー」は1画)。漢字は Unicode の漢字データベース(Unihan)の日本の字形の画数。常用漢字・人名用漢字・JIS第1〜第2水準にない字は「画数不明」になります。</dd>
+      <dd>かな:濁点は+2画、半濁点は+1画、「ー」は1画。小さい「ゃ」「ッ」は大きい字と同じ。<br />漢字:日本の字形の画数(Unicodeのデータ)。めずらしい字は「画数不明」。</dd>
       <dt>霊数と81</dt>
-      <dd>苗字や名前が1文字のときは、天格・地格・外格に「霊数」の1を足す一般的なルール。81を超えた数は80を引いて読みます。吉凶は一般的な吉凶表(4段階)をもとに、上の読み替え表のとおり1ランク上げて表示。どの画数でも、その子のかわいい個性。流派によって違うこともあります。</dd>
+      <dd>苗字か名前が1文字なら、天格・地格・外格に1を足す(霊数)。81を超えたら80を引く。流派によって違うこともあります。</dd>
     </dl>
-    <p class="small">※占いは遊びです。猫の性格や健康を言い当てるものではありません。性格は個体差、健康のことは動物病院へ。ちなみに取材班は、占いの途中でメインクーンの名前も入れていた。猫好きは結局ぜんぶの猫を占う。</p>
+    <p class="small">※占いは遊びです。性格は個体差、健康は動物病院へ。取材班は途中でメインクーンも占っていた。猫好きは結局ぜんぶの猫を占う。</p>
     <p class="more"><a class="btn" href="/columns/names/">名前に迷ったら:名前案のコラム</a></p>
   </div>
 
@@ -108,7 +108,7 @@ import { GRADE_INFO } from '../data/seimei-text';
 
   <script>
     import { strokesOf, calcSeimei, stars, KEYWORD, setPhrased, type GradeKey, sexHash, LEADER_NUMS, RANK_LABEL, type Sex } from '../data/seimei';
-    import { GRADE_INFO, TEXT, PARAMS, LAP_LABEL, verdictOf, LUCKY, SEX } from '../data/seimei-text';
+    import { GRADE_INFO, TEXT, PARAMS, LAP_LABEL, verdictOf, overallRank, LUCKY, SEX } from '../data/seimei-text';
 
     const form = document.getElementById('sr-form') as HTMLFormElement;
     const $ = (id: string) => document.getElementById(id)!;
@@ -149,6 +149,9 @@ import { GRADE_INFO } from '../data/seimei-text';
       const h = sexHash(r.hash, sex);
       const call = `${mei}${sx.suffix}`;
       const v = verdictOf(r.score, sex);
+      const overall = overallRank(r.score);
+      $('sr-overall').textContent = overall;
+      (document.querySelector('.sr-verdict') as HTMLElement).dataset.rank = overall;
       $('sr-who').textContent = `■ ${sei} ${mei}${sx.suffix}(${sx.label})の猫生、判定`;
       setPhrased($('sr-title'), v.title);
       $('sr-verdict-text').textContent = `${v.text}${sx.line}(五格の合計スコア ${r.score}/15)`;
@@ -201,7 +204,7 @@ import { GRADE_INFO } from '../data/seimei-text';
       $('sr-lucky-item').textContent = lucky.item;
       $('sr-lucky-why').textContent = lucky.why;
 
-      const share = `【号外】${sei}${mei}${sx.suffix}の猫生、判定「${v.title}」。人格${r.grades.jin.n}画=${RANK_LABEL[r.grades.jin.rank]}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
+      const share = `【号外】${sei}${mei}${sx.suffix}の猫生、総合${overall}「${v.title}」。猫格${r.grades.jin.n}画=${RANK_LABEL[r.grades.jin.rank]}、ひざからのはみ出し率${lap}%。 #猫の姓名判断 #週刊ラグドール`;
       $('sr-share-text').textContent = share;
       // 入力内容を URL に入れておく(このURLを開くと同じ結果が出る)
       const url = `${location.origin}${location.pathname}?${new URLSearchParams({ sei, mei, sex })}`;
@@ -304,6 +307,13 @@ ${url}`)}`;
     .sr-verdict .label { font-family: var(--font-dot); color: var(--blue); overflow-wrap: anywhere; }
     .sr-verdict h2 { font-size: clamp(1.7rem, 5.4vw, 3rem); color: var(--white); margin: 6px 0 10px; word-break: keep-all; overflow-wrap: anywhere; }
     .sr-verdict p { margin: 0; }
+    /* 総合判定:大きな文字+背景にうっすら透かし */
+    .sr-verdict { position: relative; overflow: hidden; }
+    .sr-verdict > * { position: relative; }
+    .sr-verdict::before { content: attr(data-rank); position: absolute; top: 14px; right: -.06em; writing-mode: vertical-rl; font-family: var(--font-head); font-weight: 900; font-size: clamp(6.5rem, 30vw, 12rem); line-height: 1; white-space: nowrap; color: rgba(255, 255, 255, .1); pointer-events: none; }
+    .sr-verdict p.sr-overall { display: flex; align-items: center; gap: 12px; margin: 10px 0 6px; }
+    .sr-overall span { font-family: var(--font-head); font-weight: 900; font-size: 1rem; background: var(--blue); color: var(--k); padding: 3px 10px; }
+    .sr-overall b { font-family: var(--font-head); font-weight: 900; font-size: clamp(3.2rem, 15vw, 5.5rem); line-height: 1; letter-spacing: .04em; color: var(--blue); }
     .sr-strokes { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0 0; }
     .sr-char { display: inline-flex; flex-direction: column; align-items: center; min-width: 46px; padding: 4px 6px; background: var(--white); border: 3px solid var(--k); line-height: 1.25; }
     .sr-char b { font-family: var(--font-head); font-weight: 900; font-size: 1.3rem; }

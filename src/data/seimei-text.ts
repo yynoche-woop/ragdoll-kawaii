@@ -6,7 +6,7 @@ import type { GradeKey, Rank, Sex } from './seimei';
 
 export const GRADE_INFO: Record<GradeKey, { name: string; life: string; note: string }> = {
   ten: { name: '天格', life: 'ご先祖・血統運', note: '苗字の画数。飼い主と同じなので、ほぼおうちの運' },
-  jin: { name: '人格', life: '性格(主運)', note: '苗字の最後+名前の最初。いちばん大事らしい' },
+  jin: { name: '猫格', life: '性格(主運)', note: '苗字の最後+名前の最初。いちばん大事らしい' },
   chi: { name: '地格', life: '子猫時代・若いころ', note: '名前の画数。ぬりえ期間〜大運動会期' },
   gai: { name: '外格', life: '人間・ほかの猫との関係', note: 'ひざの取り合いなど、対人・対猫の運' },
   sou: { name: '総格', life: '猫生全体・シニア期', note: '全部の合計。長い猫生のゆくえ' },
@@ -87,6 +87,11 @@ export const PARAMS: { label: string; grade: GradeKey; salt: number }[] = [
   { label: 'お留守番運', grade: 'gai', salt: 4 },
 ];
 export const LAP_LABEL = 'ひざからのはみ出し率';
+
+// 総合判定(五格の合計スコア 0〜15 → 大大吉〜半吉)。ぱっと見で分かるよう結果の上に大きく出す
+export function overallRank(score: number): string {
+  return score >= 13 ? '大大吉' : score >= 10 ? '大吉' : score >= 7 ? '吉' : '半吉';
+}
 
 export function verdictOf(score: number, sex: Sex): { title: string; text: string } {
   const f = sex === 'f';

@@ -33,7 +33,7 @@
 
 ## 日本語の改行
 - `scripts/phrase-break.mjs` がビルド後に BudouX で文節の境目へ `<wbr>` を入れる。区切った文字列は `<pb-t>` で包み(flex の中でばらけないように)、カッコ・句読点を含む短い文節は `<nobr>` で包む(Safari は keep-all でもカッコの前後で切ってしまうため)
-- 見出し・ボタン・商品名・表のセルなど短い文字は `word-break: keep-all`。本文の段落は通常の折り返し(keep-all だと右側がガタガタになる)。全体に `line-break: strict` と `text-wrap: pretty`
+- 見出し・ボタン・商品名・表のセルなど短い文字は `word-break: keep-all`。本文の段落も `<pb-t>` に keep-all を当てて文節で改行する(2026-09-27〜。スマホで読みやすく)。`text-wrap: pretty` は Safari で行が短く揃えられて右が空くので使わない。全体に `line-break: strict`
 
 ## 占い
 - 猫の姓名判断(五格・性別で文章を書き分け)と星座占いは混ぜない。それぞれ別ページで完結させる(横田さんの方針 2026-09-26)

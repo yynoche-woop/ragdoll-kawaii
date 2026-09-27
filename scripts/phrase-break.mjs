@@ -24,6 +24,8 @@ function breakSegment(seg) {
     .join('<wbr>')
     // 「・」のあとでも改行できるように
     .replace(/・(?!<wbr>|$)/g, '・<wbr>')
+    // 「黄褐色〜クリーム」の「〜」のあとでも改行できるように(「2〜3歳」のような数字の範囲は切らない)
+    .replace(/〜(?![\d０-９]|<wbr>|$)/g, '〜<wbr>')
     // タイトルの区切り「|」のあとでも改行できるように
     .replace(/([|｜])(?!<wbr>|$)/g, '$1<wbr>')
     // 長い文節は、カタカナと漢字の境目でも改行できるように(「ラグドール|子猫詐欺事件」)
@@ -48,10 +50,14 @@ function breakSegment(seg) {
 
 // Safari(WebKit)は keep-all でもカッコ・句読点の前後で単語の途中を改行してしまう
 // (「成猫(|2〜7歳ごろ)」「体型を「|月1回」」「いないか|、」)。カッコや句読点を含む短い文節は <nobr> で包む(span だとページ側の span 用スタイルが当たってしまうため)
+// 文節まるごと包むと、狭いカードで長い塊が枠からはみ出したり右が大きく空いたりするので、
+// カッコ・句読点とその隣の1文字だけを包む(「黄褐色〜クリー<nobr>ム。</nobr>」)。
 function nowrapPunct(chunk) {
-  return /[「『（(【〈《」』）)】〉》、。・]/.test(chunk) && chunk.length <= 14 && !chunk.includes('&')
-    ? `<nobr>${chunk}</nobr>`
-    : chunk;
+  if (chunk.includes('&')) return chunk;
+  return chunk
+    .replace(/[^「『（(【〈《」』）)】〉》、。・]?[」』）)】〉》、。・]+/g, (m) => `<nobr>${m}</nobr>`)
+    .replace(/(?<!<nobr>)[「『（(【〈《]+[^「『（(【〈《」』）)】〉》、。・<]?/g, (m) => `<nobr>${m}</nobr>`)
+    .replace(/<nobr>([^<]*)<\/nobr><nobr>([^<]*)<\/nobr>/g, '<nobr>$1$2</nobr>');
 }
 
 // タグの外側のテキストだけに <wbr> を入れる。script / style / svg / textarea / pre の中身は触らない

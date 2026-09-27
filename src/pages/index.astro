@@ -62,7 +62,7 @@ const stages = [
   { fade: 0.03, t: '生まれたて', d: 'ほぼ真っ白。ここから色がつく。' },
   { fade: 0.25, t: '生後数日〜数週間', d: '耳・鼻・しっぽのあたりから、じわじわ色が出てくる。' },
   { fade: 0.7, t: '1歳ごろ', d: 'だいぶそれっぽい。でもまだ途中。' },
-  { fade: 1, t: '2〜3歳ごろ', d: 'ポイントの色がほぼ完成(団体によって「2年」「3年」)。体が大人になるのは3〜4年ほど。年をとると体の色が濃くなることも。' },
+  { fade: 1, t: '2〜3歳ごろ', d: 'ポイントの色がほぼ完成。体が大人になるのは3〜4年ほど。年をとると体の色が濃くなることも。' },
 ];
 ---
 <Base title="ラグドールは可愛いのか？|週刊ラグドール 特別号" description="【号外】ラグドールは可愛いのか？取材班が測ったら、思ったより長かった。青い目、でかい体、夜中の大運動会。よく言われるウワサの真偽と、毛色・がらの指名手配、迎える前の真面目な話も。">
@@ -211,7 +211,7 @@ const stages = [
   <div class="gacha">
     <div class="gacha-pic" id="gacha-pic" set:html={bodySvg('blue', 'bicolor', 'lynx', 'ブルーリンクスバイカラーのラグドール')} />
     <div class="gacha-body">
-      <p class="gacha-count">ざっくり数えて<strong>60通り</strong><small>(6色×がら3種×模様。CFAだけのバンまで入れると80通り)</small></p>
+      <p class="gacha-count">ざっくり数えて<strong>60通り</strong><small>(6色×がら3種×模様。よく見る子ほど出やすい。CFAだけのバンまで入れると80通り)</small></p>
       <p class="gacha-name" id="gacha-name" aria-live="polite">ブルー・リンクス・バイカラー</p>
       <button class="btn btn-pink" type="button" id="gacha-btn">ラグドールガチャを回す</button>
       <p class="small">※当サイト調べ(色×白の入り方×模様の単純な掛け算)。</p>
@@ -380,14 +380,22 @@ const stages = [
     const gPic = document.getElementById('gacha-pic');
     const gName = document.getElementById('gacha-name');
     if (gBtn && gPic && gName) {
-      const COATS: Coat[] = ['seal', 'chocolate', 'red', 'blue', 'lilac', 'cream'];
-      const PATS: Pattern[] = ['colorpoint', 'mitted', 'bicolor'];
-      const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
+      // 60通りはぜんぶ出るが、よく見る色・がら(シールやブルーの模様なし)ほど出やすくする。
+      // 均等だと模様なしが1/4しか出ず「定番が出てこない」ため(2026-09-27 指摘)。重みは見かける頻度のざっくり目安
+      const COATS: [Coat, number][] = [['seal', 5], ['blue', 4], ['chocolate', 1], ['lilac', 1.5], ['red', 1], ['cream', 1]];
+      const PATS: [Pattern, number][] = [['colorpoint', 1], ['mitted', 1], ['bicolor', 1.2]];
+      const OVERLAYS: [Overlay, number][] = [['solid', 7], ['lynx', 2], ['tortie', 1], ['torbie', 0.6]];
+      const pick = <T,>(a: [T, number][]) => {
+        let r = Math.random() * a.reduce((n, [, w]) => n + w, 0);
+        for (const [v, w] of a) if ((r -= w) < 0) return v;
+        return a[a.length - 1][0];
+      };
       gBtn.addEventListener('click', () => {
         const c = pick(COATS);
         const p = pick(PATS);
-        const o: Overlay = pick(canTortie(c) ? ['solid', 'lynx', 'tortie', 'torbie'] : ['solid', 'lynx']);
-        const name = [c === 'blue' && o === 'tortie' ? 'ブルークリーム' : c === 'lilac' && o === 'tortie' ? 'ライラッククリーム' : COAT[c].label + (OVERLAY_LABEL[o] ? '・' + OVERLAY_LABEL[o] : ''), PATTERN_LABEL[p]].join('・');
+        const o: Overlay = pick(canTortie(c) ? OVERLAYS : OVERLAYS.slice(0, 2));
+        // 模様なしは「シールポイント」「ブルーポイント・バイカラー」と呼ぶのが一般的(CFA: Seal Point / Blue Point Bicolor)
+        const name = [c === 'blue' && o === 'tortie' ? 'ブルークリーム' : c === 'lilac' && o === 'tortie' ? 'ライラッククリーム' : COAT[c].label + (OVERLAY_LABEL[o] ? '・' + OVERLAY_LABEL[o] : 'ポイント'), PATTERN_LABEL[p]].join('・');
         gPic.innerHTML = bodySvg(c, p, o, `${name}のラグドール`);
         gName.textContent = name;
         if (!reduce) gPic.animate([{ scale: '.6', rotate: '-12deg', opacity: 0 }, { scale: '1.08', rotate: '4deg', opacity: 1, offset: .6 }, { scale: '1', rotate: '0deg' }], { duration: 450, easing: 'ease-out' });
