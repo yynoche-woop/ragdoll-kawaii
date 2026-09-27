@@ -1,7 +1,7 @@
 # 週刊ラグドール 〜ラグドールは可愛いのか？〜
 
 ラグドールを「検証」する1ページのサイト(Astro 7)。運営は横田さん。
-アメショの森(../amesho-mori)とABテストで比べるためのサイトなので、デザインもトーンもアメショの森と変えている。姉妹サイトとしてリンクしない。
+アメショの森(../amesho-mori)とABテストで比べるためのサイトなので、デザインもトーンもアメショの森と変えている。本文やナビからはリンクしない。フッターの末尾にだけ小さく「姉妹サイト」としてネコキチ猫吉・アメショの森へリンクする(横田さん 2026-09-27)。
 
 - 公開先:https://shukan-ragdoll.com/ (GitHub Pages。main に push すると GitHub Actions で自動デプロイ)
   - ドメインは Cloudflare Registrar。DNS は Cloudflare で apex と www を yynoche-woop.github.io に CNAME(DNS only)。`public/CNAME` がドメイン設定

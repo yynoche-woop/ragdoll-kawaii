@@ -364,3 +364,7 @@ td, th { overflow-wrap: break-word; }
   background: #fff; border: 3px solid var(--k); animation: rag-dust .6s ease-out both;
 }
 @keyframes rag-dust { 0% { opacity: 0; scale: .2; } 20% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: 1.6; translate: -18px -14px; } }
+
+/* 姉妹サイトへのリンク(フッターの末尾に小さく。横田さん 2026-09-27) */
+.sister { font-size: .75rem; opacity: .75; }
+.sister a { color: inherit; }
