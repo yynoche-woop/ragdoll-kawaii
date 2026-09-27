@@ -47,8 +47,31 @@ function startsNew(t, p, run) {
   if (t.pos === '動詞' && ['する', 'できる', 'させる', 'される'].includes(t.basic_form) && p.pos === '名詞') return false; // 「検証|する」
   if (t.pos === '記号') return false;
   // 複合名詞(「ラグドール名前ランキング」)は切らない。ただし長すぎるときだけ名詞の境目で切ってよい
-  if (isNoun(t) && (isNoun(p) || p.pos_detail_1 === '接尾')) return run >= 5 && run + s.length > 10;
+  if (isNoun(t) && (isNoun(p) || (p.pos === '名詞' && p.pos_detail_1 === '接尾'))) return run >= 5 && run + s.length > 10;
   return true;
+}
+
+// 辞書にない長いカタカナ語(猫種名など)は、よく使う部品の切れ目で折り返せるようにする
+// (「スコティッシュ|フォールド」「ノルウェージャン|フォレスト|キャット」)。「ショートヘア」は1つの部品として扱う
+const KATA_PARTS = ['アメリカン', 'ブリティッシュ', 'スコティッシュ', 'エキゾチック', 'ノルウェージャン', 'ジャパニーズ', 'ターキッシュ', 'オリエンタル', 'エジプシャン', 'コーニッシュ', 'セルカーク', 'ショートヘア', 'ロングヘア', 'フォレスト', 'キャット', 'フォールド', 'ストレート', 'レックス', 'カール', 'ボブテイル', 'アンゴラ', 'ブルー', 'クーン'];
+function splitKatakana(word) {
+  if (word.length < 8 || !/^[ァ-ヺー・]+$/.test(word)) return [word];
+  const cut = new Set();
+  for (const p of KATA_PARTS)
+    for (let i = word.indexOf(p); i >= 0; i = word.indexOf(p, i + 1)) {
+      if (i >= 3) cut.add(i);
+      if (i + p.length <= word.length - 3) cut.add(i + p.length);
+    }
+  // 「ショートヘア」の中(ショート|ヘア)では切らない
+  const parts = [];
+  let last = 0;
+  for (const i of [...cut].sort((a, b) => a - b)) {
+    if (i - last < 3 || /ショート$|ロング$/.test(word.slice(0, i)) && word.slice(i).startsWith('ヘア')) continue;
+    parts.push(word.slice(last, i));
+    last = i;
+  }
+  parts.push(word.slice(last));
+  return parts;
 }
 
 function bunsetsu(tk, seg) {
@@ -68,7 +91,14 @@ function bunsetsu(tk, seg) {
     prev = t;
   }
   if (cur) chunks.push(cur);
-  return chunks;
+  // 辞書にないカタカナ語は「・」ごと1語になることがあるので、「・」のあとで分けてから長い語を部品に分ける
+  return chunks.flatMap((c) => c.split(/(?<=・)(?=.)/)).flatMap((c) => {
+    const m = c.match(/^([ァ-ヺー]{8,})(.*)$/);
+    if (!m) return [c];
+    const parts = splitKatakana(m[1]);
+    parts[parts.length - 1] += m[2];
+    return parts;
+  });
 }
 
 const cache = new Map();
@@ -114,11 +144,17 @@ function breakText(tk, text) {
 // タグの外側のテキストだけを対象にする。script / style / svg / textarea / pre などの中身と属性値は触らない
 // 区切りを入れた文字列は <pb-t> で1つにまとめる(flex / grid の中で文節がばらばらの要素として並ぶのを防ぐため)
 export function processHtml(tk, html) {
+  // 多言語サイトでは日本語のページだけを処理する(中国語のページの漢字を日本語として区切らないように)
+  const lang = html.match(/<html[^>]*\slang="([^"]+)"/i)?.[1];
+  if (lang && !/^ja(-|$)/i.test(lang)) return html;
   const skip = /<(script|style|svg|textarea|pre|code|title|head|select|pb-t)\b[\s\S]*?<\/\1>/gi;
   const chunk = (c) =>
     c.replace(/>([^<]+)</g, (_, text) => {
       // 区切りのない短い日本語(リンク直後の「へ」など)も <pb-t> に入れ、親要素ごと keep-all にする
-      return JA.test(text) ? `><pb-t>${breakText(tk, text)}</pb-t><` : `>${text}<`;
+      if (!JA.test(text)) return `>${text}<`;
+      // 「・」や句読点で終わる文字(リンクを「・」でつないだ一覧など)は、そのあとで改行できるようにする
+      const tail = /[、。・,，!！?？」』）):：]\s*$/.test(text) ? '<wbr>' : '';
+      return `><pb-t>${breakText(tk, text)}</pb-t>${tail}<`;
     });
   let out = '';
   let last = 0;

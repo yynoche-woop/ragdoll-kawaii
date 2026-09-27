@@ -34,6 +34,15 @@ draft: false
 6. 最後の1文はオチ(アホっぽく)
 
 実用コラム(category: jitsuyo)は、2〜5 を「結論 → 詳しく → 目安の表 → 受診や相談の目安」の順でよい。ノリは控えめに。
+- 2026-09-28〜(猫3サイトの役割分担):週刊ラグドールはネタ系。実用コラムも新しくは作らず、検証の型で書く。健康・安全の要点は `## 判定` のあとに「ここだけ真面目」枠へまとめる(下の書き方)。詳しい情報はネコキチ猫吉の <a href="https://nekokichi.net/breeds/ragdoll/">ラグドール図鑑</a> などへリンクで案内する。枠に入れた安全情報(受診の目安など)は削らない
+
+```html
+<div class="majime">
+<p class="majime-head">ここだけ真面目</p>
+
+- (箇条書きや表。前後に空行を入れると Markdown として読まれる)
+</div>
+```
 
 - 長さ:本文 2,000〜3,500字
 - 表を1つ入れられるなら入れる(Markdownの表)
@@ -81,12 +90,12 @@ draft: false
 | origin-myths | 【検証】宇宙人説・政府の実験説…ラグドール誕生秘話がカオスすぎる | kensho | false |
 | not-a-cat | 【検証】「ラグドール」で検索すると猫じゃないのが出てくる問題 | kensho | false |
 | lookalikes | 【検証】ラグドールと間違えられがちな猫たち | kensho | false |
-| weight-by-age | ラグドールの体重は月齢でどれくらい?オス・メス別の目安 | jitsuyo | false |
-| summer-room-temp | ラグドールは暑がり?夏の室温とエアコンの目安 | jitsuyo | false |
-| shedding-matting | ラグドールの抜け毛・毛玉対策:わきの下とおしりを守れ | jitsuyo | false |
-| health | ラグドールがかかりやすい病気と、迎える前に知っておきたいこと | jitsuyo | false |
-| price | ラグドールの値段はなぜ幅がある?相場の見方 | jitsuyo | false |
+| weight-by-age | 【検証】ラグドールはどこまで伸びるのか:月齢別の体重で成長を追った | kensho | false |
+| summer-room-temp | 【検証】夏のラグドールは溶けるのか:暑がり説と室温の目安 | kensho | false |
+| shedding-matting | 【検証】ラグドールの抜け毛で、毎日もう1匹作れるのか | kensho | false |
+| health | 【検証】ラグドールの病気のウワサ:心臓・FIP・腎臓・結石 | kensho | false |
+| price | 【検証】ラグドールの値段のウワサ:高い?安い?レアカラーは? | kensho | false |
 | names | 【検証】ラグドールにはどんな名前が似合うのか:人気の猫の名前と毛色別の名前案 | kensho | false |
 | blue-eyes | 【検証】ラグドールの目はなぜ青い?オッドアイのラグドールはいるのか | kensho | false |
 | male-female | 【検証】ラグドールのオスは甘えん坊、メスはツンデレ?性格の違いを調べた | kensho | false |
-| regret | ラグドールを飼って後悔する?よく聞く理由と、迎える前のチェックリスト | jitsuyo | false |
+| regret | 【検証】飼ってから気づいたラグドールの誤算:後悔のウワサを調べた | kensho | false |

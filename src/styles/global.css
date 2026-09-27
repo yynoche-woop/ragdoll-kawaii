@@ -305,6 +305,11 @@ main { padding-block: 26px 60px; }
 .prose thead th { background: var(--k); color: var(--white); }
 .prose blockquote { margin: 0 0 1.2em; padding: 10px 16px; border-left: 6px solid var(--hair); background: #f5f7fa; }
 .prose a { font-weight: 700; }
+/* コラム内の「ここだけ真面目」枠(ネタ記事の中で、健康・安全の要点だけまとめる) */
+.prose .majime { margin: 28px 0 24px; padding: 4px 18px 6px; border: 3px solid var(--k); background: var(--blue-soft); box-shadow: var(--shadow); }
+.prose .majime-head { display: inline-block; margin: -18px 0 10px; padding: 0 12px; background: var(--blue); color: var(--white); border: 3px solid var(--k); font-family: var(--font-head); font-weight: 900; font-size: .95rem; word-break: keep-all; }
+.prose .majime ul { margin-bottom: .6em; }
+.prose .majime table { background: var(--white); }
 .col-sources { margin: 30px 28px 0; padding: 16px 18px; border: 3px solid var(--k); background: #f5f7fa; }
 .col-sources h2 { font-size: 1.1rem; margin: 0 0 6px; }
 .col-sources ul { margin: 0; padding-left: 1.2em; font-size: .86rem; line-height: 1.8; }
