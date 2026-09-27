@@ -380,20 +380,26 @@ const stages = [
     const gPic = document.getElementById('gacha-pic');
     const gName = document.getElementById('gacha-name');
     if (gBtn && gPic && gName) {
-      // 60通りはぜんぶ出るが、よく見る色・がら(シールやブルーの模様なし)ほど出やすくする。
-      // 均等だと模様なしが1/4しか出ず「定番が出てこない」ため(2026-09-27 指摘)。重みは見かける頻度のざっくり目安
-      const COATS: [Coat, number][] = [['seal', 6], ['blue', 5], ['chocolate', 1], ['lilac', 1.5], ['red', 1], ['cream', 1]];
-      const PATS: [Pattern, number][] = [['colorpoint', 1], ['mitted', 1], ['bicolor', 1.2]];
-      const OVERLAYS: [Overlay, number][] = [['solid', 7], ['lynx', 2], ['tortie', 1], ['torbie', 0.6]];
-      const pick = <T,>(a: [T, number][]) => {
-        let r = Math.random() * a.reduce((n, [, w]) => n + w, 0);
-        for (const [v, w] of a) if ((r -= w) < 0) return v;
-        return a[a.length - 1][0];
+      // 60通りはぜんぶ出るが、定番ほど出やすくする(横田さん指定 2026-09-27)。1通りごとの重み:
+      //   シール・ブルーの模様なし×ポイント/バイカラー 12 > シール・ブルーのリンクス、ミテッド 5 > その他(ほかの色・トーティ等) 0.5
+      //   → 合計でおよそ 43% / 36% / 21%
+      const COATS: Coat[] = ['seal', 'chocolate', 'red', 'blue', 'lilac', 'cream'];
+      const PATS: Pattern[] = ['colorpoint', 'mitted', 'bicolor'];
+      const weight = (c: Coat, p: Pattern, o: Overlay) => {
+        if (c !== 'seal' && c !== 'blue') return 0.5;
+        if (o === 'solid' && p !== 'mitted') return 12;
+        if (o === 'solid' || o === 'lynx') return 5;
+        return 0.5;
+      };
+      const ALL = COATS.flatMap((c) => PATS.flatMap((p) => (canTortie(c) ? ['solid', 'lynx', 'tortie', 'torbie'] as Overlay[] : ['solid', 'lynx'] as Overlay[]).map((o) => ({ c, p, o, w: weight(c, p, o) }))));
+      const TOTAL = ALL.reduce((n, x) => n + x.w, 0);
+      const pick = () => {
+        let r = Math.random() * TOTAL;
+        for (const x of ALL) if ((r -= x.w) < 0) return x;
+        return ALL[ALL.length - 1];
       };
       gBtn.addEventListener('click', () => {
-        const c = pick(COATS);
-        const p = pick(PATS);
-        const o: Overlay = pick(canTortie(c) ? OVERLAYS : OVERLAYS.slice(0, 2));
+        const { c, p, o } = pick();
         // 呼び方は日本のブリーダーでよく使う形に:模様なしは「シールポイント」「ブルーポイント・バイカラー」、
         // リンクス等は「ブルー・リンクス・バイカラー」。カラーポイント(白なし)は「ポイント」とだけ呼ぶ
         const base = c === 'blue' && o === 'tortie' ? 'ブルークリーム' : c === 'lilac' && o === 'tortie' ? 'ライラッククリーム' : COAT[c].label + (OVERLAY_LABEL[o] ? '・' + OVERLAY_LABEL[o] : '');
