@@ -1,16 +1,19 @@
 """週刊ラグドール:直近7日間のアクセス(GA4)と検索流入(Search Console)を集計して表示する。
 
 使い方: python ops/traffic_report.py [日数(既定7)]
-認証: C:\\Users\\y.yokota\\Desktop\\ClaudeCode\\.credentials\\sheet-service-account.json
+認証: <ClaudeCode>/.credentials/sheet-service-account.json(CLAUDECODE_CRED_DIR で上書き可)
   (このサービスアカウントを GA4 プロパティ 555987687 の「閲覧者」、
    Search Console の sc-domain:shukan-ragdoll.com のユーザーに追加しておく必要がある)
 """
+import os
 import sys
 from datetime import date, timedelta
 
 from google.oauth2 import service_account
 
-KEY = r"C:\Users\y.yokota\Desktop\ClaudeCode\.credentials\sheet-service-account.json"
+# 認証ファイルの置き場所(Windows/Mac共通)。環境変数 CLAUDECODE_CRED_DIR で上書きできる
+CRED_DIR = os.environ.get("CLAUDECODE_CRED_DIR") or os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".credentials"))
+KEY = os.path.join(CRED_DIR, "sheet-service-account.json")
 GA_PROPERTY = "properties/555987687"
 SC_SITE = "sc-domain:shukan-ragdoll.com"
 DAYS = int(sys.argv[1]) if len(sys.argv) > 1 else 7
