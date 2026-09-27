@@ -153,7 +153,7 @@ export function processHtml(tk, html) {
       // 区切りのない短い日本語(リンク直後の「へ」など)も <pb-t> に入れ、親要素ごと keep-all にする
       if (!JA.test(text)) return `>${text}<`;
       // 「・」や句読点で終わる文字(リンクを「・」でつないだ一覧など)は、そのあとで改行できるようにする
-      const tail = /[、。・,，!！?？」』）):：]\s*$/.test(text) ? '<wbr>' : '';
+      const tail = /[、。・,，]\s*$/.test(text) ? '<wbr>' : '';
       return `><pb-t>${breakText(tk, text)}</pb-t>${tail}<`;
     });
   let out = '';
