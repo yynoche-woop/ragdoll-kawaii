@@ -47,7 +47,7 @@ const nav = [
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
-      // 本番ドメインだけ計測する(ローカル確認のアクセスでABテストのデータを汚さない)
+      // 本番ドメインだけ計測する(ローカル確認のアクセスでデータを汚さない)
       if (location.hostname === 'shukan-ragdoll.com') gtag('config', GA_ID);
     </script>
   </head>
