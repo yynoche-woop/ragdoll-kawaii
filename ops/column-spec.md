@@ -99,3 +99,5 @@ draft: false
 | blue-eyes | 【検証】ラグドールの目はなぜ青い?オッドアイのラグドールはいるのか | kensho | false |
 | male-female | 【検証】ラグドールのオスは甘えん坊、メスはツンデレ?性格の違いを調べた | kensho | false |
 | regret | 【検証】飼ってから気づいたラグドールの誤算:後悔のウワサを調べた | kensho | false |
+| celebrities | ラグドールを飼っている芸能人まとめ:テイラー・スウィフトから上野樹里まで | kensho | false |
+| allergy | 【検証】ラグドールは猫アレルギーでも平気?「アレルギーが出にくい猫」説を調べた | kensho | false |
