@@ -101,3 +101,4 @@ draft: false
 | regret | 【検証】飼ってから気づいたラグドールの誤算:後悔のウワサを調べた | kensho | false |
 | celebrities | ラグドールを飼っている芸能人まとめ:テイラー・スウィフトから上野樹里まで | kensho | false |
 | allergy | 【検証】ラグドールは猫アレルギーでも平気?「アレルギーが出にくい猫」説を調べた | kensho | false |
+| clumsy | 【検証】ラグドールは運動音痴なのか:ジャンプ失敗・キャッチ空振り説 | kensho | false |

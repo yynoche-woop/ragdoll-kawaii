@@ -26,3 +26,14 @@
   - hates-cuddles の「子猫の生後2〜9週ごろの経験」は出典(AAFP/ISFM指針)の本文を開けず未確認(報告のみ)
   - ほかは事実・表記とも問題なし
 - 次回はここから:origin-myths, lookalikes, weight-by-age, summer-room-temp, shedding-matting, celebrities, トップ, /seimei/
+
+## 2026-09-30
+- アクセス(GA4 9/23〜9/29):ユーザー75・PV155(前週0=計測開始前)。Direct 85/88セッション、Organic 1。上位は / 107PV、/seimei/ 35PV。Search Console は表示2・クリック0(トップのみ)で検索語データなし
+- 追加:/columns/clumsy/(ラグドールは運動音痴なのか 判定:個体差)。選定理由:検索データがまだないため、ネタ元 x-memes の未消化ネタで頻度★3の「運動音痴」を採用(Google サジェストの「弱い」「キャットタワー」とも関連、既存コラムと重複なし)。出典は Yahoo!ニュース エキスパート(2025/4/26)・CFA品種紹介(moderately active、フェッチを覚える、4歳で完成)・アニコム猫のしおり(高い所を飛び跳ねるタイプではない、タワーは安定性)・ピクシー(つっぱり型の高いタワーを推奨=意見が割れている)・International Cat Care(関節炎のサイン:ジャンプをためらう、動画を撮る)・FDA(28匹中 跛行は半数未満、ジャンプを嫌がるのは約4分の3)
+- 機械チェック:`site_check.py --live` 26ページ問題0、本番サイトマップ25URLすべて200。外部リンク104件中200以外11件はボット避けの403/203(europepmc・oup・gccf・hills・pubmed)と FDA(ボット判定で404に飛ばされる。WebFetch では本文を確認済み)
+- 改行チェック(375/390):新記事に単語途中・行頭NGなし。既存の単語途中(トップ「号|外」ほか、not-a-cat「しれとこ|ともこ」、summer-room-temp「公益財団法人|日本動物愛護協会」)は前回同様、報告のみ。表の横はみ出し(lookalikes 458px など)は横スクロールの想定
+- インデックス:/・/columns/allergy/ は登録済み。/columns/・/columns/regret/・/columns/health/・/columns/celebrities/ は「検出 - インデックス未登録」、/seimei/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0
+- 目視:/columns/origin-myths/ ・/columns/lookalikes/ ・/columns/celebrities/ ・トップ ・/seimei/ → 事実・表記とも直す箇所なし
+  - celebrities:モデルプレス・anan・CREA・ねとらぼの各記事に「ラグドール」と猫の名前(マシュマロ=2026/1/7、ウユ、テト、フジヤマ、フラン)、ねとらぼの551票・1位を確認
+  - lookalikes の「FIFe がネヴァマスカレードを2011年に公認」は今回は出典で再確認できず(報告のみ)
+- 次回はここから:weight-by-age, summer-room-temp, shedding-matting(9/28 書き直し分)、その後 liquid・follows-to-toilet・not-a-cat・kitten-color-change から2周目
