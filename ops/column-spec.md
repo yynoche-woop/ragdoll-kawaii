@@ -102,3 +102,4 @@ draft: false
 | celebrities | ラグドールを飼っている芸能人まとめ:テイラー・スウィフトから上野樹里まで | kensho | false |
 | allergy | 【検証】ラグドールは猫アレルギーでも平気?「アレルギーが出にくい猫」説を調べた | kensho | false |
 | clumsy | 【検証】ラグドールは運動音痴なのか:ジャンプ失敗・キャッチ空振り説 | kensho | false |
+| aggressive | 【検証】ラグドールは凶暴化するのか:「急に性格が変わった」説を調べた | kensho | false |
