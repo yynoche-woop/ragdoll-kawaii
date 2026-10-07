@@ -37,3 +37,13 @@
   - celebrities:モデルプレス・anan・CREA・ねとらぼの各記事に「ラグドール」と猫の名前(マシュマロ=2026/1/7、ウユ、テト、フジヤマ、フラン)、ねとらぼの551票・1位を確認
   - lookalikes の「FIFe がネヴァマスカレードを2011年に公認」は今回は出典で再確認できず(報告のみ)
 - 次回はここから:weight-by-age, summer-room-temp, shedding-matting(9/28 書き直し分)、その後 liquid・follows-to-toilet・not-a-cat・kitten-color-change から2周目
+
+## 2026-10-06(月曜分を10/6夜〜10/7未明に実施)
+- アクセス(GA4 9/29〜10/5):ユーザー65(前週34)・PV143(前週44)・平均滞在193秒。Direct 31 / Referral 6 / Organic 5。Search Console(9/27〜10/3)は表示109・クリック0・平均順位7.2。表示の98%が /columns/allergy/(107表示・順位7〜8)、検索語はすべてアレルギー系
+- 追加:/columns/aggressive/(ラグドールは凶暴化するのか 判定:ウソ寄り)。選定理由:サジェスト「凶暴」「凶暴化」「性格 凶暴」「性格悪い」「性格 変わる」「わがまま」に受け皿なし。出典は Salonen 2019(5,726匹・40品種、ラグドールは攻撃性低めのグループ)・CFA品種紹介(non-aggressive、子猫っぽさが続く)・コーネル大学(遊び/なでられ/転嫁/痛みの攻撃、まず医学的原因を除外)・PetMD(獣医師執筆、急な攻撃は受診が先)・RSPCA(人なつこい猫の攻撃は痛みのサイン)
+- 案の残りは ops/backlog.md に記録
+- 機械チェック:ビルド警告なし。`site_check.py --live` 27ページ問題0、本番サイトマップ26URLすべて200。外部リンク107件中200以外15件は、403/203のボット避け(europepmc・oup・pubmed・gccf・hills)と、この PC の Python の証明書エラー(time・ens-lyon・hellomagazine・royalcanin は curl で200)、FDA(前回同様ボット判定で404)
+- 改行チェック:この PC(LN-YOKOTA)は Playwright WebKit の依存 DLL(brotlienc・libsharpyuv)がなく check-breaks.mjs を実行できず未実施
+- インデックス:/・/columns/allergy/ は登録済み。/columns/・/seimei/・/columns/clumsy/・/columns/celebrities/ は「検出 - インデックス未登録」、/columns/health/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0(旧 sitemap.xml の404は一覧から消えた)
+- 目視:/columns/weight-by-age/ ・/columns/summer-room-temp/ ・/columns/shedding-matting/ → 事実・表記とも直す箇所なし(姉妹サイトへのリンク3件も200)
+- 次回はここから:2周目 liquid・follows-to-toilet・not-a-cat・kitten-color-change、その後 male-female・names・blue-eyes・price(未巡回)

@@ -41,8 +41,10 @@ def ga():
 
     tot = run([], ["activeUsers", "sessions", "screenPageViews", "averageSessionDuration"])
     vals = {r.dimension_values[0].value if r.dimension_values else i: [m.value for m in r.metric_values] for i, r in enumerate(tot.rows)}
-    cur = tot.rows[0].metric_values if tot.rows else []
-    prev = tot.rows[1].metric_values if len(tot.rows) > 1 else []
+    # 2期間を同時に取ると行の順番は保証されない(数字の大きい期間が先に来る)ため、dateRange の値で今回・前回を引く
+    by_rng = {r.dimension_values[0].value: r.metric_values for r in tot.rows if r.dimension_values}
+    cur = by_rng.get("date_range_0", [])
+    prev = by_rng.get("date_range_1", [])
     names = ["ユーザー", "セッション", "PV", "平均滞在(秒)"]
     print("## GA4 全体")
     for i, n in enumerate(names):
