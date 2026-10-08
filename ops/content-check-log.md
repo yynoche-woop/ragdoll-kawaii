@@ -47,3 +47,15 @@
 - インデックス:/・/columns/allergy/ は登録済み。/columns/・/seimei/・/columns/clumsy/・/columns/celebrities/ は「検出 - インデックス未登録」、/columns/health/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0(旧 sitemap.xml の404は一覧から消えた)
 - 目視:/columns/weight-by-age/ ・/columns/summer-room-temp/ ・/columns/shedding-matting/ → 事実・表記とも直す箇所なし(姉妹サイトへのリンク3件も200)
 - 次回はここから:2周目 liquid・follows-to-toilet・not-a-cat・kitten-color-change、その後 male-female・names・blue-eyes・price(未巡回)
+
+## 2026-10-08(木曜の毎日ルーティン)
+- アクセス(GA4 10/1〜10/7):ユーザー23(前期間 9/24〜9/30 は80)・PV26(同166)・平均滞在32秒(同156秒)。Direct 17 / Organic 6 / Referral 4。前期間は公開直後の確認アクセス(Direct)が多かったぶんの反動とみられる(本番のタグ G-CKBY18KWLF は全ページで出力されていることを確認)。28日(9/10〜10/7):ユーザー102・PV192
+- Search Console(9/29〜10/5):表示149・クリック1・CTR0.7%・平均順位7.1。表示148が /columns/allergy/、検索語はすべてアレルギー系
+- 追加:/columns/butt-poop/(ラグドールのおしり事件 判定:わりとホント)。選定理由:backlog 1位。サジェスト「うんち臭い」「臭い」「サマーカット」「胸毛 カット」「脇の下 毛玉」に受け皿なし、x-memes #11 ★★。出典は CFA基準PDF(しっぽに向かって長くなる・もつれにくい・下毛が少ない)・VCA長毛のお手入れ(ハサミ禁止・鎮静)・Hepper(Lauren Demos DVM 監修:原因4つ・ふやかして拭く・下痢2日以上で受診・毛づくろいで飲み込む)・ねこちゃんホンポ/エキサイト(2026/5、おしりが臭い原因5つ・受診目安)・VCA 肛門のう(こすりつけ・なめる・腫れ)・週刊女性PRIME(2024/7、皮膚科の獣医師「刈っても涼しくはあまりならない」)
+- 機械チェック:ビルド警告なし。`site_check.py --live` 28ページ問題0、本番サイトマップ27URLすべて200。外部リンク111件中200以外11件は従来どおりボット避けの403/203と FDA の404
+- 改行チェック(check-breaks.mjs 375/390、この PC で実行可):新記事の単語途中(検索語の「脇の下|毛玉」)と表の横はみ出し(326px)を直して解消。既存の指摘は前回までと同じ
+- インデックス(公開前):/・/columns/allergy/ は登録済み。/columns/・/seimei/・/columns/clumsy/ は「検出 - インデックス未登録」、/columns/aggressive/・/columns/health/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0
+- 目視(2周目):/columns/liquid/ ・/columns/follows-to-toilet/ ・/columns/not-a-cat/ ・/columns/kitten-color-change/ → 直す箇所なし
+  - follows-to-toilet:ねこのきもち(2026年3月・180人・約9割、岡本獣医師の理由5つ)を出典で再確認
+  - not-a-cat:Steam の Ragdoll Runners(8種目・左右の足を別キー)を再確認
+- 次回はここから:male-female・names・blue-eyes・price(未巡回)、その後 regret・health・allergy

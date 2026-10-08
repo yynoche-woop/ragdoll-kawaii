@@ -103,3 +103,4 @@ draft: false
 | allergy | 【検証】ラグドールは猫アレルギーでも平気?「アレルギーが出にくい猫」説を調べた | kensho | false |
 | clumsy | 【検証】ラグドールは運動音痴なのか:ジャンプ失敗・キャッチ空振り説 | kensho | false |
 | aggressive | 【検証】ラグドールは凶暴化するのか:「急に性格が変わった」説を調べた | kensho | false |
+| butt-poop | 【検証】ラグドールのおしり事件:うんちが付く・臭い問題を調べた | kensho | false |
