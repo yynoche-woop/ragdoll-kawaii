@@ -59,3 +59,16 @@
   - follows-to-toilet:ねこのきもち(2026年3月・180人・約9割、岡本獣医師の理由5つ)を出典で再確認
   - not-a-cat:Steam の Ragdoll Runners(8種目・左右の足を別キー)を再確認
 - 次回はここから:male-female・names・blue-eyes・price(未巡回)、その後 regret・health・allergy
+
+## 2026-10-12(月曜の毎日ルーティン)
+- アクセス(GA4 10/5〜10/11):ユーザー10(前期間 9/28〜10/4 は40)・PV10(同50)・平均滞在14秒(同24秒)。Direct 7 / Organic 3 / Referral 1。28日(9/14〜10/11):ユーザー106・PV196、上位は / 139PV・/seimei/ 38PV
+- Search Console(10/3〜10/9):表示101・クリック2・CTR2.0%・平均順位8.6。表示98が /columns/allergy/、検索語はすべてアレルギー系(28日 9/12〜10/9 は表示178・クリック2)
+- 追加:/columns/not-fluffy/(ラグドールがもふもふにならない問題 判定:個体差(と成長待ち))。選定理由:backlog 1位、サジェスト「もふもふ に ならない」「毛が伸びない」「毛が短い」「毛量」「短毛」に受け皿なし。summer-winter-coat と重ならないよう「成長・毛質・ミックスの遺伝・毛が薄くなったときの受診目安」の切り口に。出典は CFA基準PDF(毛と色の完成は3歳ごろ、未去勢の成猫と季節の短い毛を許容、下毛少なめ・部位別の長さ)・CFA品種紹介(毛色2歳・体4歳、厚い下毛がない)・GCCF基準PDF(成熟は3〜4歳、ラフとズボンは成猫で、夏の短毛は許容)・LABOKLIN(長毛はFGF5の劣性遺伝、キャリアは短毛)・コーネル大(毛づくろいは1日の30〜50%、まず体の原因を除外)
+- 機械チェック:ビルド警告なし。`site_check.py --live` 29ページ問題0、本番サイトマップ28URLすべて200(公開前)。外部リンク113件中200以外11件は従来どおりボット避けの403/203(europepmc・oup・pubmed・gccf・hills)と FDA の404
+- 改行チェック(375/390):新記事に単語途中なし。表のセルの「成猫」2文字だけの行を「未去勢・未避妊の成猫」に直した
+- インデックス(公開前):/・/columns/allergy/ は登録済み。/columns/・/seimei/・/columns/butt-poop/・/columns/aggressive/ は「検出 - インデックス未登録」、/columns/clumsy/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0
+- 目視:/columns/male-female/ ・/columns/blue-eyes/ ・/columns/names/ → 直す箇所なし
+  - male-female:Salonen 2019 本文(Europe PMC)で「最も活動量が少ないのはブリティッシュショートヘア・ラグドール・バーマン」「オスとメスのスコアは猫種内で強く相関したので平均」を確認
+  - blue-eyes:CFA基準で「青以外の目」「寄り目」が失格を確認
+  - names:アニコム2026年版(54,764頭、2025/2〜2026/1、ムギ7年連続1位、ラグドール4位・10.1%)を確認
+- 次回はここから:price・regret・health・allergy、その後 clumsy・aggressive・butt-poop
