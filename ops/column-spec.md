@@ -106,3 +106,4 @@ draft: false
 | butt-poop | 【検証】ラグドールのおしり事件:うんちが付く・臭い問題を調べた | kensho | false |
 | not-fluffy | 【検証】ラグドールがもふもふにならない問題:毛が短い・伸びない理由 | kensho | false |
 | living-alone | 【検証】ラグドールは一人暮らし・ワンルームでも飼える?留守番と部屋の広さ説 | kensho | false |
+| lifespan | 【検証】ラグドールは長生きなのか:寿命・平均寿命のウワサを調べた | kensho | false |
