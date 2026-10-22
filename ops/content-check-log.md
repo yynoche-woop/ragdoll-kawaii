@@ -109,3 +109,4 @@
 - 目視:/columns/butt-poop/ ・/columns/not-fluffy/ ・/columns/living-alone/ → 直す箇所なし
   - not-fluffy:CFA基準で「毛と色の完成は3歳ごろ」「未去勢の成猫の短い毛と季節の違いを許容」「下毛が少ない・部位で長さが違う」を確認
 - 次回はここから:lifespan・types、その後 トップ・/seimei/・hates-cuddles・size-ranking
+- 公開後:GitHub Actions のデプロイ成功、/columns/types/・/columns/・/ が200、本番 sitemap-0.xml に /columns/types/ を確認。`gsc_submit_sitemaps.py ragdoll` で sitemap-index.xml を再送信(エラー0・警告0)
