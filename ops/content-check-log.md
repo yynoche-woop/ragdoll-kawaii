@@ -98,3 +98,14 @@
   - clumsy:CFA品種紹介で moderately active・フェッチと呼ぶと来るを教えられる・オス20ポンド以上も珍しくない・体は4歳で完成を確認
   - aggressive:Salonen 2019 本文でラグドールは攻撃性の低いクラスター、遺伝率はラグドールの攻撃性で0.53を確認。「獣医師のPetMDの記事」を「獣医師が書いたPetMDの記事」に直した
 - 次回はここから:butt-poop・not-fluffy・living-alone・lifespan、その後 トップ・/seimei/・hates-cuddles・size-ranking
+
+## 2026-10-22(木曜の毎日ルーティン)
+- アクセス(GA4 10/15〜10/21):ユーザー12(前期間 10/8〜10/14 は6)・PV12(同6)・平均滞在14秒(同23秒)。Direct 11 / Organic 1。28日(9/24〜10/21):ユーザー119・PV210、上位は / 150PV・/seimei/ 38PV・/columns/ 6PV・/columns/allergy/ 6PV
+- Search Console(10/13〜10/19):表示40・クリック0・平均順位13.8。表示35が /columns/allergy/、5がトップ。28日(9/22〜10/19)は表示231・クリック2・CTR0.9%。アレルギー以外の検索語は「ラグドール 種類」(表示1・順位97)、「ラグドール 短 毛」(表示1・順位81)、「ラグドール」(順位57)
+- 追加:/columns/types/(ラグドールの種類は何種類? 判定:品種は1つ、見た目は60〜80通り)。選定理由:backlog 1位、「ラグドール 種類」に受け皿なし、サジェスト「毛色の種類」「色の種類」「模様」「レアカラー」「希少色」「灰色」「茶色」。出典は CFA基準PDF(6色、solid/lynx/tortie/tortie-lynx の計20色名、柄はバイカラー・バン・カラーポイント・ミテッド、青以外の目と記載外の色は失格、毛と色の完成は3歳ごろ・ミテッドの色は2歳以降、年齢で濃くなる)・GCCF基準PDF(3柄、Tabby表記、青以外の目は賞を出さない)・FIFe基準PDF(3柄が大事な特徴、認定色の表)・WCF基準PDF(3柄、青以外の目は失格)・TICA チェルビム紹介(ラグドールと同じグループ、mink・sepia・traditional)。TICA のチェルビム認定の開始日は今回開いたページに記載がなく、本文には書いていない
+- 機械チェック:ビルド警告なし。`site_check.py --live` 32ページ問題0、本番サイトマップ31URLすべて200(公開前)。外部リンク125件中200以外20件。従来どおりのボット避け(europepmc・oup・pubmed・gccf・hills・hepper)と FDA の404 に加え、今回は pi-xy.co.jp 2件がメンテナンス中の503、peco-japan・chayagasaka-ah・elleair・min-petlife が503(curl でも503、一時的かボット避けか未確認)、tica.org は Python の TLS が古く接続不可(Chrome では表示を確認)。ananweb.jp/news/181444/(celebrities の出典)はカテゴリページへ転送されるようになっており、記事が消えた可能性(報告のみ、次回も続けば差し替えを検討)
+- 改行チェック(375/390、check-breaks.mjs):新記事の最終行2〜3文字・表の横はみ出しを直して指摘0
+- インデックス(公開前):/・/columns/allergy/ は登録済み。/columns/・/seimei/・/columns/weight-by-age/・/columns/summer-winter-coat/・/columns/summer-room-temp/・/columns/living-alone/ は「検出 - インデックス未登録」、/columns/voice-gap/・/columns/size-ranking/・/columns/lifespan/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0
+- 目視:/columns/butt-poop/ ・/columns/not-fluffy/ ・/columns/living-alone/ → 直す箇所なし
+  - not-fluffy:CFA基準で「毛と色の完成は3歳ごろ」「未去勢の成猫の短い毛と季節の違いを許容」「下毛が少ない・部位で長さが違う」を確認
+- 次回はここから:lifespan・types、その後 トップ・/seimei/・hates-cuddles・size-ranking
