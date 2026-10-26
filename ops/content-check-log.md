@@ -110,3 +110,14 @@
   - not-fluffy:CFA基準で「毛と色の完成は3歳ごろ」「未去勢の成猫の短い毛と季節の違いを許容」「下毛が少ない・部位で長さが違う」を確認
 - 次回はここから:lifespan・types、その後 トップ・/seimei/・hates-cuddles・size-ranking
 - 公開後:GitHub Actions のデプロイ成功、/columns/types/・/columns/・/ が200、本番 sitemap-0.xml に /columns/types/ を確認。`gsc_submit_sitemaps.py ragdoll` で sitemap-index.xml を再送信(エラー0・警告0)
+
+## 2026-10-26(月曜の毎日ルーティン)
+- アクセス(GA4 10/19〜10/25):ユーザー13(前期間 10/12〜10/18 は7)・PV14(同7)・平均滞在5秒(同14秒)。Direct 13 のみ。28日(9/28〜10/25):ユーザー69・PV81(前期間136)、上位は / 69PV・/columns/allergy/ 6PV・/seimei/ 3PV
+- Search Console(10/17〜10/23):表示22・クリック0・平均順位13.2。表示21が /columns/allergy/。28日(9/26〜10/23)は表示238・クリック2・CTR0.8%・平均順位9.3。「ラグドール アレルギー出にくい」は直近7日で表示11・順位10.1(28日では7.8)
+- allergy の title 見直し(10/12)の効果測定:変更前(9/12〜10/9)表示171・CTR1.2%・順位7.9 → 直近28日 表示222・クリック2・CTR0.9%、直近7日は表示21・クリック0・順位10前後。今のところ改善は見えない(報告のみ。11/2ごろにもう一度見る)
+- 追加:/columns/heso-ten/(ラグドールはへそ天で寝るのか 判定:個体差)。選定理由:サジェスト「へそ天」「睡眠時間」に受け皿なし。backlog 1位だったゴロゴロ爆音はサジェストに出ておらず、検索需要のあるへそ天を先にした。出典は CFA品種紹介(laid back・飼い主と寝る子も多い・抱くと力が抜ける話は今の多くには当てはまらない)・PDSA(平均15時間前後・最大20時間、浅い眠り15〜30分・深い眠り5〜7分・深い眠りは約25%、子猫とシニアは多め)・PetMD(12〜16時間、子猫は20時間まで、10歳以上は増えやすい、受診の目安)・Sleepopolis(獣医師 Primrose Moss:仰向けは信頼のサイン・暖かいときに冷やすため)・Webvet(深い眠りで出やすい、おなかトラップ、口を開けた呼吸は緊急)・All About(古川諭香:へそ天の意味)。猫種ごとの寝相のデータは見つからず、本文にもそう書いた
+- 機械チェック:ビルド警告なし。`site_check.py --live` 33ページ問題0、本番サイトマップ32URLすべて200(公開前)。外部リンク130件中200以外17件。従来どおりのボット避け(europepmc・oup・pubmed・gccf・hills・hepper)と FDA の404、pi-xy.co.jp 2件・peco-japan が503(10/22から継続)、tica.org は Python の TLS 非対応。ananweb.jp/news/181444/(celebrities の出典)は2回続けて転送(308)。差し替えは次回以降に検討(報告のみ)
+- 改行チェック(375/390、check-breaks.mjs):新記事の最終行3文字を直して、行が短い以外の指摘0。Mac にはplaywright-core が無かったので scratchpad に 1.64.1 を入れ、webkit-2370 を executablePath で指定して実行
+- インデックス(公開前):/・/columns/types/・/columns/allergy/・/columns/lifespan/ は登録済み。/columns/・/seimei/・/columns/voice-gap/・/columns/summer-winter-coat/・/columns/living-alone/ は「検出 - インデックス未登録」、/columns/weight-by-age/・/columns/summer-room-temp/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0
+- 目視:/ ・/columns/lifespan/ ・/columns/types/ → 直す箇所なし
+- 次回はここから:/seimei/・hates-cuddles・size-ranking・heso-ten

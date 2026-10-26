@@ -108,3 +108,4 @@ draft: false
 | living-alone | 【検証】ラグドールは一人暮らし・ワンルームでも飼える?留守番と部屋の広さ説 | kensho | false |
 | lifespan | 【検証】ラグドールは長生きなのか:寿命・平均寿命のウワサを調べた | kensho | false |
 | types | 【検証】ラグドールの種類は何種類?毛色・柄の組み合わせを数えた | kensho | false |
+| heso-ten | 【検証】ラグドールはへそ天で寝るのか:睡眠時間と寝相のウワサ | kensho | false |
