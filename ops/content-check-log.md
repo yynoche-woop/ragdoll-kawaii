@@ -121,3 +121,4 @@
 - インデックス(公開前):/・/columns/types/・/columns/allergy/・/columns/lifespan/ は登録済み。/columns/・/seimei/・/columns/voice-gap/・/columns/summer-winter-coat/・/columns/living-alone/ は「検出 - インデックス未登録」、/columns/weight-by-age/・/columns/summer-room-temp/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0
 - 目視:/ ・/columns/lifespan/ ・/columns/types/ → 直す箇所なし
 - 次回はここから:/seimei/・hates-cuddles・size-ranking・heso-ten
+- 公開後:GitHub Actions のデプロイ成功、/columns/heso-ten/・/columns/・/ が200、本番 sitemap-0.xml に /columns/heso-ten/ を確認。`gsc_submit_sitemaps.py ragdoll` で sitemap-index.xml を再送信(エラー0・警告0)
