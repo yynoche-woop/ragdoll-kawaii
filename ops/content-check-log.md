@@ -133,3 +133,4 @@
 - 目視:/columns/hates-cuddles/ ・/columns/size-ranking/ ・/columns/multi-cat/(新規)→ 直す箇所なし
   - hates-cuddles:Salonen 2019 で遺伝率 0.40〜0.53(「半分前後」の記述と合う)を確認
 - 次回はここから:/seimei/・heso-ten・multi-cat、その後 kitten-color-change・liquid・follows-to-toilet
+- 公開後:GitHub Actions のデプロイ成功、/columns/multi-cat/・/columns/・/・/columns/celebrities/ が200、本番 sitemap-0.xml に /columns/multi-cat/ を確認。`gsc_submit_sitemaps.py ragdoll` で sitemap-index.xml を再送信(エラー0・警告0)。改行チェック(375/390、check-breaks.mjs):新記事の最終行2〜3文字3か所を直した。残りは「ロシアンブルー 相性」の検索語の区切り(空白の位置で切れているだけ)と行が短い指摘のみ。Mac では webkit-2370 + playwright-core 1.64.1 を scratchpad に入れて実行
