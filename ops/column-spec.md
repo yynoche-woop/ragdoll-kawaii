@@ -109,3 +109,4 @@ draft: false
 | lifespan | 【検証】ラグドールは長生きなのか:寿命・平均寿命のウワサを調べた | kensho | false |
 | types | 【検証】ラグドールの種類は何種類?毛色・柄の組み合わせを数えた | kensho | false |
 | heso-ten | 【検証】ラグドールはへそ天で寝るのか:睡眠時間と寝相のウワサ | kensho | false |
+| multi-cat | 【検証】ラグドールはほかの猫と仲良くできる?多頭飼い・相性のウワサ | kensho | false |

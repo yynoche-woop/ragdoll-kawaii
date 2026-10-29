@@ -122,3 +122,14 @@
 - 目視:/ ・/columns/lifespan/ ・/columns/types/ → 直す箇所なし
 - 次回はここから:/seimei/・hates-cuddles・size-ranking・heso-ten
 - 公開後:GitHub Actions のデプロイ成功、/columns/heso-ten/・/columns/・/ が200、本番 sitemap-0.xml に /columns/heso-ten/ を確認。`gsc_submit_sitemaps.py ragdoll` で sitemap-index.xml を再送信(エラー0・警告0)
+
+## 2026-10-29(木曜の毎日ルーティン)
+- アクセス(GA4 10/22〜10/28):ユーザー13(前期間 10/15〜10/21 は12)・PV14(同12)・平均滞在2秒(同14秒)。Direct 11 / Organic 3。上位は / 12PV・/columns/allergy/ 1・/columns/blue-eyes/ 1。28日(10/1〜10/28):ユーザー53(前期間80)・PV58(同166)・平均滞在20秒(同156秒)
+- Search Console(10/20〜10/26):表示24・クリック1・CTR4.2%・平均順位7.7。表示は /columns/allergy/ 22・/columns/types/ 5・/ 3・/columns/lifespan/ 3。28日(9/29〜10/26):表示251・クリック3・CTR1.2%・平均順位9.2。検索語はアレルギー系がほぼ全部(「ラグドール アレルギー出にくい」表示49・クリック1・順位7.3 など)。ほかは「ラグドール」順位57・「短 毛」81・「種類」97
+- 追加:/columns/multi-cat/(ラグドールはほかの猫と仲良くできる? 判定:個体差(慣らし方しだい))。選定理由:backlog 1位、サジェスト「多頭飼い」「ノルウェージャン 相性」「マンチカン 相性」「ロシアンブルー 相性」「犬」に受け皿なし。出典は CFA品種紹介(ほかの動物ともうまくやれる・疑わない性格なので先住の猫や犬への紹介は特に注意)・Salonen 2019(ほかの猫への攻撃性 遺伝率0.49、ラグドールはBSH・ノルウェージャン・ペルシャ/エキゾチック・バーマンと同じ「攻撃性・外向性・怖がりが最も低い」クラスター)・RSPCA 多頭飼い(猫の数+1、地味なサイン、慣らしは数週間〜数か月)・FelineVMA(AAFP 2024 ガイドライン紹介、2匹以上の家庭の62.2〜87.7%)・AWL NSW(慣らしの手順)・RSPCA 猫と犬(数日〜2週間分ける、リード、逃げ場)。猫種ペアの相性データは見つからず、本文にもそう書いた
+- 機械チェック:ビルド警告なし。`site_check.py --live` 34ページ問題0、本番サイトマップ33URLすべて200(公開前)。外部リンク134件中200以外13件。従来どおりのボット避け(europepmc・oup・hepper・hills)と FDA の404、pi-xy.co.jp 2件が503(10/22から継続)、tica.org は Python の TLS 非対応。peco-japan は今回200に戻った
+- 直したこと:celebrities の anan web の出典(ananweb.jp/news/181444/)が3回続けて転送 → 転送先 /categories/entertainment/12059 が同じ記事(タイトル「上野樹里さんとフランさん」)であることを確認し、出典と本文リンクの URL を差し替え
+- インデックス(公開前):/・/columns/types/・/columns/allergy/ は登録済み。/columns/・/seimei/・/columns/size-ranking/ は「検出 - インデックス未登録」、/columns/heso-ten/・/columns/hates-cuddles/ は「URL が Google に認識されていません」。sitemap-index.xml エラー0・警告0
+- 目視:/columns/hates-cuddles/ ・/columns/size-ranking/ ・/columns/multi-cat/(新規)→ 直す箇所なし
+  - hates-cuddles:Salonen 2019 で遺伝率 0.40〜0.53(「半分前後」の記述と合う)を確認
+- 次回はここから:/seimei/・heso-ten・multi-cat、その後 kitten-color-change・liquid・follows-to-toilet

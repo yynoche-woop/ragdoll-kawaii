@@ -14,7 +14,7 @@ sources:
   - { title: "Tatler Asia:Blackpink's Jennie, Lisa, Jisoo, and Rosé are all Fur-Mums", url: "https://www.tatlerasia.com/lifestyle/entertainment/pets-of-the-blackpink-girls" }
   - { title: "LIVE with Kelly and Mark:Anya Taylor-Joy's Ragdoll Cat", url: "https://livewithkellyandmark.com/video/anya-taylor-joys-ragdoll-cat/" }
   - { title: "HELLO!:Holly Willoughby welcomes two new additions", url: "https://www.hellomagazine.com/celebrities/2016113034938/holly-willoughby-new-pet-cats/" }
-  - { title: "anan web:上野樹里さんとフランさん", url: "https://ananweb.jp/news/181444/" }
+  - { title: "anan web:上野樹里さんとフランさん", url: "https://ananweb.jp/categories/entertainment/12059" }
   - { title: "CREA:パンサー菅の愛猫との“絶妙な距離感”", url: "https://crea.bunshun.jp/articles/-/31035" }
   - { title: "モデルプレス:“愛猫家”美女有名人の可愛すぎるペット(ローラ)", url: "https://mdpr.jp/news/detail/1566475" }
   - { title: "モデルプレス:サイサイひなんちゅ家の「フジヤマ&こまさん」", url: "https://mdpr.jp/news/detail/1667617" }
@@ -37,7 +37,7 @@ draft: false
 
 ### 上野樹里
 
-女優の上野樹里さんは、ラグドールの女の子「フラン」と暮らしていることを雑誌『anan』(2018年)で語っている。先に家にいたチワワの相棒として迎えたそうで、記事ではフランの頼もしい一面も紹介されている(<a href="https://ananweb.jp/news/181444/">anan webの記事</a>)。
+女優の上野樹里さんは、ラグドールの女の子「フラン」と暮らしていることを雑誌『anan』(2018年)で語っている。先に家にいたチワワの相棒として迎えたそうで、記事ではフランの頼もしい一面も紹介されている(<a href="https://ananweb.jp/categories/entertainment/12059">anan webの記事</a>)。
 
 ### ローラ
 
